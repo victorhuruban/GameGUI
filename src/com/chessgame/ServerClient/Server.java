@@ -45,7 +45,7 @@ public class Server implements Runnable {
                 System.out.println(game.isCheckMate(game.getKing("white")));
                 System.out.println("Need to move");
                 while (!game.getMovedPiece()) {
-                    System.out.print("-");
+                    System.out.println("-");
                     if (game.getMovedPiece()) {
                         System.out.println("moved");
                         game.changeMovedPiece();

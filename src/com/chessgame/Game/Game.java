@@ -19,7 +19,8 @@ public class Game implements Serializable {
     private Piece testPiece;
     public JFrame frame;
     public JPanel chessboard;
-    private boolean gameover, movedPiece, checked;
+    private boolean gameover, checked;
+    volatile boolean movedPiece;
     private ChessBoard clone, clone2;
     private GameInitialization gi;
     public Player white, black;
