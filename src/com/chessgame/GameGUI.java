@@ -32,7 +32,7 @@ public class GameGUI {
         // CHESS-HOST-JOIN FUNCTIONALITY
         this.chessHostJoinCard = new JPanel() {
             public void paintComponent (Graphics g) {
-                Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background.jpg"));
+                Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
         };
