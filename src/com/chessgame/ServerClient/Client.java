@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client implements Runnable {
     private final String address;
@@ -19,8 +21,10 @@ public class Client implements Runnable {
     private ObjectOutputStream out = null;
     private boolean myturn = false;
     private boolean moved = false;
+    private Timer timer;
 
     public Client(String address, int port) throws IOException {
+        this.timer = new Timer();
         this.address = address;
         this.port = port;
         run();
@@ -44,14 +48,25 @@ public class Client implements Runnable {
             System.out.println("Connected");
             if (!game.turn()) {
                 System.out.println("Need to move");
-                while(!game.getMovedPiece()) {
+                if (!game.getMovedPiece()) {
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            System.out.println("SA MOR EU!!!!");
+                            if (game.getMovedPiece()) {
+                                timer.cancel();
+                            }
+                        }
+                    }, 1000, 1000);
+                }
+                /*while(!game.getMovedPiece()) {
                     System.out.println("Acilea");
                     if (game.getMovedPiece()) {
                         System.out.println("moved");
                         game.changeMovedPiece();
                         break;
                     }
-                }
+                }*/
                 System.out.println("Output");
                 try {
                     out = new ObjectOutputStream(socket.getOutputStream());

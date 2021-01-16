@@ -8,6 +8,11 @@ import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Server implements Runnable {
     private final int port;
@@ -17,8 +22,10 @@ public class Server implements Runnable {
     private boolean myturn = true;
     private boolean moved = false;
     public Game game;
+    private Timer timer;
 
     public Server(int port) throws IOException {
+        timer = new Timer();
         this.game = new Game();
         this.port = port;
         run();
@@ -44,14 +51,24 @@ public class Server implements Runnable {
                 }
                 System.out.println(game.isCheckMate(game.getKing("white")));
                 System.out.println("Need to move");
-                while (!game.getMovedPiece()) {
-                    System.out.println("-");
+                if (!game.getMovedPiece()) {
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            System.out.println("SA MOR EU!!!!");
+                            if (game.getMovedPiece()) {
+                                timer.cancel();
+                            }
+                        }
+                    }, 1000, 1000);
+                }
+                /*while (!game.getMovedPiece()) {
                     if (game.getMovedPiece()) {
                         System.out.println("moved");
                         game.changeMovedPiece();
                         break;
                     }
-                }
+                }*/
                 System.out.println("Output");
                 try {
                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -73,44 +90,5 @@ public class Server implements Runnable {
             game.chessboard.updateUI();
             moved = false;
         }
-        /*try {
-            game.createJFrameCB().setVisible(true);
-            server = new ServerSocket(port);
-            System.out.println("Server started");
-            System.out.println("Waiting for client...");
-            socket = server.accept();
-            System.out.println("Client accepted");
-            System.out.println(game.turn());
-
-            while (!game.isGameover()) {
-                if (game.turn()) {
-                    System.out.println("Need to move");
-                    while (!game.getMovedPiece()) {
-                        System.out.println(game.getMovedPiece());
-                        if (game.getMovedPiece()) {
-                            break;
-                        }
-                    }
-                    System.out.println("Moved");
-                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                    out.writeObject(game.getChessBoard());
-                } else {
-                    System.out.println("Waiting");
-                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    try {
-                        System.out.println("Updated");
-                        game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
-                        game.changeTurn();
-                        game.chessboard.updateUI();
-                        moved = false;
-                    } catch (EOFException i) { break; }
-                }
-            }
-
-            System.out.println("Closing connection");
-            socket.close();
-        } catch (IOException | ClassNotFoundException i) {
-            System.out.println(i);
-        }*/
     }
 }

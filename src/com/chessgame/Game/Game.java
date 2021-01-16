@@ -13,6 +13,12 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Game implements Serializable {
     private static final long serialVersionUID = 6156930883005779968L;
@@ -249,7 +255,7 @@ public class Game implements Serializable {
         return this.movedPiece;
     }
 
-    public void changeMovedPiece() {
+    public synchronized void changeMovedPiece() {
         this.movedPiece = !this.movedPiece;
     }
 
