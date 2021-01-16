@@ -17,8 +17,6 @@ public class Client implements Runnable {
     private Socket socket = null;
     public Game game = null;
     public JFrame frame = null;
-    private ObjectInputStream in = null;
-    private ObjectOutputStream out = null;
     private boolean myturn = false;
     private boolean moved = false;
     private Timer timer;
@@ -54,39 +52,48 @@ public class Client implements Runnable {
                         public void run() {
                             System.out.println("SA MOR EU!!!!");
                             if (game.getMovedPiece()) {
+                                game.changeMovedPiece();
                                 timer.cancel();
                             }
                         }
                     }, 1000, 1000);
                 }
-                /*while(!game.getMovedPiece()) {
-                    System.out.println("Acilea");
-                    if (game.getMovedPiece()) {
-                        System.out.println("moved");
-                        game.changeMovedPiece();
-                        break;
-                    }
-                }*/
                 System.out.println("Output");
                 try {
-                    out = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectOutputStream  out = new ObjectOutputStream(socket.getOutputStream());
                     out.writeObject(game.getChessBoard());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            System.out.println("Waiting");
-            try {
-                in = new ObjectInputStream(socket.getInputStream());
-                System.out.println("Updating");
-                game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println(e);
-            }
+            } else {
+                System.out.println("Waiting");
+                try {
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                    if (in.available() == 0) {
+                        timer.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                System.out.println("astept sa primesc ceva");
+                                try {
+                                    if (in.available() != 0) {
+                                        timer.cancel();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 1000, 1000);
+                    }
+                    System.out.println("Updating");
+                    game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println(e);
+                }
 
-            game.changeTurn();
-            game.chessboard.updateUI();
-            moved = false;
+                game.changeTurn();
+                game.chessboard.updateUI();
+                moved = false;
+            }
         }
         /*try {
             socket = new Socket(address, port);

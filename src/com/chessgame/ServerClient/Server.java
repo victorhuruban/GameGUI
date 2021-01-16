@@ -55,7 +55,7 @@ public class Server implements Runnable {
                     timer.scheduleAtFixedRate(new TimerTask() {
                         @Override
                         public void run() {
-                            System.out.println("SA MOR EU!!!!");
+                            System.out.println("trebuie sa mut");
                             if (game.getMovedPiece()) {
                                 timer.cancel();
                             }
@@ -76,19 +76,35 @@ public class Server implements Runnable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            System.out.println("Waiting");
-            try {
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                System.out.println("Updating");
-                game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
-            } catch (IOException | ClassNotFoundException e) {
-                System.out.println(e);
-            }
+            } else {
+                System.out.println("Waiting");
+                try {
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                    if (in.available() == 0) {
+                        timer.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                System.out.println("astept sa primesc ceva");
+                                try {
+                                    if (in.available() != 0) {
+                                        timer.cancel();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 1000, 1000);
+                    }
+                    System.out.println("Updating");
+                    game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
+                } catch (IOException | ClassNotFoundException e) {
+                    System.out.println(e);
+                }
 
-            game.changeTurn();
-            game.chessboard.updateUI();
-            moved = false;
+                game.changeTurn();
+                game.chessboard.updateUI();
+                moved = false;
+            }
         }
     }
 }
