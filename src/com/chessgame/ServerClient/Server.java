@@ -23,120 +23,69 @@ public class Server implements Runnable {
     private boolean moved = false;
     public Game game;
     private Timer timer;
+    private Timer timer1;
 
     public Server(int port) throws IOException {
         this.game = new Game();
         this.port = port;
+        this.timer = new Timer();
+        this.timer1 = new Timer();
         run();
     }
 
     @Override
     public void run() {
         try {
-            timer = new Timer();
             game.createJFrameCB().setVisible(true);
             server = new ServerSocket(port);
             System.out.println("Server started");
             System.out.println("Waiting for client...");
             socket = server.accept();
             System.out.println("Client accepted");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        myTurn();
+        myTurn(game.turn());
     }
 
-    public void myTurn() {
-        if (game.turn()) {
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("trebuie sa mut");
-                    if (game.getMovedPiece()) {
-                        System.out.println("Output");
-                        try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())){
-                            out.writeObject(game.getChessBoard());
-                            game.changeMovedPiece();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        timer.cancel();
-                    }
-                }
-            }, 1000, 10000);
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("Waiting");
+    public void myTurn(boolean turn) {
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("trebuie sa mut");
+                if (game.getMovedPiece()) {
+                    System.out.println("Output");
                     try {
-                        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                        if (in.available() == 0) {
-                            timer.scheduleAtFixedRate(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    System.out.println("astept sa primesc ceva");
-                                    try {
-                                        if (in.available() != 0) {
-                                            timer.cancel();
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
+                        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                        out.writeObject(game.getChessBoard());
+                        game.changeMovedPiece();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    timer.cancel();
+                    timer1.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            System.out.println("Waiting");
+                            try {
+                                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                                System.out.println("a trecut de out");
+                                if (in.available() == 0) {
+                                    System.out.println("waiting for input");
+                                } else {
+                                    System.out.println("Updating");
+                                    game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
+                                    timer1.cancel();
                                 }
-                            }, 1000, 1000);
+                            } catch (IOException | ClassNotFoundException e) {
+                                System.out.println(e);
+                            }
                         }
-                        System.out.println("Updating");
-                        game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
-                    } catch (IOException | ClassNotFoundException e) {
-                        System.out.println(e);
-                    }
+                    },1000 ,1000);
                 }
-            },1000 ,10000);
-        } else {
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("Waiting");
-                    try {
-                        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                        if (in.available() == 0) {
-                            timer.scheduleAtFixedRate(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    System.out.println("astept sa primesc ceva");
-                                    try {
-                                        if (in.available() != 0) {
-                                            timer.cancel();
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, 1000, 1000);
-                        }
-                        System.out.println("Updating");
-                        game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
-                    } catch (IOException | ClassNotFoundException e) {
-                        System.out.println(e);
-                    }
-                }
-            },1000 ,10000);
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println("trebuie sa mut");
-                    if (game.getMovedPiece()) {
-                        System.out.println("Output");
-                        try (ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())){
-                            out.writeObject(game.getChessBoard());
-                            game.changeMovedPiece();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        timer.cancel();
-                    }
-                }
-            }, 1000, 10000);
-        }
+            }
+        }, 1000, 1000);
     }
 }
