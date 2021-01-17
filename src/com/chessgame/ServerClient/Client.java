@@ -2,13 +2,10 @@ package com.chessgame.ServerClient;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Game.Game;
-import com.chessgame.Player.Player;
 
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
-import java.sql.Time;
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -20,12 +17,10 @@ public class Client implements Runnable {
     public JFrame frame = null;
     private boolean myturn = false;
     private boolean moved = false;
-    private Timer timer;
-    private Timer timer1;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public Client(String address, int port) throws IOException {
-        this.timer = new Timer();
-        this.timer1 = new Timer();
         this.address = address;
         this.port = port;
         run();
@@ -35,41 +30,55 @@ public class Client implements Runnable {
     public void run() {
         try {
             game = new Game();
+            game.changeTurn();
             game.createJFrameCB().setVisible(true);
             socket = new Socket(address, port);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
         myTurn(game.turn());
     }
     public void myTurn(boolean turn) {
+        Timer timer = new Timer();
+
+        boolean tru = true;
+        while(tru) {
+            System.out.println("acilea");
+            try {
+                Object[] rec = (Object[]) in.readObject();
+                ChessBoard temp = (ChessBoard) rec[0];
+                System.out.println("a trecut de in");
+                System.out.println("updating");
+                game.updateChessBoardUI(temp, game.chessboard);
+                game.chessboard.updateUI();
+                tru = false;
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println(e);
+                tru = false;
+            }
+        }
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("waiting");
-                try {
-                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    System.out.println("o trecut de in");
-                    System.out.println("updating");
-                    game.updateChessBoardUI((ChessBoard) in.readObject(), game.chessboard);
-                    timer.cancel();
-                    timer1.scheduleAtFixedRate(new TimerTask() {
-                        @Override
-                        public void run() {
-                            System.out.println("trebuie sa mut");
-                            if (game.getMovedPiece()) {
-                               try {
-                                   ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                                   out.writeObject(game.getChessBoard());
-                               } catch (IOException e) {
-                                   e.printStackTrace();
-                               }
-                               game.changeMovedPiece();
-                            }
+                System.out.println("Trebuie sa mut");
+                if (game.getMovedPiece()) {
+                    System.out.println("Output");
+                    try {
+                        Object[] send = {game.getChessBoard()};
+                        out.writeObject(send);
+                        game.changeMovedPiece();
+                        if (true) {
+                            game.changeTurn();
+                            myTurn(game.turn());
+                            timer.cancel();
+                            return;
                         }
-                    }, 1000, 1000);
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
+                    } catch (IOException e) {
+                        System.out.println(e);
+                    }
+                    timer.cancel();
                 }
             }
         }, 1000, 1000);
