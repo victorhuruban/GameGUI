@@ -35,39 +35,44 @@ public class Queen extends Piece {
 
     private boolean isValidMoveRook (ChessBoard cb, int toRow, int toColumn) {
         Piece current = cb.getLocation(getRow(), getColumn()).getPiece();
-        if (current.getRow() < toRow) {
-            for (int i = current.getRow() + 1; i <= toRow; i++) {
-                boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
-                if (check) {
-                    return false;
+        try {
+            if (current.getRow() < toRow) {
+                for (int i = current.getRow() + 1; i <= toRow; i++) {
+                    boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
+                    if (check) {
+                        return false;
+                    }
                 }
-            }
-            return true;
-        } else if (current.getRow() > toRow) {
-            for (int i = current.getRow() - 1; i >= toRow; i--) {
-                boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
-                if (check) {
-                    return false;
+                return true;
+            } else if (current.getRow() > toRow) {
+                for (int i = current.getRow() - 1; i >= toRow; i--) {
+                    boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
+                    if (check) {
+                        return false;
+                    }
                 }
-            }
-            return true;
-        } else if (current.getColumn() < toColumn) {
-            for (int i = current.getColumn() + 1; i <= toColumn; i++) {
-                boolean check = cb.getLocation(current.getRow(), i).isOccupied();
-                if (check) {
-                    return false;
+                return true;
+            } else if (current.getColumn() < toColumn) {
+                for (int i = current.getColumn() + 1; i <= toColumn; i++) {
+                    boolean check = cb.getLocation(current.getRow(), i).isOccupied();
+                    if (check) {
+                        return false;
+                    }
                 }
-            }
-            return true;
-        } else if (current.getColumn() > toColumn) {
-            for (int i = current.getColumn() - 1; i >= toColumn; i--) {
-                boolean check = cb.getLocation(current.getRow(), i).isOccupied();
-                if (check) {
-                    return false;
+                return true;
+            } else if (current.getColumn() > toColumn) {
+                for (int i = current.getColumn() - 1; i >= toColumn; i--) {
+                    boolean check = cb.getLocation(current.getRow(), i).isOccupied();
+                    if (check) {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
+        } catch (NullPointerException e) {
+            return false;
         }
+
         return false;
     }
 
@@ -159,52 +164,53 @@ public class Queen extends Piece {
             if (!cb.getLocation(toRow, toColumn).isOccupied()) {
                 return false;
             }
+            if (!current.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
+                if ((toRow == getRow() && toColumn != getColumn()) || (toRow != getRow() && toColumn == getColumn())) {
+                    // rook capture
+                    if (getColumn() == toColumn && getRow() != toRow) {
+                        if (getRow() > toRow) {
+                            if (getRow() - 1 == toRow) {
+                                return true;
+                            }
+                            return isValidMoveRook(cb, toRow + 1, toColumn);
+                        } else {
+                            if (getRow() + 1 == toRow) {
+                                return true;
+                            }
+                            return isValidMoveRook(cb, toRow - 1, toColumn);
+                        }
+                    } else if (getColumn() != toColumn && getRow() == toRow) {
+                        if (getColumn() > toColumn) {
+                            if (getColumn() - 1 == toRow) {
+                                return true;
+                            }
+                            return isValidMoveRook(cb, toRow, toColumn - 1);
+                        } else {
+                            if (getColumn() + 1 == toRow) {
+                                return true;
+                            }
+                            return isValidMoveRook(cb, toRow, toColumn + 1);
+                        }
+                    }
+                } else {
+                    // bishop capture
+                    Loc temp = cb.getLocation(toRow, toColumn);
+
+                    if (toRow < getRow() && toColumn > getColumn()) { // UPRIGHT
+                        return isValidMoveBishop(cb, toRow + 1, toColumn - 1) && temp.isOccupied();
+                    } else if (toRow < getRow() && toColumn < getColumn()) { // UPLEFT
+                        return isValidMoveBishop(cb, toRow + 1, toColumn + 1) && temp.isOccupied();
+                    } else if (toRow > getRow() && toColumn > getColumn()) { // DOWNRIGHT
+                        return isValidMoveBishop(cb, toRow - 1, toColumn - 1) && temp.isOccupied();
+                    } else if (toRow > getRow() && toColumn < getColumn()) { // DOWNLEFT
+                        return isValidMoveBishop(cb, toRow - 1, toColumn + 1) && temp.isOccupied();
+                    }
+                }
+            }
         } catch (NullPointerException ignored) {
             return false;
         }
-        if (!current.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
-            if ((toRow == getRow() && toColumn != getColumn()) || (toRow != getRow() && toColumn == getColumn())) {
-                // rook capture
-                if (getColumn() == toColumn && getRow() != toRow) {
-                    if (getRow() > toRow) {
-                        if (getRow() - 1 == toRow) {
-                            return true;
-                        }
-                        return isValidMoveRook(cb, toRow + 1, toColumn);
-                    } else {
-                        if (getRow() + 1 == toRow) {
-                            return true;
-                        }
-                        return isValidMoveRook(cb, toRow - 1, toColumn);
-                    }
-                } else if (getColumn() != toColumn && getRow() == toRow) {
-                    if (getColumn() > toColumn) {
-                        if (getColumn() - 1 == toRow) {
-                            return true;
-                        }
-                        return isValidMoveRook(cb, toRow, toColumn - 1);
-                    } else {
-                        if (getColumn() + 1 == toRow) {
-                            return true;
-                        }
-                        return isValidMoveRook(cb, toRow, toColumn + 1);
-                    }
-                }
-            } else {
-                // bishop capture
-                Loc temp = cb.getLocation(toRow, toColumn);
 
-                if (toRow < getRow() && toColumn > getColumn()) { // UPRIGHT
-                    return isValidMoveBishop(cb, toRow + 1, toColumn - 1) && temp.isOccupied();
-                } else if (toRow < getRow() && toColumn < getColumn()) { // UPLEFT
-                    return isValidMoveBishop(cb, toRow + 1, toColumn + 1) && temp.isOccupied();
-                } else if (toRow > getRow() && toColumn > getColumn()) { // DOWNRIGHT
-                    return isValidMoveBishop(cb, toRow - 1, toColumn - 1) && temp.isOccupied();
-                } else if (toRow > getRow() && toColumn < getColumn()) { // DOWNLEFT
-                    return isValidMoveBishop(cb, toRow - 1, toColumn + 1) && temp.isOccupied();
-                }
-            }
-        }
         return false;
     }
 

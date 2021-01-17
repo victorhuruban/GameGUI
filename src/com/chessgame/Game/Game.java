@@ -371,6 +371,8 @@ public class Game implements Serializable {
                                     return false;
                                 }
                             }
+                            System.out.println(i + " " + j + " : " + x + " " + z);
+                            getChessBoard().listCB();
                             if (rPiece.isValidCapture(clone, x, z)) {
                                 rPiece.capture(clone, x, z);
                                 if (checkIfChecked(cloneKing, clone)) {

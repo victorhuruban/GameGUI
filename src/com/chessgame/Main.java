@@ -1,5 +1,7 @@
 package com.chessgame;
 
+import com.chessgame.Game.Game;
+
 import java.io.IOException;
 
 public class Main {
