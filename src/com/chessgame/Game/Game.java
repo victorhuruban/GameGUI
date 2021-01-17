@@ -76,6 +76,9 @@ public class Game implements Serializable {
 
                     testPiece = getChessBoard().getLocation(row, column).getPiece();
                     if (turn && testPiece.getColor().equals("white")) {
+                        if (isCheckMate(getKing("white"))) {
+                            System.out.println("White lost");
+                        }
                         piece[0] = (JLabel) c;
                         boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
                         changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
@@ -371,8 +374,6 @@ public class Game implements Serializable {
                                     return false;
                                 }
                             }
-                            System.out.println(i + " " + j + " : " + x + " " + z);
-                            getChessBoard().listCB();
                             if (rPiece.isValidCapture(clone, x, z)) {
                                 rPiece.capture(clone, x, z);
                                 if (checkIfChecked(cloneKing, clone)) {
