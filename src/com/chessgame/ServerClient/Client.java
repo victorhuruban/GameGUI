@@ -65,8 +65,11 @@ public class Client implements Runnable {
                 game.chessboard.updateUI();
                 tru = false;
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println(e);
-                tru = false;
+                System.out.println("If you win, this runs after they click 'ok' on the JOptionPane");
+                in.close();
+                out.close();
+                socket.close();
+                return;
             }
         }
         if (game.isCheckMate(game.getKing("black"))) {

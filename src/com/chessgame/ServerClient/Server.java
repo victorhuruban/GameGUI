@@ -97,10 +97,12 @@ public class Server implements Runnable {
                             } catch (IOException | ClassNotFoundException e) {
                                 tru = false;
                                 System.out.println(e);
+                                System.out.println("ACILEAdgdfshx");
                                 e.printStackTrace();
                             }
                         }
                     } catch (IOException e) {
+                        System.out.println("safsdbigjnseriophmndfghxt");
                         e.printStackTrace();
                     }
                 }
