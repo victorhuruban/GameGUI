@@ -35,13 +35,13 @@ public class Client implements Runnable {
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            myTurn();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        myTurn(game.turn());
     }
 
-    public void myTurn(boolean turn) {
+    public void myTurn() throws IOException {
         if (game.getGameover()) {
             System.out.println("Ar trebuii sa iasa dar nu vrea");
             return;
@@ -72,6 +72,9 @@ public class Client implements Runnable {
         if (game.isCheckMate(game.getKing("black"))) {
             game.youLost();
             JOptionPane.showMessageDialog(frame, "Black lost outside");
+            in.close();
+            out.close();
+            socket.close();
             return;
         }
         Timer timer = new Timer();
@@ -88,7 +91,7 @@ public class Client implements Runnable {
                         game.changeMovedPiece();
                         if (true) {
                             game.changeTurn();
-                            myTurn(game.turn());
+                            myTurn();
                             timer.cancel();
                             return;
                         }
