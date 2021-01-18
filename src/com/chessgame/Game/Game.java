@@ -13,12 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Game implements Serializable {
     private static final long serialVersionUID = 6156930883005779968L;
@@ -76,9 +70,6 @@ public class Game implements Serializable {
 
                     testPiece = getChessBoard().getLocation(row, column).getPiece();
                     if (turn && testPiece.getColor().equals("white")) {
-                        if (isCheckMate(getKing("white"))) {
-                            System.out.println("White lost");
-                        }
                         piece[0] = (JLabel) c;
                         boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
                         changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
@@ -428,5 +419,13 @@ public class Game implements Serializable {
 
     public void changeTurn() {
         turn = !turn;
+    }
+
+    public void youLost() {
+        this.gameover = true;
+    }
+
+    public boolean getGameover() {
+        return gameover;
     }
 }

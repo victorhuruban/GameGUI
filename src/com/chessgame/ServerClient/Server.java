@@ -42,15 +42,25 @@ public class Server implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        myTurn(game.turn());
+        myTurn();
     }
 
-    public void myTurn(boolean turn) {
+    public void myTurn() {
+        if (game.getGameover()) {
+            System.out.println("Ar trebuii sa iasa dar nu vrea");
+            return;
+        }
         Timer timer = new Timer();
+        if (game.isCheckMate(game.getKing("white"))) {
+            game.youLost();
+            JOptionPane.showMessageDialog(frame, "White lost outside");
+            return;
+        }
 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                System.out.println(game.getGameover());
                 System.out.println("trebuie sa mut");
                 if (game.getMovedPiece()) {
                     System.out.println("Output");
@@ -60,19 +70,30 @@ public class Server implements Runnable {
                         game.changeMovedPiece();
                         boolean tru = true;
                         while (tru) {
-                            System.out.println("acilea");
+                            if (game.getGameover()) {
+                                in.close();
+                                out.close();
+                                socket.close();
+                                break;
+                            }
                             try {
                                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
                                 System.out.println("a trecut de out");
-                                System.out.println("Updating");
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
-                                if (true) {
+                                if (game.isCheckMate(game.getKing("white"))) {
+                                    game.youLost();
+                                    System.out.println(game.getGameover());
+                                    JOptionPane.showMessageDialog(frame, "White lost inside");
+                                    timer.cancel();
+                                } else {
+                                    System.out.println("A trecut pe aici");
                                     game.changeTurn();
-                                    myTurn(game.turn());
+                                    myTurn();
                                     timer.cancel();
                                     return;
                                 }
+
                             } catch (IOException | ClassNotFoundException e) {
                                 tru = false;
                                 System.out.println(e);

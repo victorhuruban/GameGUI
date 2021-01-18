@@ -40,11 +40,21 @@ public class Client implements Runnable {
         }
         myTurn(game.turn());
     }
+
     public void myTurn(boolean turn) {
-        Timer timer = new Timer();
+        if (game.getGameover()) {
+            System.out.println("Ar trebuii sa iasa dar nu vrea");
+            return;
+        }
+
+        if (game.isCheckMate(game.getKing("black"))) {
+            game.youLost();
+            JOptionPane.showMessageDialog(frame, "Black lost outside");
+            return;
+        }
 
         boolean tru = true;
-        while(tru) {
+        while (tru) {
             System.out.println("acilea");
             try {
                 Object[] rec = (Object[]) in.readObject();
@@ -59,6 +69,13 @@ public class Client implements Runnable {
                 tru = false;
             }
         }
+        if (game.isCheckMate(game.getKing("black"))) {
+            game.youLost();
+            JOptionPane.showMessageDialog(frame, "Black lost outside");
+            return;
+        }
+        Timer timer = new Timer();
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
