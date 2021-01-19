@@ -74,7 +74,7 @@ public class King extends Piece {
         if (!isValidMove(cb, toRow, toColumn)) {
             return false;
         } else {
-            setMoved();
+            setFMoved();
             Loc remove = cb.getLocation(getRow(), getColumn());
             Loc moved = cb.getLocation(toRow, toColumn);
             current.setColumn(toColumn);

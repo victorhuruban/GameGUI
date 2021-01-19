@@ -248,19 +248,60 @@ public class Game implements Serializable {
 
     public boolean checkCastling(King king) {
         if (king.getFMoved()) {
-            System.out.println("King is moved");
             return false;
         }
         ArrayList<Piece> rooksAndPawns = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (getChessBoard().getLocation(i, j).isOccupied() && getChessBoard().getLocation(i, j).getPiece().getColor().equals(king.getColor())) {
+                if (getChessBoard().getLocation(i, j).isOccupied() && getChessBoard().getLocation(i, j).getPiece().getColor().equals(king.getColor()) &&
+                        getChessBoard().getLocation(i, j).getPiece().toString().equals("Rook")) {
                     rooksAndPawns.add(getChessBoard().getLocation(i, j).getPiece());
-                    System.out.println(getChessBoard().getLocation(i, j).getPiece().toString() + getChessBoard().getLocation(i, j).getPiece().getRow() + " " +getChessBoard().getLocation(i, j).getPiece().getColumn());
+                    if (getChessBoard().getLocation(i, j).getPiece().toString().equals("Rook")) {
+                        Rook temp = (Rook) getChessBoard().getLocation(i, j).getPiece();
+                        if (temp.getMoved()) {
+                            System.out.println("Rook at (" + temp.getRow() + ", " + temp.getColumn() + ") is moved");
+                        } else {
+                            if (checkPiecesForCastlingFromRook(temp)) {
+                                System.out.println("Merge pentru rookul :" + temp.getRow() + " " + temp.getColumn());
+                            }
+                            return true;
+                        }
+                    }
                 }
             }
         }
         return true;
+    }
+
+    public boolean checkPiecesForCastlingFromRook(Rook rook) {
+        if (rook.getColor().equals("white")) {
+            if (rook.getColumn() == 0) {
+                return getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn()).isOccupied() && getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn()).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() + 1).isOccupied() && getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() + 1).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() + 2).isOccupied() && getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() + 2).getPiece().getColor().equals(rook.getColor()) &&
+                        !getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 1).isOccupied() && !getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 2).isOccupied() &&
+                        !getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 3).isOccupied();
+            } else if (rook.getColumn() == 7) {
+                return getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn()).isOccupied() && getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn()).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() - 1).isOccupied() && getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() - 1).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() - 2).isOccupied() && getChessBoard().getLocation(rook.getRow() - 1, rook.getColumn() - 2).getPiece().getColor().equals(rook.getColor()) &&
+                        !getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 1).isOccupied() && !getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 2).isOccupied();
+            }
+        } else {
+            if (rook.getColumn() == 0) {
+                return getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn()).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn()).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() + 1).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() + 1).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() + 2).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() + 2).getPiece().getColor().equals(rook.getColor()) &&
+                        !getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 1).isOccupied() && !getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 1).isOccupied() &&
+                        !getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 2).isOccupied();
+            } else if (rook.getColumn() == 7) {
+                return getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn()).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn()).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 1).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 1).getPiece().getColor().equals(rook.getColor()) &&
+                        getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 2).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 2).getPiece().getColor().equals(rook.getColor()) &&
+                        !getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 1).isOccupied() && !getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 2).isOccupied();
+            }
+        }
+        return false;
     }
 
     public boolean getMovedPiece() {
