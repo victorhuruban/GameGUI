@@ -27,8 +27,10 @@ public class Game implements Serializable {
     private GameInitialization gi;
     public Player white, black;
     private boolean turn;
+    private ArrayList<Rook> castling;
 
     public Game() throws IOException {
+        castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
         gi = new GameInitialization();
@@ -71,21 +73,42 @@ public class Game implements Serializable {
 
                     testPiece = getChessBoard().getLocation(row, column).getPiece();
                     if (turn && testPiece.getColor().equals("white")) {
-                        piece[0] = (JLabel) c;
                         boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
+                        piece[0] = (JLabel) c;
                         changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
                         check = checkMoveToChangeBackground(gi.getCb(), row, column, 2);
                         changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
+                        if (testPiece.toString().equals("King")) {
+                            castling = checkCastling((King) testPiece);
+                            if (castling.size() == 0) {
+                                System.out.println("No castling available");
+                            } else {
+                                for (Rook r: castling) {
+                                    Loc t = castlingLocation(r);
+                                    check[t.row][t.column] = true;
+                                    changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
+                                }
+                            }
+                        }
                         chessboard.updateUI();
                     } else if (!turn && testPiece.getColor().equals("black")){
-                        if (isCheckMate(getKing("black"))) {
-                            System.out.println("Black lost");
-                        }
-                        piece[0] = (JLabel) c;
                         boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
+                        piece[0] = (JLabel) c;
                         changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
                         check = checkMoveToChangeBackground(gi.getCb(), row, column, 2);
                         changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
+                        if (testPiece.toString().equals("King")) {
+                            castling = checkCastling((King) testPiece);
+                            if (castling.size() == 0) {
+                                System.out.println("No castling available");
+                            } else {
+                                for (Rook r: castling) {
+                                    Loc t = castlingLocation(r);
+                                    check[t.row][t.column] = true;
+                                    changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
+                                }
+                            }
+                        }
                         chessboard.updateUI();
                     } else {
                         System.out.println("Not your piece");
@@ -127,6 +150,9 @@ public class Game implements Serializable {
                                 updateChessBoardUI(getChessBoard(), chessboard);
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
+                            }
+                            if (!castling.isEmpty()) {
+                                castling.clear();
                             }
                             changeMovedPiece();
                             changeTurn();
@@ -174,6 +200,9 @@ public class Game implements Serializable {
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
+                            if (!castling.isEmpty()) {
+                                castling.clear();
+                            }
                             changeMovedPiece();
                             System.out.println("good, change player");
                             changeTurn();
@@ -181,6 +210,24 @@ public class Game implements Serializable {
                             testPiece = null;
                             chessboard.updateUI();
                         }
+                    } else if (!castling.isEmpty() && goThroughCastling(row, column)) {
+                        for (Rook r: castling) {
+                            Loc l = castlingLocation(r);
+                            if (l.row == row && l.column == column) {
+                                doCastling(r, (King) getKing(r.getColor()));
+                            }
+                        }
+                        try {
+                            updateChessBoardUI(getChessBoard(), chessboard);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                        changeMovedPiece();
+                        System.out.println("good, change player");
+                        changeTurn();
+                        chessboard.updateUI();
+                        piece[0] = null;
+                        testPiece = null;
                     } else {
                         try {
                             updateChessBoardUI(getChessBoard(), chessboard);
@@ -235,8 +282,10 @@ public class Game implements Serializable {
                 } else {
                     if (choice == 1) {
                         square.setBackground(Color.ORANGE);
-                    } else {
+                    } else if (choice == 2) {
                         square.setBackground(Color.RED);
+                    } else {
+                        square.setBackground(Color.GREEN);
                     }
                 }
                 if (roww == i && column == j) {
@@ -246,16 +295,15 @@ public class Game implements Serializable {
         }
     }
 
-    public boolean checkCastling(King king) {
+    public ArrayList<Rook> checkCastling(King king) {
         if (king.getFMoved()) {
-            return false;
+            return new ArrayList<>();
         }
-        ArrayList<Piece> rooksAndPawns = new ArrayList<>();
+        ArrayList<Rook> rooks = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (getChessBoard().getLocation(i, j).isOccupied() && getChessBoard().getLocation(i, j).getPiece().getColor().equals(king.getColor()) &&
                         getChessBoard().getLocation(i, j).getPiece().toString().equals("Rook")) {
-                    rooksAndPawns.add(getChessBoard().getLocation(i, j).getPiece());
                     if (getChessBoard().getLocation(i, j).getPiece().toString().equals("Rook")) {
                         Rook temp = (Rook) getChessBoard().getLocation(i, j).getPiece();
                         if (temp.getMoved()) {
@@ -263,14 +311,14 @@ public class Game implements Serializable {
                         } else {
                             if (checkPiecesForCastlingFromRook(temp)) {
                                 System.out.println("Merge pentru rookul :" + temp.getRow() + " " + temp.getColumn());
+                                rooks.add(temp);
                             }
-                            return true;
                         }
                     }
                 }
             }
         }
-        return true;
+        return rooks;
     }
 
     public boolean checkPiecesForCastlingFromRook(Rook rook) {
@@ -299,6 +347,38 @@ public class Game implements Serializable {
                         getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 1).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 1).getPiece().getColor().equals(rook.getColor()) &&
                         getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 2).isOccupied() && getChessBoard().getLocation(rook.getRow() + 1, rook.getColumn() - 2).getPiece().getColor().equals(rook.getColor()) &&
                         !getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 1).isOccupied() && !getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 2).isOccupied();
+            }
+        }
+        return false;
+    }
+
+    public Loc castlingLocation(Rook rook) {
+        if (rook.getColumn() == 0) {
+            return getChessBoard().getLocation(rook.getRow(), rook.getColumn() + 2);
+        } else return getChessBoard().getLocation(rook.getRow(), rook.getColumn() - 1);
+    }
+
+    public void doCastling(Rook rook, King king) {
+
+        Loc t = castlingLocation(rook);
+        Piece k = getChessBoard().getLocation(king.getRow(), king.getColumn()).getPiece();
+        Piece r = getChessBoard().getLocation(rook.getRow(), rook.getColumn()).getPiece();
+        getChessBoard().getLocation(king.getRow(), king.getColumn()).removePiece();
+        getChessBoard().getLocation(t.row, t.column).setPiece(k);
+
+        getChessBoard().getLocation(rook.getRow(), rook.getColumn()).removePiece();
+
+
+        if (rook.getColumn() < king.getColumn()) {
+            getChessBoard().getLocation(t.row, t.column + 1).setPiece(r);
+        } else getChessBoard().getLocation(t.row, t.column - 1).setPiece(r);
+    }
+
+    public boolean goThroughCastling(int row, int column) {
+        for (Rook r: castling) {
+            Loc temp = castlingLocation(r);
+            if (temp.row == row && temp.column == column) {
+                return true;
             }
         }
         return false;

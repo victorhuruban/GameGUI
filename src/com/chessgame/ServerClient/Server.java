@@ -75,7 +75,6 @@ public class Server implements Runnable {
                                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
-                                game.checkCastling((King) game.getKing("white"));
                                 if (game.isCheckMate(game.getKing("white"))) {
                                     game.youLost();
                                     System.out.println(game.getGameover());
