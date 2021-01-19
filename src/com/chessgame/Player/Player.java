@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Serializable {
-    private boolean checked;
     private final String color;
     private final ChessBoard cb;
     private List<Piece> pieces = new ArrayList<>();
@@ -16,7 +15,6 @@ public class Player implements Serializable {
     public Player(String color, ChessBoard cb) {
         this.cb = cb;
         this.color = color;
-        this.checked = false;
     }
 
     public String getColor() {
@@ -38,14 +36,6 @@ public class Player implements Serializable {
             }
         }
         return null;
-    }
-
-    public boolean getChecked() {
-        return checked;
-    }
-
-    public void changeChecked() {
-        this.checked = !checked;
     }
 
     @Override

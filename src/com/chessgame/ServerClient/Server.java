@@ -15,8 +15,6 @@ public class Server implements Runnable {
     private Socket socket = null;
     private ServerSocket server = null;
     public JFrame frame;
-    private boolean myturn = true;
-    private boolean moved = false;
     public Game game;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -47,7 +45,6 @@ public class Server implements Runnable {
 
     public void myTurn() {
         if (game.getGameover()) {
-            System.out.println("Ar trebuii sa iasa dar nu vrea");
             return;
         }
         Timer timer = new Timer();
@@ -61,9 +58,7 @@ public class Server implements Runnable {
             @Override
             public void run() {
                 System.out.println(game.getGameover());
-                System.out.println("trebuie sa mut");
                 if (game.getMovedPiece()) {
-                    System.out.println("Output");
                     try {
                         Object[] send = {game.getChessBoard()};
                         out.writeObject(send);
@@ -78,7 +73,6 @@ public class Server implements Runnable {
                             }
                             try {
                                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
-                                System.out.println("a trecut de out");
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
                                 if (game.isCheckMate(game.getKing("white"))) {
@@ -87,7 +81,6 @@ public class Server implements Runnable {
                                     JOptionPane.showMessageDialog(frame, "White lost inside");
                                     timer.cancel();
                                 } else {
-                                    System.out.println("A trecut pe aici");
                                     game.changeTurn();
                                     myTurn();
                                     timer.cancel();
@@ -96,13 +89,10 @@ public class Server implements Runnable {
 
                             } catch (IOException | ClassNotFoundException e) {
                                 tru = false;
-                                System.out.println(e);
-                                System.out.println("ACILEAdgdfshx");
                                 e.printStackTrace();
                             }
                         }
                     } catch (IOException e) {
-                        System.out.println("safsdbigjnseriophmndfghxt");
                         e.printStackTrace();
                     }
                 }

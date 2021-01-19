@@ -4,9 +4,11 @@ import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 
 public class King extends Piece {
+    private boolean isMoved;
 
     public King(int row, int column, String color) {
         super(row, column, color);
+        isMoved = false;
     }
 
     @Override
@@ -72,6 +74,7 @@ public class King extends Piece {
         if (!isValidMove(cb, toRow, toColumn)) {
             return false;
         } else {
+            setMoved();
             Loc remove = cb.getLocation(getRow(), getColumn());
             Loc moved = cb.getLocation(toRow, toColumn);
             current.setColumn(toColumn);
@@ -129,6 +132,7 @@ public class King extends Piece {
     public boolean capture(ChessBoard cb, int toRow, int toColumn) {
         super.capture(cb, toRow, toColumn);
         if (isValidCapture(cb, toRow, toColumn)) {
+            setFMoved();
             Piece capturer = cb.getLocation(getRow(), getColumn()).getPiece();
             Loc remove = cb.getLocation(getRow(), getColumn());
             Loc moved = cb.getLocation(toRow, toColumn);
@@ -140,5 +144,13 @@ public class King extends Piece {
             return true;
         }
         return false;
+    }
+
+    private void setFMoved() {
+        this.isMoved = true;
+    }
+
+    public boolean getFMoved() {
+        return isMoved;
     }
 }

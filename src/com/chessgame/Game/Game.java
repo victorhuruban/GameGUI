@@ -1,6 +1,7 @@
 package com.chessgame.Game;
 
 import com.chessgame.Board.ChessBoard;
+import com.chessgame.Board.Loc;
 import com.chessgame.Main;
 import com.chessgame.Pieces.*;
 import com.chessgame.Player.Player;
@@ -13,15 +14,16 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Game implements Serializable {
     private static final long serialVersionUID = 6156930883005779968L;
     private Piece testPiece;
     public JFrame frame;
     public JPanel chessboard;
-    private boolean gameover, checked;
+    private boolean gameover;
     volatile boolean movedPiece;
-    private ChessBoard clone, clone2;
+    private ChessBoard clone;
     private GameInitialization gi;
     public Player white, black;
     private boolean turn;
@@ -33,7 +35,6 @@ public class Game implements Serializable {
         white = new Player("white", gi.getCb());
         black = new Player("black", gi.getCb());
         clone = new ChessBoard();
-        clone2 = new ChessBoard();
         chessboard = new JPanel();
         movedPiece = false;
         updateChessBoardUI(gi.getCb(), chessboard);
@@ -245,6 +246,23 @@ public class Game implements Serializable {
         }
     }
 
+    public boolean checkCastling(King king) {
+        if (king.getFMoved()) {
+            System.out.println("King is moved");
+            return false;
+        }
+        ArrayList<Piece> rooksAndPawns = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (getChessBoard().getLocation(i, j).isOccupied() && getChessBoard().getLocation(i, j).getPiece().getColor().equals(king.getColor())) {
+                    rooksAndPawns.add(getChessBoard().getLocation(i, j).getPiece());
+                    System.out.println(getChessBoard().getLocation(i, j).getPiece().toString() + getChessBoard().getLocation(i, j).getPiece().getRow() + " " +getChessBoard().getLocation(i, j).getPiece().getColumn());
+                }
+            }
+        }
+        return true;
+    }
+
     public boolean getMovedPiece() {
         return this.movedPiece;
     }
@@ -320,7 +338,6 @@ public class Game implements Serializable {
         int column = king.getColumn();
         Piece cloneKing = new King(row, column, color);
         clone = cloneBoard();
-        clone2 = cloneBoard();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (i == cloneKing.getRow() && j == cloneKing.getColumn()) {

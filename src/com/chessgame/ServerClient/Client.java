@@ -15,8 +15,6 @@ public class Client implements Runnable {
     private Socket socket = null;
     public Game game = null;
     public JFrame frame = null;
-    private boolean myturn = false;
-    private boolean moved = false;
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
@@ -43,7 +41,6 @@ public class Client implements Runnable {
 
     public void myTurn() throws IOException {
         if (game.getGameover()) {
-            System.out.println("Ar trebuii sa iasa dar nu vrea");
             return;
         }
 
@@ -55,17 +52,13 @@ public class Client implements Runnable {
 
         boolean tru = true;
         while (tru) {
-            System.out.println("acilea");
             try {
                 Object[] rec = (Object[]) in.readObject();
                 ChessBoard temp = (ChessBoard) rec[0];
-                System.out.println("a trecut de in");
-                System.out.println("updating");
                 game.updateChessBoardUI(temp, game.chessboard);
                 game.chessboard.updateUI();
                 tru = false;
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("If you win, this runs after they click 'ok' on the JOptionPane");
                 in.close();
                 out.close();
                 socket.close();
@@ -85,9 +78,7 @@ public class Client implements Runnable {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Trebuie sa mut");
                 if (game.getMovedPiece()) {
-                    System.out.println("Output");
                     try {
                         Object[] send = {game.getChessBoard()};
                         out.writeObject(send);
