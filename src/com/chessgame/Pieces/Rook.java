@@ -23,37 +23,37 @@ public class Rook extends Piece {
             if (!cb.getLocation(toRow, toColumn).isOccupied()) {
                 return false;
             }
+            if (!current.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
+                if (getColumn() == toColumn && getRow() != toRow) {
+                    if (getRow() > toRow) {
+                        if (getRow() - 1 == toRow) {
+                            return true;
+                        }
+                        return isValidMove(cb, toRow + 1, toColumn);
+                    } else {
+                        if (getRow() + 1 == toRow) {
+                            return true;
+                        }
+                        return isValidMove(cb, toRow - 1, toColumn);
+                    }
+                } else if (getColumn() != toColumn && getRow() == toRow) {
+                    if (getColumn() > toColumn) {
+                        if (getColumn() - 1 == toRow) {
+                            return true;
+                        }
+                        return isValidMove(cb, toRow, toColumn - 1);
+                    } else {
+                        if (getColumn() + 1 == toRow) {
+                            return true;
+                        }
+                        return isValidMove(cb, toRow, toColumn + 1);
+                    }
+                }
+            }
         } catch (NullPointerException ignored) {
             return false;
         }
 
-        if (!current.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
-            if (getColumn() == toColumn && getRow() != toRow) {
-                if (getRow() > toRow) {
-                    if (getRow() - 1 == toRow) {
-                        return true;
-                    }
-                    return isValidMove(cb, toRow + 1, toColumn);
-                } else {
-                    if (getRow() + 1 == toRow) {
-                        return true;
-                    }
-                    return isValidMove(cb, toRow - 1, toColumn);
-                }
-            } else if (getColumn() != toColumn && getRow() == toRow) {
-                if (getColumn() > toColumn) {
-                    if (getColumn() - 1 == toRow) {
-                        return true;
-                    }
-                    return isValidMove(cb, toRow, toColumn - 1);
-                } else {
-                    if (getColumn() + 1 == toRow) {
-                        return true;
-                    }
-                    return isValidMove(cb, toRow, toColumn + 1);
-                }
-            }
-        }
         return false;
     }
 

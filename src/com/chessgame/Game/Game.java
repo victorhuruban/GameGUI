@@ -165,6 +165,7 @@ public class Game implements Serializable {
                 }
                 if (c instanceof JPanel && piece[0] != null) {
                     if (testPiece.isValidMove(getChessBoard(), row, column)) {
+                        getChessBoard().listCB();
                         if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
                             clone = cloneBoard();
                             clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().move(clone, row, column);
