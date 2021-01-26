@@ -95,6 +95,6 @@ public class Client implements Runnable {
                     timer.cancel();
                 }
             }
-        }, 1000, 1000);
+        }, 100, 1000);
     }
 }
