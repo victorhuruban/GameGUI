@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,12 +48,53 @@ public class Game implements Serializable {
         JLabel[] piece = new JLabel[1];
 
         JFrame jFrame = new JFrame("Test ChessBoard");
-        jFrame.setSize(816, 840);
+        jFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/frame_background.jpg")))));
+        jFrame.setSize(1400, 900);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridheight = 4;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.anchor = GridBagConstraints.LINE_START;
+        c.insets = new Insets(25,25,25,25);
 
         JLayeredPane jLayeredPane = new JLayeredPane();
-        jFrame.add(jLayeredPane);
         jLayeredPane.setPreferredSize(dim);
+        jFrame.add(jLayeredPane, c);
+
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridheight = 1;
+        c.anchor = GridBagConstraints.LINE_START;
+
+        JPanel chatPane = new JPanel();
+        chatPane.setBackground(Color.GRAY);
+        chatPane.setPreferredSize(new Dimension(375, 375));
+        jFrame.add(chatPane, c);
+
+        c.gridx = 1;
+        c.gridy = 1;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        JPanel namesPanel = new JPanel(new GridLayout(2,0));
+        namesPanel.setBackground(Color.GRAY);
+        JLabel myName = new JLabel("My name");
+        JLabel opponentName = new JLabel("Opponent's name");
+        namesPanel.add(myName);
+        namesPanel.add(opponentName);
+        jFrame.add(namesPanel, c);
+
+        c.gridx = 1;
+        c.gridy = 2;
+        c.anchor = GridBagConstraints.LAST_LINE_END;
+
+        JButton exitButton = new JButton("EXIT");
+        jFrame.add(exitButton, c);
+
 
         jLayeredPane.add(chessboard, JLayeredPane.DEFAULT_LAYER);
         chessboard.setLayout(new GridLayout(8,8));
@@ -401,8 +443,8 @@ public class Game implements Serializable {
                 JPanel square = new JPanel(new BorderLayout());
                 int row = (getPosition(i, j) / 8) % 2;
                 if (row == 0) {
-                    square.setBackground(getPosition(i, j) % 2 == 0 ? Color.DARK_GRAY : Color.WHITE);
-                } else square.setBackground(getPosition(i, j) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
+                    square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(189, 152, 53) : new Color(237,228,202));
+                } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(189, 152, 53));
 
                 if (!cb.getLocation(i, j).toString().equals("null")) {
                     int compNum = getPosition(i, j);

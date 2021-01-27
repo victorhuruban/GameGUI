@@ -2,7 +2,6 @@ package com.chessgame.ServerClient;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Game.Game;
-import com.chessgame.Pieces.King;
 
 import javax.swing.*;
 import java.io.*;
@@ -29,6 +28,7 @@ public class Server implements Runnable {
     @Override
     public void run() {
         try {
+            System.out.println();
             game.createJFrameCB().setVisible(true);
             server = new ServerSocket(port);
             System.out.println("Server started");
@@ -52,6 +52,15 @@ public class Server implements Runnable {
         if (game.isCheckMate(game.getKing("white"))) {
             game.youLost();
             JOptionPane.showMessageDialog(frame, "White lost outside");
+            try {
+                out.close();
+                in.close();
+                socket.close();
+                server.close();
+                System.out.println("s a inchis tot");
+            } catch (IOException e) {
+                System.out.println(e);
+            }
             return;
         }
 
@@ -60,7 +69,8 @@ public class Server implements Runnable {
             public void run() {
                 if (game.getMovedPiece()) {
                     try {
-                        Object[] send = {game.getChessBoard()};
+                        System.out.println("trebuie sa mut");
+                        Object[] send = { game.getChessBoard() };
                         out.writeObject(send);
                         game.changeMovedPiece();
                         boolean tru = true;
@@ -72,6 +82,7 @@ public class Server implements Runnable {
                                 break;
                             }
                             try {
+                                System.out.println("astept ceva");
                                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
@@ -89,14 +100,17 @@ public class Server implements Runnable {
 
                             } catch (IOException | ClassNotFoundException e) {
                                 tru = false;
-                                e.printStackTrace();
+                                System.out.println("linia 101");
+                                System.out.println(e);
                             }
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("Linia 106");
+                        System.out.println(e);
                     }
                 }
             }
         }, 100, 1000);
+        System.out.println("Sfarsitu clasei");
     }
 }

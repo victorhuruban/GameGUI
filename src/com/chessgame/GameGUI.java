@@ -19,7 +19,7 @@ public class GameGUI {
         this.mainCards = new JPanel(new CardLayout());
 
         // CHOICE CARD
-        this.choiceCard= new JPanel() {
+        this.choiceCard = new JPanel() {
             public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
