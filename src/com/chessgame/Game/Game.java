@@ -319,8 +319,8 @@ public class Game implements Serializable {
                     int row = (getPosition(i, j) / 8) % 2;
                     if (square.getBackground() != Color.ORANGE) {
                         if (row == 0) {
-                            square.setBackground(getPosition(i, j) % 2 == 0 ? Color.DARK_GRAY : Color.WHITE);
-                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
+                            square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(130, 97, 55) : new Color(237,228,202));
+                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(130, 97, 55));
                     }
                 } else {
                     if (choice == 1) {
@@ -443,11 +443,10 @@ public class Game implements Serializable {
                 JPanel square = new JPanel(new BorderLayout());
                 int row = (getPosition(i, j) / 8) % 2;
                 if (row == 0) {
-                    square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(189, 152, 53) : new Color(237,228,202));
-                } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(189, 152, 53));
+                    square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(130, 97, 55) : new Color(237,228,202));
+                } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(130, 97, 55));
 
                 if (!cb.getLocation(i, j).toString().equals("null")) {
-                    int compNum = getPosition(i, j);
                     String piece = cb.getLocation(i,j).getPiece().toString().toLowerCase();
                     String color = cb.getLocation(i,j).getPiece().getColor().substring(0,1);
                     BufferedImage icon = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/" + color + piece + ".png"));

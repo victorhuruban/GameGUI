@@ -29,6 +29,7 @@ public class Client implements Runnable {
         try {
             game = new Game();
             game.changeTurn();
+            game.getChessBoard().reversePieces();
             game.createJFrameCB().setVisible(true);
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -55,6 +56,7 @@ public class Client implements Runnable {
             try {
                 Object[] rec = (Object[]) in.readObject();
                 ChessBoard temp = (ChessBoard) rec[0];
+                temp.reversePieces();
                 game.updateChessBoardUI(temp, game.chessboard);
                 game.chessboard.updateUI();
                 tru = false;

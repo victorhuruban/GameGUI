@@ -3,7 +3,7 @@ package com.chessgame.Board;
 import java.io.Serializable;
 
 public class ChessBoard implements Serializable {
-    private final Loc[][] locations = new Loc[8][8];
+    private Loc[][] locations = new Loc[8][8];
 
     public ChessBoard() {
         for (int row = 0; row < locations.length; row++) {
@@ -28,5 +28,25 @@ public class ChessBoard implements Serializable {
             }
             System.out.println();
         }
+    }
+
+    public void reversePieces() {
+        Loc[][] reverseChessboard = new Loc[8][8];
+        int rowLoc = 0;
+        int columnLoc = 0;
+        for (int i = 7; i >= 0; i--) {
+            for (int j = 7; j >= 0; j--) {
+                reverseChessboard[rowLoc][columnLoc] = locations[i][j];
+                columnLoc++;
+            }
+            rowLoc++;
+            columnLoc = 0;
+        }
+
+        setLocations(reverseChessboard);
+    }
+
+    private void setLocations(Loc[][] set) {
+        this.locations = set;
     }
 }

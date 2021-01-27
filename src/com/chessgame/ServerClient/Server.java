@@ -84,6 +84,7 @@ public class Server implements Runnable {
                             try {
                                 System.out.println("astept ceva");
                                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
+                                temp.reversePieces();
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
                                 if (game.isCheckMate(game.getKing("white"))) {
