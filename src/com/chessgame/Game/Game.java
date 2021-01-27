@@ -29,7 +29,7 @@ public class Game implements Serializable {
     public Player white, black;
     private boolean turn;
     private ArrayList<Rook> castling;
-
+    //Test
     public Game(int num) throws IOException {
         castling = new ArrayList<>();
         testPiece = null;

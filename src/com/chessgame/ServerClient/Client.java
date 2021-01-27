@@ -13,12 +13,13 @@ public class Client implements Runnable {
     private final String address;
     private final int port;
     private Socket socket = null;
-    public Game game = null;
-    public JFrame frame = null;
+    public Game game;
+    public JFrame frame;
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
     public Client(String address, int port) throws IOException {
+        this.game = new Game(2);
         this.address = address;
         this.port = port;
         run();
@@ -27,7 +28,6 @@ public class Client implements Runnable {
     @Override
     public void run() {
         try {
-            game = new Game(1);
             game.changeTurn();
             game.createJFrameCB().setVisible(true);
             socket = new Socket(address, port);
