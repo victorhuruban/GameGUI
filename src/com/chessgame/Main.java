@@ -9,6 +9,5 @@ public class Main {
     public static void main(String[] args) throws NullPointerException {
         GameGUI start = new GameGUI();
         start.startServerOrClient("57894");
-
     }
 }

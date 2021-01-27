@@ -20,7 +20,7 @@ public class Server implements Runnable {
     private ObjectInputStream in;
 
     public Server(int port) throws IOException {
-        this.game = new Game();
+        this.game = new Game(1);
         this.port = port;
         run();
     }
@@ -84,7 +84,6 @@ public class Server implements Runnable {
                             try {
                                 System.out.println("astept ceva");
                                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
-                                temp.reversePieces();
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
                                 if (game.isCheckMate(game.getKing("white"))) {

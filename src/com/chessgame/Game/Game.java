@@ -30,11 +30,11 @@ public class Game implements Serializable {
     private boolean turn;
     private ArrayList<Rook> castling;
 
-    public Game() throws IOException {
+    public Game(int num) throws IOException {
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
-        gi = new GameInitialization();
+        gi = new GameInitialization(num);
         white = new Player("white", gi.getCb());
         black = new Player("black", gi.getCb());
         clone = new ChessBoard();
@@ -114,6 +114,7 @@ public class Game implements Serializable {
                 if (c instanceof JLabel && piece[0] == null) {
 
                     testPiece = getChessBoard().getLocation(row, column).getPiece();
+                    System.out.println(testPiece.getColor());
                     if (turn && testPiece.getColor().equals("white")) {
                         boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
                         piece[0] = (JLabel) c;
