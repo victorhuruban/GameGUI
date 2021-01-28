@@ -29,18 +29,20 @@ public class Game implements Serializable {
     public Player white, black;
     private boolean turn;
     private ArrayList<Rook> castling;
+    private ChessBoard gameChessboard;
     //Test
     public Game(int num) throws IOException {
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
         gi = new GameInitialization(num);
-        white = new Player("white", gi.getCb());
-        black = new Player("black", gi.getCb());
+        gameChessboard = gi.getCb();
+        white = new Player("white", getChessBoard());
+        black = new Player("black", getChessBoard());
         clone = new ChessBoard();
         chessboard = new JPanel();
         movedPiece = false;
-        updateChessBoardUI(gi.getCb(), chessboard);
+        updateChessBoardUI(getChessBoard(), chessboard);
     }
 
     public JFrame createJFrameCB() throws IOException {
@@ -116,10 +118,10 @@ public class Game implements Serializable {
                     testPiece = getChessBoard().getLocation(row, column).getPiece();
                     System.out.println(testPiece.getColor());
                     if (turn && testPiece.getColor().equals("white")) {
-                        boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
+                        boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
                         piece[0] = (JLabel) c;
                         changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
-                        check = checkMoveToChangeBackground(gi.getCb(), row, column, 2);
+                        check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
                         changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
                         if (testPiece.toString().equals("King")) {
                             castling = checkCastling((King) testPiece);
@@ -135,10 +137,10 @@ public class Game implements Serializable {
                         }
                         chessboard.updateUI();
                     } else if (!turn && testPiece.getColor().equals("black")){
-                        boolean[][] check = checkMoveToChangeBackground(gi.getCb(), row, column, 1);
+                        boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
                         piece[0] = (JLabel) c;
                         changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
-                        check = checkMoveToChangeBackground(gi.getCb(), row, column, 2);
+                        check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
                         changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
                         if (testPiece.toString().equals("King")) {
                             castling = checkCastling((King) testPiece);
@@ -464,11 +466,11 @@ public class Game implements Serializable {
     }
 
     public ChessBoard getChessBoard() {
-        return gi.getCb();
+        return gameChessboard;
     }
 
     public void setChessBoard(ChessBoard cb) {
-        this.gi.setCb(cb);
+        this.gameChessboard = cb;
     }
 
     public Piece getKing(String color) {
@@ -592,10 +594,6 @@ public class Game implements Serializable {
             }
         }
         return ret;
-    }
-
-    public boolean turn() {
-        return turn;
     }
 
     public void changeTurn() {
