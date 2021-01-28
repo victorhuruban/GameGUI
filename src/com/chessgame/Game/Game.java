@@ -25,7 +25,7 @@ public class Game implements Serializable {
     private boolean gameover;
     volatile boolean movedPiece;
     private ChessBoard clone;
-    private GameInitialization gi;
+    final private GameInitialization gi;
     public Player white, black;
     private boolean turn;
     private ArrayList<Rook> castling;
@@ -440,7 +440,7 @@ public class Game implements Serializable {
 
     public void updateChessBoardUI(ChessBoard cb, JPanel chessboard) throws IOException {
         chessboard.removeAll();
-        gi.setCb(cb);
+        setChessBoard(cb);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 JPanel square = new JPanel(new BorderLayout());
@@ -449,9 +449,9 @@ public class Game implements Serializable {
                     square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(130, 97, 55) : new Color(237,228,202));
                 } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(130, 97, 55));
 
-                if (!cb.getLocation(i, j).toString().equals("null")) {
-                    String piece = cb.getLocation(i,j).getPiece().toString().toLowerCase();
-                    String color = cb.getLocation(i,j).getPiece().getColor().substring(0,1);
+                if (!getChessBoard().getLocation(i, j).toString().equals("null")) {
+                    String piece = getChessBoard().getLocation(i,j).getPiece().toString().toLowerCase();
+                    String color = getChessBoard().getLocation(i,j).getPiece().getColor().substring(0,1);
                     BufferedImage icon = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/" + color + piece + ".png"));
                     JLabel iconpiece = new JLabel(new ImageIcon(icon));
                     square.add(iconpiece);
@@ -470,7 +470,7 @@ public class Game implements Serializable {
     }
 
     public void setChessBoard(ChessBoard cb) {
-        this.gameChessboard = cb;
+        gameChessboard = cb;
     }
 
     public Piece getKing(String color) {
@@ -564,7 +564,7 @@ public class Game implements Serializable {
         return true;
     }
 
-    private ChessBoard cloneBoard() {
+    public ChessBoard cloneBoard() {
         ChessBoard ret = new ChessBoard();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {

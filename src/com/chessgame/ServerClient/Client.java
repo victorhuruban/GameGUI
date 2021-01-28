@@ -2,6 +2,7 @@ package com.chessgame.ServerClient;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Game.Game;
+import com.chessgame.Game.GameInitialization;
 
 import javax.swing.*;
 import java.io.*;
@@ -54,7 +55,6 @@ public class Client implements Runnable {
         while (tru) {
             try {
                 ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
-                temp.reverseBoard();
                 game.updateChessBoardUI(temp, game.chessboard);
                 game.chessboard.updateUI();
                 tru = false;

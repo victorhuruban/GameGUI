@@ -2,6 +2,7 @@ package com.chessgame.ServerClient;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Game.Game;
+import com.chessgame.Game.GameInitialization;
 
 import javax.swing.*;
 import java.io.*;
@@ -20,7 +21,7 @@ public class Server implements Runnable {
     private ObjectInputStream in;
 
     public Server(int port) throws IOException {
-        this.game = new Game(1);
+        this.game = new Game( 1);
         this.port = port;
         run();
     }
@@ -70,7 +71,7 @@ public class Server implements Runnable {
                 if (game.getMovedPiece()) {
                     try {
                         System.out.println("trebuie sa mut");
-                        //game.getChessBoard().reverseBoard();
+                        game.getChessBoard().reverseBoard();
                         Object[] send = { game.getChessBoard() };
                         out.writeObject(send);
                         game.changeMovedPiece();

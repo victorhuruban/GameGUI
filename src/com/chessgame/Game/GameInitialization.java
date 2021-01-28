@@ -6,7 +6,7 @@ import com.chessgame.Pieces.*;
 import java.io.Serializable;
 
 public class GameInitialization implements Serializable {
-    private ChessBoard cb;
+    final private ChessBoard cb;
 
     public GameInitialization(int num) {
         cb = new ChessBoard();
@@ -60,10 +60,5 @@ public class GameInitialization implements Serializable {
 
     public ChessBoard getCb() {
         return cb;
-    }
-
-
-    public void setCb(ChessBoard cb) {
-        this.cb = cb;
     }
 }

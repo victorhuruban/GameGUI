@@ -38,7 +38,8 @@ public class ChessBoard implements Serializable {
         for (int i = 7; i >= 0; i--) {
             for (int j = 7; j >= 0; j--) {
                 tempLoc[r][c] = locations[i][j];
-                System.out.println(tempLoc[r][c]);
+                tempLoc[r][c].row = r;
+                tempLoc[r][c].column = c;
                 c++;
             }
             r++;
