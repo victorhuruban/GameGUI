@@ -42,6 +42,14 @@ public class Piece implements Serializable {
         this.column = column;
     }
 
+    public void setColumnRev(int column) {
+        this.column = column;
+    }
+
+    public void setRowRev(int row) {
+        this.row = row;
+    }
+
     public String getColor() {
         return color;
     }
