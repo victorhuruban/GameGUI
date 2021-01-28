@@ -53,8 +53,7 @@ public class Client implements Runnable {
         boolean tru = true;
         while (tru) {
             try {
-                Object[] rec = (Object[]) in.readObject();
-                ChessBoard temp = (ChessBoard) rec[0];
+                ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
                 game.updateChessBoardUI(temp, game.chessboard);
                 game.chessboard.updateUI();
                 tru = false;

@@ -49,7 +49,7 @@ public class Game implements Serializable {
 
         JFrame jFrame = new JFrame("Test ChessBoard");
         jFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/frame_background.jpg")))));
-        jFrame.setSize(1250, 890);
+        jFrame.setSize(1250, 847);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLayout(new GridBagLayout());
 
@@ -60,7 +60,7 @@ public class Game implements Serializable {
         c.weightx = 1;
         c.weighty = 1;
         c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(25,25,25,25);
+        c.insets = new Insets(5,5,5,5);
 
         JLayeredPane jLayeredPane = new JLayeredPane();
         jLayeredPane.setPreferredSize(dim);

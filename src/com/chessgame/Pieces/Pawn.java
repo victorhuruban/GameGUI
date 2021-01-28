@@ -98,7 +98,9 @@ public class Pawn extends Piece {
             if (!cb.getLocation(toRow, toColumn).isOccupied()) {
                 return false;
             }
-            return toRow == getRow() - 1 && (getColumn() == toColumn - 1 || getColumn() == toColumn + 1);
+            if (!captureTemp.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
+                return toRow == getRow() - 1 && (getColumn() == toColumn - 1 || getColumn() == toColumn + 1);
+            }
             /*if (!captureTemp.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
                 if (captureTemp.getColor().equals("white")) {
                     return toRow == getRow() - 1 && (getColumn() == toColumn - 1 || getColumn() == toColumn + 1);
@@ -107,7 +109,7 @@ public class Pawn extends Piece {
         } catch (NullPointerException ignored) {
             return false;
         }
-        //return false;
+        return false;
     }
 
     /* The "capture" method simply captures the enemy piece and replaces it with the piece which captured it if the above method returns true.

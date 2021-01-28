@@ -70,8 +70,10 @@ public class Server implements Runnable {
                 if (game.getMovedPiece()) {
                     try {
                         System.out.println("trebuie sa mut");
+                        game.getChessBoard().reverseBoard();
                         Object[] send = { game.getChessBoard() };
                         out.writeObject(send);
+                        out.flush();
                         game.changeMovedPiece();
                         boolean tru = true;
                         while (tru) {
@@ -101,7 +103,7 @@ public class Server implements Runnable {
                             } catch (IOException | ClassNotFoundException e) {
                                 tru = false;
                                 System.out.println("linia 101");
-                                System.out.println(e);
+                                e.printStackTrace();
                             }
                         }
                     } catch (IOException e) {
@@ -111,6 +113,5 @@ public class Server implements Runnable {
                 }
             }
         }, 100, 1000);
-        System.out.println("Sfarsitu clasei");
     }
 }
