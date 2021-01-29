@@ -2,7 +2,6 @@ package com.chessgame.ServerClient;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Game.Game;
-import com.chessgame.Game.GameInitialization;
 
 import javax.swing.*;
 import java.io.*;

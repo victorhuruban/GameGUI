@@ -30,7 +30,7 @@ public class Game implements Serializable {
     private boolean turn;
     private ArrayList<Rook> castling;
     private ChessBoard gameChessboard;
-    //Test
+
     public Game(int num) throws IOException {
         castling = new ArrayList<>();
         testPiece = null;
