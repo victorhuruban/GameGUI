@@ -58,7 +58,7 @@ public class Server implements Runnable {
                 in.close();
                 socket.close();
                 server.close();
-                System.out.println("s a inchis tot");
+                System.out.println("s-a inchis tot");
             } catch (IOException e) {
                 System.out.println(e);
             }
