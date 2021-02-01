@@ -67,7 +67,7 @@ public class Client implements Runnable {
         }
         if (game.isCheckMate(game.getKing("black"))) {
             game.youLost();
-            JOptionPane.showMessageDialog(frame, "Black lost outside");
+            JOptionPane.showMessageDialog(frame, "Black lost outside.");
             in.close();
             out.close();
             socket.close();
