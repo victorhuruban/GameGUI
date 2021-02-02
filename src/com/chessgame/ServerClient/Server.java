@@ -70,7 +70,7 @@ public class Server implements Runnable {
             public void run() {
                 if (game.getMovedPiece()) {
                     try {
-                        System.out.println("trebuie sa mut");
+                        System.out.println(timer.toString());
                         Object[] send = { game.getChessBoard() };
                         out.writeObject(send);
                         game.changeMovedPiece();
@@ -92,13 +92,11 @@ public class Server implements Runnable {
                                     game.youLost();
                                     System.out.println(game.getGameover());
                                     JOptionPane.showMessageDialog(frame, "White lost inside");
-                                    timer.cancel();
                                 } else {
                                     game.changeTurn();
                                     myTurn();
-                                    timer.cancel();
-                                    return;
                                 }
+                                timer.cancel();
 
                             } catch (IOException | ClassNotFoundException e) {
                                 tru = false;

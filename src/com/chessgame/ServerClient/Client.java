@@ -79,16 +79,15 @@ public class Client implements Runnable {
             @Override
             public void run() {
                 if (game.getMovedPiece()) {
+                    System.out.println(timer.toString());
                     try {
                         Object[] send = {game.getChessBoard()};
                         out.writeObject(send);
                         game.changeMovedPiece();
-                        if (true) {
-                            game.changeTurn();
-                            myTurn();
-                            timer.cancel();
-                            return;
-                        }
+                        game.changeTurn();
+                        myTurn();
+                        timer.cancel();
+                        return;
                     } catch (IOException e) {
                         System.out.println(e);
                         e.printStackTrace();
