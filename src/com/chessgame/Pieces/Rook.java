@@ -86,43 +86,43 @@ public class Rook extends Piece {
         Piece current;
         try {
             current = cb.getLocation(getRow(), getColumn()).getPiece();
+            if ((current.getRow() == toRow && current.getColumn() != toColumn) || (current.getRow() != toRow && current.getColumn() == toColumn)) {
+                if (current.getRow() < toRow) {
+                    for (int i = current.getRow() + 1; i <= toRow; i++) {
+                        boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
+                        if (check) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else if (current.getRow() > toRow) {
+                    for (int i = current.getRow() - 1; i >= toRow; i--) {
+                        boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
+                        if (check) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else if (current.getColumn() < toColumn) {
+                    for (int i = current.getColumn() + 1; i <= toColumn; i++) {
+                        boolean check = cb.getLocation(current.getRow(), i).isOccupied();
+                        if (check) {
+                            return false;
+                        }
+                    }
+                    return true;
+                } else if (current.getColumn() > toColumn) {
+                    for (int i = current.getColumn() - 1; i >= toColumn; i--) {
+                        boolean check = cb.getLocation(current.getRow(), i).isOccupied();
+                        if (check) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            }
         } catch (NullPointerException ignored) {
             return false;
-        }
-        if ((current.getRow() == toRow && current.getColumn() != toColumn) || (current.getRow() != toRow && current.getColumn() == toColumn)) {
-            if (current.getRow() < toRow) {
-                for (int i = current.getRow() + 1; i <= toRow; i++) {
-                    boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
-                    if (check) {
-                        return false;
-                    }
-                }
-                return true;
-            } else if (current.getRow() > toRow) {
-                for (int i = current.getRow() - 1; i >= toRow; i--) {
-                    boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
-                    if (check) {
-                        return false;
-                    }
-                }
-                return true;
-            } else if (current.getColumn() < toColumn) {
-                for (int i = current.getColumn() + 1; i <= toColumn; i++) {
-                    boolean check = cb.getLocation(current.getRow(), i).isOccupied();
-                    if (check) {
-                        return false;
-                    }
-                }
-                return true;
-            } else if (current.getColumn() > toColumn) {
-                for (int i = current.getColumn() - 1; i >= toColumn; i--) {
-                    boolean check = cb.getLocation(current.getRow(), i).isOccupied();
-                    if (check) {
-                        return false;
-                    }
-                }
-                return true;
-            }
         }
         return false;
     }
