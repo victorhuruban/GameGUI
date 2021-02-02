@@ -53,7 +53,8 @@ public class Client implements Runnable {
         boolean tru = true;
         while (tru) {
             try {
-                ChessBoard temp = (ChessBoard) /*((Object[]) */in.readObject();//)[0];
+                Object[] tempArr = (Object[]) in.readObject();
+                ChessBoard temp = (ChessBoard) tempArr[0];
                 temp.reverseBoard();
                 game.updateChessBoardUI(temp, game.chessboard);
                 game.chessboard.updateUI();
@@ -81,8 +82,8 @@ public class Client implements Runnable {
                 if (game.getMovedPiece()) {
                     System.out.println(timer.toString());
                     try {
-                        //Object[] send = {game.getChessBoard()};
-                        out.writeObject(game.getChessBoard());
+                        Object[] send = {game.getChessBoard()};
+                        out.writeObject(send);
                         game.changeMovedPiece();
                         game.changeTurn();
                         myTurn();
