@@ -3,7 +3,10 @@ package com.chessgame.Pieces;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 
-public class Rook extends Piece {
+import java.io.Serializable;
+
+public class Rook extends Piece implements Serializable {
+    private static final long serialVersionUID = 6156930883005779968L;
     private boolean isMoved;
 
     public Rook(int row, int column, String color) {

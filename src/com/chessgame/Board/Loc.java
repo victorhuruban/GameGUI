@@ -5,6 +5,7 @@ import com.chessgame.Pieces.Piece;
 import java.io.Serializable;
 
 public class Loc implements Serializable {
+    private static final long serialVersionUID = 6156930883005779968L;
     public int row;
     public int column;
     private Piece piece;
