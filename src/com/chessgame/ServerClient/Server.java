@@ -112,6 +112,6 @@ public class Server implements Runnable {
                     }
                 }
             }
-        }, 100, 1000);
+        }, 100, 10000);
     }
 }
