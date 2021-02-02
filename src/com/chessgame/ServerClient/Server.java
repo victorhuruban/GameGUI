@@ -71,8 +71,8 @@ public class Server implements Runnable {
                 if (game.getMovedPiece()) {
                     try {
                         System.out.println(timer.toString());
-                        //Object[] send = { game.getChessBoard() };
-                        out.writeObject(game.getChessBoard());
+                        Object[] send = { game.getChessBoard() };
+                        out.writeObject(send);
                         game.changeMovedPiece();
                         boolean tru = true;
                         while (tru) {
@@ -84,7 +84,7 @@ public class Server implements Runnable {
                             }
                             try {
                                 System.out.println("astept ceva");
-                                ChessBoard temp = (ChessBoard)/*(ChessBoard) ((Object[]) */in.readObject();//[0];
+                                ChessBoard temp = (ChessBoard) ((Object[]) in.readObject())[0];
                                 temp.reverseBoard();
                                 game.updateChessBoardUI(temp, game.chessboard);
                                 game.chessboard.updateUI();
