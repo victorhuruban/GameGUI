@@ -116,7 +116,6 @@ public class Game implements Serializable {
                 if (c instanceof JLabel && piece[0] == null) {
 
                     testPiece = getChessBoard().getLocation(row, column).getPiece();
-                    System.out.println(testPiece.getColor());
                     if (turn && testPiece.getColor().equals("white")) {
                         boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
                         piece[0] = (JLabel) c;
@@ -210,7 +209,6 @@ public class Game implements Serializable {
                 }
                 if (c instanceof JPanel && piece[0] != null) {
                     if (testPiece.isValidMove(getChessBoard(), row, column)) {
-                        getChessBoard().listCB();
                         if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
                             clone = cloneBoard();
                             clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().move(clone, row, column);
