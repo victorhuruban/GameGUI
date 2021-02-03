@@ -31,6 +31,7 @@ public class Client implements Runnable {
         try {
             game.changeTurn();
             game.createJFrameCB().setVisible(true);
+            game.setCanMove();
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
@@ -56,6 +57,7 @@ public class Client implements Runnable {
             try {
                 ChessBoard newCB = game.getChessBoard();
                 Loc[][] temp = (Loc[][]) in.readObject();
+                game.setCanMove();
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if (temp[i][j].getPiece() != null) {
@@ -103,6 +105,7 @@ public class Client implements Runnable {
                         out.flush();
                         game.changeMovedPiece();
                         game.changeTurn();
+                        game.setCanMove();
                         timer.cancel();
                     } catch (IOException e) {
                         e.printStackTrace();

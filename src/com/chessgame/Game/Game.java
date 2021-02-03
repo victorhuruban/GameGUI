@@ -24,6 +24,7 @@ public class Game implements Serializable {
     public JPanel chessboard;
     private boolean gameover;
     volatile boolean movedPiece;
+    private boolean canMove;
     private ChessBoard clone;
     final private GameInitialization gi;
     public Player white, black;
@@ -42,6 +43,7 @@ public class Game implements Serializable {
         clone = new ChessBoard();
         chessboard = new JPanel();
         movedPiece = false;
+        canMove = true;
         updateChessBoardUI(getChessBoard(), chessboard);
     }
 
@@ -106,80 +108,98 @@ public class Game implements Serializable {
         MouseAdapter ma = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int column = e.getX() / 100;
-                int row = e.getY() / 100;
-                Component c = chessboard.findComponentAt(e.getX(), e.getY());
-                if (c instanceof JPanel && piece[0] == null) {
-                    System.out.println("c instanceof jpanel return");
-                    return;
-                }
-                if (c instanceof JLabel && piece[0] == null) {
-
-                    testPiece = getChessBoard().getLocation(row, column).getPiece();
-                    if (turn && testPiece.getColor().equals("white")) {
-                        boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
-                        piece[0] = (JLabel) c;
-                        changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
-                        check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
-                        changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
-                        if (testPiece.toString().equals("King")) {
-                            castling = checkCastling((King) testPiece);
-                            if (castling.size() == 0) {
-                                System.out.println("No castling available");
-                            } else {
-                                for (Rook r: castling) {
-                                    Loc t = castlingLocation(r);
-                                    check[t.row][t.column] = true;
-                                    changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
-                                }
-                            }
-                        }
-                        chessboard.updateUI();
-                    } else if (!turn && testPiece.getColor().equals("black")){
-                        boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
-                        piece[0] = (JLabel) c;
-                        changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
-                        check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
-                        changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
-                        if (testPiece.toString().equals("King")) {
-                            castling = checkCastling((King) testPiece);
-                            if (castling.size() == 0) {
-                                System.out.println("No castling available");
-                            } else {
-                                for (Rook r: castling) {
-                                    Loc t = castlingLocation(r);
-                                    check[t.row][t.column] = true;
-                                    changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
-                                }
-                            }
-                        }
-                        chessboard.updateUI();
-                    } else {
-                        System.out.println("Not your piece");
+                if (canMove) {
+                    int column = e.getX() / 100;
+                    int row = e.getY() / 100;
+                    Component c = chessboard.findComponentAt(e.getX(), e.getY());
+                    if (c instanceof JPanel && piece[0] == null) {
+                        System.out.println("c instanceof jpanel return");
+                        return;
                     }
-                }
-                if (c instanceof JLabel && piece[0] != null) {
-                    if (testPiece.isValidCapture(getChessBoard(), row, column)) {
-                        if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
-                            clone = cloneBoard();
-                            clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().capture(clone, row, column);
-                            King temp = null;
-                            for (int i = 0; i < 8; i++) {
-                                for (int j = 0; j < 8; j++) {
-                                    if (clone.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(testPiece.getColor())) {
-                                        temp = new King(i, j, testPiece.getColor());
+                    if (c instanceof JLabel && piece[0] == null) {
+
+                        testPiece = getChessBoard().getLocation(row, column).getPiece();
+                        if (turn && testPiece.getColor().equals("white")) {
+                            boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
+                            piece[0] = (JLabel) c;
+                            changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
+                            check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
+                            changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
+                            if (testPiece.toString().equals("King")) {
+                                castling = checkCastling((King) testPiece);
+                                if (castling.size() == 0) {
+                                    System.out.println("No castling available");
+                                } else {
+                                    for (Rook r: castling) {
+                                        Loc t = castlingLocation(r);
+                                        check[t.row][t.column] = true;
+                                        changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
                                     }
                                 }
                             }
-                            if (checkIfChecked(temp, clone)) {
-                                System.out.println("still checked, try again");
-                                clone = new ChessBoard();
+                            chessboard.updateUI();
+                        } else if (!turn && testPiece.getColor().equals("black")){
+                            boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
+                            piece[0] = (JLabel) c;
+                            changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
+                            check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
+                            changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
+                            if (testPiece.toString().equals("King")) {
+                                castling = checkCastling((King) testPiece);
+                                if (castling.size() == 0) {
+                                    System.out.println("No castling available");
+                                } else {
+                                    for (Rook r: castling) {
+                                        Loc t = castlingLocation(r);
+                                        check[t.row][t.column] = true;
+                                        changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
+                                    }
+                                }
+                            }
+                            chessboard.updateUI();
+                        } else {
+                            System.out.println("Not your piece");
+                        }
+                    }
+                    if (c instanceof JLabel && piece[0] != null) {
+                        if (testPiece.isValidCapture(getChessBoard(), row, column)) {
+                            if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
+                                clone = cloneBoard();
+                                clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().capture(clone, row, column);
+                                King temp = null;
+                                for (int i = 0; i < 8; i++) {
+                                    for (int j = 0; j < 8; j++) {
+                                        if (clone.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(testPiece.getColor())) {
+                                            temp = new King(i, j, testPiece.getColor());
+                                        }
+                                    }
+                                }
+                                if (checkIfChecked(temp, clone)) {
+                                    System.out.println("still checked, try again");
+                                    clone = new ChessBoard();
+                                } else {
+                                    testPiece.capture(getChessBoard(), row, column);
+                                    try {
+                                        updateChessBoardUI(getChessBoard(), chessboard);
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                    changeMovedPiece();
+                                    changeTurn();
+                                    System.out.println("good capture, next player");
+                                    piece[0] = null;
+                                    testPiece = null;
+                                    chessboard.updateUI();
+                                }
                             } else {
                                 testPiece.capture(getChessBoard(), row, column);
                                 try {
                                     updateChessBoardUI(getChessBoard(), chessboard);
                                 } catch (IOException ioException) {
                                     ioException.printStackTrace();
+                                }
+                                if (!castling.isEmpty()) {
+                                    castling.clear();
                                 }
                                 changeMovedPiece();
                                 changeTurn();
@@ -188,46 +208,47 @@ public class Game implements Serializable {
                                 testPiece = null;
                                 chessboard.updateUI();
                             }
-                        } else {
-                            testPiece.capture(getChessBoard(), row, column);
-                            try {
-                                updateChessBoardUI(getChessBoard(), chessboard);
-                            } catch (IOException ioException) {
-                                ioException.printStackTrace();
-                            }
-                            if (!castling.isEmpty()) {
-                                castling.clear();
-                            }
-                            changeMovedPiece();
-                            changeTurn();
-                            System.out.println("good capture, next player");
-                            piece[0] = null;
-                            testPiece = null;
-                            chessboard.updateUI();
                         }
                     }
-                }
-                if (c instanceof JPanel && piece[0] != null) {
-                    if (testPiece.isValidMove(getChessBoard(), row, column)) {
-                        if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
-                            clone = cloneBoard();
-                            clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().move(clone, row, column);
-                            King temp = null;
-                            for (int i = 0; i < 8; i++) {
-                                for (int j = 0; j < 8; j++) {
-                                    if (clone.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(testPiece.getColor())) {
-                                        temp = new King(i, j, testPiece.getColor());
+                    if (c instanceof JPanel && piece[0] != null) {
+                        if (testPiece.isValidMove(getChessBoard(), row, column)) {
+                            if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
+                                clone = cloneBoard();
+                                clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().move(clone, row, column);
+                                King temp = null;
+                                for (int i = 0; i < 8; i++) {
+                                    for (int j = 0; j < 8; j++) {
+                                        if (clone.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(testPiece.getColor())) {
+                                            temp = new King(i, j, testPiece.getColor());
+                                        }
                                     }
                                 }
-                            }
-                            if (checkIfChecked(temp, clone)) {
-                                System.out.println("still checked, try again");
+                                if (checkIfChecked(temp, clone)) {
+                                    System.out.println("still checked, try again");
+                                } else {
+                                    testPiece.move(getChessBoard(), row, column);
+                                    try {
+                                        updateChessBoardUI(getChessBoard(), chessboard);
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                    changeMovedPiece();
+                                    System.out.println("good, change player");
+                                    changeTurn();
+                                    piece[0] = null;
+                                    testPiece = null;
+                                    chessboard.updateUI();
+                                }
+                                clone = new ChessBoard();
                             } else {
                                 testPiece.move(getChessBoard(), row, column);
                                 try {
                                     updateChessBoardUI(getChessBoard(), chessboard);
                                 } catch (IOException ioException) {
                                     ioException.printStackTrace();
+                                }
+                                if (!castling.isEmpty()) {
+                                    castling.clear();
                                 }
                                 changeMovedPiece();
                                 System.out.println("good, change player");
@@ -236,59 +257,53 @@ public class Game implements Serializable {
                                 testPiece = null;
                                 chessboard.updateUI();
                             }
-                            clone = new ChessBoard();
-                        } else {
-                            testPiece.move(getChessBoard(), row, column);
+                        } else if (!castling.isEmpty() && goThroughCastling(row, column)) {
+                            for (Rook r: castling) {
+                                Loc l = castlingLocation(r);
+                                if (l.row == row && l.column == column) {
+                                    doCastling(r, (King) getKing(r.getColor()));
+                                }
+                            }
                             try {
                                 updateChessBoardUI(getChessBoard(), chessboard);
                             } catch (IOException ioException) {
                                 ioException.printStackTrace();
                             }
-                            if (!castling.isEmpty()) {
-                                castling.clear();
-                            }
                             changeMovedPiece();
                             System.out.println("good, change player");
                             changeTurn();
+                            chessboard.updateUI();
                             piece[0] = null;
                             testPiece = null;
-                            chessboard.updateUI();
-                        }
-                    } else if (!castling.isEmpty() && goThroughCastling(row, column)) {
-                        for (Rook r: castling) {
-                            Loc l = castlingLocation(r);
-                            if (l.row == row && l.column == column) {
-                                doCastling(r, (King) getKing(r.getColor()));
+                        } else {
+                            try {
+                                updateChessBoardUI(getChessBoard(), chessboard);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
                             }
+                            chessboard.updateUI();
+                            piece[0] = null;
+                            testPiece = null;
+                            System.out.println("Gresit borther");
                         }
-                        try {
-                            updateChessBoardUI(getChessBoard(), chessboard);
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        }
-                        changeMovedPiece();
-                        System.out.println("good, change player");
-                        changeTurn();
-                        chessboard.updateUI();
-                        piece[0] = null;
-                        testPiece = null;
-                    } else {
-                        try {
-                            updateChessBoardUI(getChessBoard(), chessboard);
-                        } catch (IOException ioException) {
-                            ioException.printStackTrace();
-                        }
-                        chessboard.updateUI();
-                        piece[0] = null;
-                        testPiece = null;
-                        System.out.println("Gresit borther");
                     }
+                } else {
+                    System.out.println("Not your turn");
                 }
+
             }
         };
         chessboard.addMouseListener(ma);
 
         return jFrame;
+    }
+
+    public boolean getCanMove() {
+        return canMove;
+    }
+
+    public void setCanMove() {
+        canMove = !canMove;
     }
 
     public boolean[][] checkMoveToChangeBackground(ChessBoard cb, int row, int column, int choice) {

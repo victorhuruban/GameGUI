@@ -80,9 +80,8 @@ public class Server implements Runnable {
                         out.writeObject(transfer);
                         out.flush();
                         game.changeMovedPiece();
+                        game.setCanMove();
                         timer.cancel();
-
-
                     } catch (IOException e) {
                         System.out.println("Linia 106");
                         System.out.println(e);
@@ -107,6 +106,7 @@ public class Server implements Runnable {
                 System.out.println("astept ceva");
                 ChessBoard newCB = game.getChessBoard();
                 Loc[][] temp = (Loc[][]) in.readObject();
+                game.setCanMove();
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
                         if (temp[i][j].getPiece() != null) {
