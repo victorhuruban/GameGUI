@@ -6,7 +6,7 @@ import com.chessgame.Pieces.*;
 import java.io.Serializable;
 
 public class GameInitialization implements Serializable {
-    private static final long serialVersionUID = 6156930883005779968L;
+    //private static final long serialVersionUID = 6156930883005779968L;
     final private ChessBoard cb;
 
     public GameInitialization(int num) {

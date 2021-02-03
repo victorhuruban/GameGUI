@@ -6,7 +6,7 @@ import com.chessgame.Board.Loc;
 import java.io.Serializable;
 
 public class Queen extends Piece implements Serializable {
-    private static final long serialVersionUID = 6156930883005779968L;
+    //private static final long serialVersionUID = 6156930883005779968L;
 
     public Queen(int row, int column, String color) {
         super(row, column, color);

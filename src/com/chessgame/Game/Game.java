@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
-    private static final long serialVersionUID = 6156930883005779968L;
+    //private static final long serialVersionUID = 6156930883005779968L;
     private Piece testPiece;
     public JFrame frame;
     public JPanel chessboard;

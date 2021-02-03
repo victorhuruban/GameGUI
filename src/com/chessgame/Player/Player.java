@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player implements Serializable {
-    private static final long serialVersionUID = 6156930883005779968L;
+    //private static final long serialVersionUID = 6156930883005779968L;
     private final String color;
     private final ChessBoard cb;
     private List<Piece> pieces = new ArrayList<>();

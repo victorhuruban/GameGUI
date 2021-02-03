@@ -5,7 +5,7 @@ import com.chessgame.Board.ChessBoard;
 import java.io.Serializable;
 
 public class Piece implements Serializable {
-    private static final long serialVersionUID = 6156930883005779968L;
+    //private static final long serialVersionUID = 6156930883005779968L;
     private boolean moved;
     private int row, column;
     private String color;

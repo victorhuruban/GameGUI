@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class Pawn extends Piece implements Serializable {
-    private static final long serialVersionUID = 6156930883005779968L;
+    //private static final long serialVersionUID = 6156930883005779968L;
     boolean end;
 
     public Pawn(int row, int column, String color) {
