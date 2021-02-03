@@ -43,11 +43,10 @@ public class Server implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //myTurn();
-        myTurnSecond();
+        myTurn();
     }
 
-    public void myTurnSecond() {
+    public void myTurn() {
         if (game.getGameover()) {
             return;
         }
@@ -126,7 +125,7 @@ public class Server implements Runnable {
                     JOptionPane.showMessageDialog(frame, "White lost inside");
                 } else {
                     game.changeTurn();
-                    myTurnSecond();
+                    myTurn();
                 }
                 break;
 
@@ -141,98 +140,4 @@ public class Server implements Runnable {
             }
         }
     }
-
-    /*public void myTurn() {
-        if (game.getGameover()) {
-            return;
-        }
-        Timer timer = new Timer();
-        if (game.isCheckMate(game.getKing("white"))) {
-            game.youLost();
-            JOptionPane.showMessageDialog(frame, "White lost outside");
-            try {
-                out.close();
-                in.close();
-                socket.close();
-                server.close();
-                System.out.println("s-a inchis tot");
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-            return;
-        }
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (game.getMovedPiece()) {
-                    try {
-                        Loc[][] transfer = new Loc[8][8];
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                transfer[i][j] = game.getChessBoard().getLocation(i, j);
-                            }
-                        }
-                        out.flush();
-                        out.writeObject(transfer);
-                        out.flush();
-                        game.changeMovedPiece();
-
-
-                    } catch (IOException e) {
-                        System.out.println("Linia 106");
-                        System.out.println(e);
-                    }
-                }
-            }
-        }, 100, 5000);
-        boolean tru = true;
-        while (tru) {
-            if (game.getGameover()) {
-                try {
-                    in.close();
-                    out.close();
-                    socket.close();
-                } catch (IOException e) {
-                    System.out.println("ACOIIII");
-                    System.out.println(e);
-                }
-                break;
-            }
-            try {
-                System.out.println("astept ceva");
-                ChessBoard newCB = game.getChessBoard();
-                Loc[][] temp = (Loc[][]) in.readObject();
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 0; j < 8; j++) {
-                        if (temp[i][j].getPiece() != null) {
-                            newCB.getLocation(i, j).setPiece(temp[i][j].getPiece());
-                        } else {
-                            newCB.getLocation(i, j).setPiece(null);
-                        }
-                    }
-                }
-                newCB.reverseBoard();
-                game.updateChessBoardUI(newCB, game.chessboard);
-                game.chessboard.updateUI();
-                if (game.isCheckMate(game.getKing("white"))) {
-                    game.youLost();
-                    System.out.println(game.getGameover());
-                    JOptionPane.showMessageDialog(frame, "White lost inside");
-                } else {
-                    game.changeTurn();
-                }
-                break;
-
-
-            } catch (IOException | ClassNotFoundException e) {
-                tru = false;
-                System.out.println(timer.toString());
-                e.printStackTrace();
-            } catch (ClassCastException e) {
-                System.out.println(e);
-                e.printStackTrace();
-            }
-        }
-    }*/
 }

@@ -1,6 +1,7 @@
 package com.chessgame.ServerClient;
 
 import com.chessgame.Board.ChessBoard;
+import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
 
 import javax.swing.*;
@@ -39,68 +40,6 @@ public class Client implements Runnable {
         }
     }
 
-    public void mySecondTurn() throws IOException {
-        if (game.getGameover()) {
-            return;
-        }
-
-        if (game.isCheckMate(game.getKing("black"))) {
-            game.youLost();
-            JOptionPane.showMessageDialog(frame, "Black lost outside");
-            return;
-        }
-
-        boolean tru = true;
-        while (tru) {
-            try {
-                Object[] tempArr = (Object[]) in.readObject();
-                ChessBoard temp = (ChessBoard) tempArr[0];
-                temp.reverseBoard();
-                game.updateChessBoardUI(temp, game.chessboard);
-                game.chessboard.updateUI();
-                tru = false;
-            } catch (IOException | ClassNotFoundException e) {
-                in.close();
-                out.close();
-                socket.close();
-                return;
-            }
-        }
-        if (game.isCheckMate(game.getKing("black"))) {
-            game.youLost();
-            JOptionPane.showMessageDialog(frame, "Black lost outside.");
-            in.close();
-            out.close();
-            socket.close();
-            return;
-        }
-        Timer timer = new Timer();
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                if (game.getMovedPiece()) {
-                    System.out.println(timer.toString());
-                    try {
-                        Object[] send = {game.getChessBoard()};
-                        out.writeObject(send);
-                        game.changeMovedPiece();
-                        game.changeTurn();
-                        myTurn();
-                    } catch (IOException e) {
-                        System.out.println(e);
-                        e.printStackTrace();
-                    }
-                    timer.cancel();
-                }
-            }
-        }, 100, 5000);
-
-        if (!game.getGameover()) {
-            mySecondTurn();
-        }
-    }
-
     public void myTurn() throws IOException {
         if (game.getGameover()) {
             return;
@@ -115,10 +54,19 @@ public class Client implements Runnable {
         boolean tru = true;
         while (tru) {
             try {
-                Object[] tempArr = (Object[]) in.readObject();
-                ChessBoard temp = (ChessBoard) tempArr[0];
-                temp.reverseBoard();
-                game.updateChessBoardUI(temp, game.chessboard);
+                ChessBoard newCB = game.getChessBoard();
+                Loc[][] temp = (Loc[][]) in.readObject();
+                for (int i = 0; i < 8; i++) {
+                    for (int j = 0; j < 8; j++) {
+                        if (temp[i][j].getPiece() != null) {
+                            newCB.getLocation(i ,j).setPiece(temp[i][j].getPiece());
+                        } else {
+                            newCB.getLocation(i, j).setPiece(null);
+                        }
+                    }
+                }
+                newCB.reverseBoard();
+                game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
                 tru = false;
             } catch (IOException | ClassNotFoundException e) {
@@ -144,18 +92,27 @@ public class Client implements Runnable {
                 if (game.getMovedPiece()) {
                     System.out.println(timer.toString());
                     try {
-                        Object[] send = {game.getChessBoard()};
-                        out.writeObject(send);
+                        Loc[][] transfer = new Loc[8][8];
+                        for (int i = 0; i < 8; i++) {
+                            for (int j = 0; j < 8; j++) {
+                                transfer[i][j] = game.getChessBoard().getLocation(i, j);
+                            }
+                        }
+                        out.flush();
+                        out.writeObject(transfer);
+                        out.flush();
                         game.changeMovedPiece();
                         game.changeTurn();
-                        myTurn();
                         timer.cancel();
-                        return;
                     } catch (IOException e) {
-                        System.out.println(e);
                         e.printStackTrace();
+                    } finally {
+                        try {
+                            myTurn();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    timer.cancel();
                 }
             }
         }, 100, 5000);
