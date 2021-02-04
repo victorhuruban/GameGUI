@@ -36,6 +36,7 @@ public class Game implements Serializable {
         log = new StringBuilder();
         logArr = new int[4];
         logTA = new JTextArea(19, 30);
+        logTA.setEditable(false);
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
@@ -317,86 +318,85 @@ public class Game implements Serializable {
         StringBuilder sb = new StringBuilder();
         if (row == 0 && color.equalsIgnoreCase("white")) {
             sb.append("8");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 0 && color.equalsIgnoreCase("black")) {
             sb.append("1");
         }
         if (row == 1 && color.equalsIgnoreCase("white")) {
             sb.append("7");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 1 && color.equalsIgnoreCase("black")) {
             sb.append("2");
         }
         if (row == 2 && color.equalsIgnoreCase("white")) {
             sb.append("6");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 2 && color.equalsIgnoreCase("black")) {
             sb.append("3");
         }
         if (row == 3 && color.equalsIgnoreCase("white")) {
             sb.append("5");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 3 && color.equalsIgnoreCase("black")) {
             sb.append("4");
         }
         if (row == 4 && color.equalsIgnoreCase("white")) {
             sb.append("4");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 4 && color.equalsIgnoreCase("black")) {
             sb.append("5");
         }
         if (row == 5 && color.equalsIgnoreCase("white")) {
             sb.append("3");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 5 && color.equalsIgnoreCase("black")) {
             sb.append("6");
         }
         if (row == 6 && color.equalsIgnoreCase("white")) {
             sb.append("2");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 6 && color.equalsIgnoreCase("black")) {
             sb.append("7");
         }
         if (row == 7 && color.equalsIgnoreCase("white")) {
             sb.append("1");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (row == 7 && color.equalsIgnoreCase("black")) {
             sb.append("8");
         }
 
         if (column == 0 && color.equalsIgnoreCase("white")) {
             sb.append("A");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 0 && color.equalsIgnoreCase("black")) {
             sb.append("H");
         }
         if (column == 1 && color.equalsIgnoreCase("white")) {
             sb.append("B");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 1 && color.equalsIgnoreCase("black")) {
             sb.append("G");
         }
         if (column == 2 && color.equalsIgnoreCase("white")) {
             sb.append("C");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 2 && color.equalsIgnoreCase("black")) {
             sb.append("F");
         }
         if (column == 3 && color.equalsIgnoreCase("white")) {
             sb.append("D");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 3 && color.equalsIgnoreCase("black")) {
             sb.append("E");
         }
         if (column == 4 && color.equalsIgnoreCase("white")) {
             sb.append("E");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 4 && color.equalsIgnoreCase("black")) {
             sb.append("D");
         }
         if (column == 5 && color.equalsIgnoreCase("white")) {
             sb.append("F");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 5 && color.equalsIgnoreCase("black")) {
             sb.append("C");
         }
         if (column == 6 && color.equalsIgnoreCase("white")) {
             sb.append("G");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 6 && color.equalsIgnoreCase("black")) {
             sb.append("B");
         }
         if (column == 7 && color.equalsIgnoreCase("white")) {
             sb.append("H");
-        } else if (color.equalsIgnoreCase("black")) {
+        } else if (column == 7 && color.equalsIgnoreCase("black")) {
             sb.append("A");
         }
-
 
         return sb.toString();
     }
