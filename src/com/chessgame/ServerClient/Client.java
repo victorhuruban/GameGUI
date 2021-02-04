@@ -18,6 +18,7 @@ public class Client implements Runnable {
     public JFrame frame;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private Loc[][] transfer;
 
     public Client(String address, int port) throws IOException {
         this.game = new Game(2);
@@ -56,17 +57,9 @@ public class Client implements Runnable {
         while (tru) {
             try {
                 ChessBoard newCB = game.getChessBoard();
-                Loc[][] temp = (Loc[][]) in.readObject();
+                transfer = (Loc[][]) in.readObject();
                 game.setCanMove();
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 0; j < 8; j++) {
-                        if (temp[i][j].getPiece() != null) {
-                            newCB.getLocation(i ,j).setPiece(temp[i][j].getPiece());
-                        } else {
-                            newCB.getLocation(i, j).setPiece(null);
-                        }
-                    }
-                }
+                copyLocFromTransfer(transfer, newCB);
                 newCB.reverseBoard();
                 game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
@@ -94,12 +87,8 @@ public class Client implements Runnable {
                 if (game.getMovedPiece()) {
                     System.out.println(timer.toString());
                     try {
-                        Loc[][] transfer = new Loc[8][8];
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                transfer[i][j] = game.getChessBoard().getLocation(i, j);
-                            }
-                        }
+                        transfer = new Loc[8][8];
+                        copyLocForTransfer(transfer, game.getChessBoard());
                         out.flush();
                         out.writeObject(transfer);
                         out.flush();
@@ -119,5 +108,25 @@ public class Client implements Runnable {
                 }
             }
         }, 100, 5000);
+    }
+
+    private void copyLocFromTransfer(Loc[][] transfer, ChessBoard cb) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (transfer[i][j].getPiece() != null) {
+                    cb.getLocation(i ,j).setPiece(transfer[i][j].getPiece());
+                } else {
+                    cb.getLocation(i, j).setPiece(null);
+                }
+            }
+        }
+    }
+
+    private void copyLocForTransfer(Loc[][] transfer, ChessBoard cb) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                transfer[i][j] = cb.getLocation(i, j);
+            }
+        }
     }
 }

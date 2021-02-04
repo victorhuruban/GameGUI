@@ -3,7 +3,6 @@ package com.chessgame.ServerClient;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
-import com.chessgame.Game.GameInitialization;
 
 import javax.swing.*;
 import java.io.*;
@@ -20,6 +19,7 @@ public class Server implements Runnable {
     public Game game;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private Loc[][] transfer;
 
     public Server(int port) throws IOException {
         this.game = new Game( 1);
@@ -60,7 +60,7 @@ public class Server implements Runnable {
                 server.close();
                 System.out.println("s-a inchis tot");
             } catch (IOException e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
             return;
         }
@@ -70,12 +70,8 @@ public class Server implements Runnable {
             public void run() {
                 if (game.getMovedPiece()) {
                     try {
-                        Loc[][] transfer = new Loc[8][8];
-                        for (int i = 0; i < 8; i++) {
-                            for (int j = 0; j < 8; j++) {
-                                transfer[i][j] = game.getChessBoard().getLocation(i, j);
-                            }
-                        }
+                        transfer = new Loc[8][8];
+                        copyLocForTransfer(transfer, game.getChessBoard());
                         out.flush();
                         out.writeObject(transfer);
                         out.flush();
@@ -83,8 +79,8 @@ public class Server implements Runnable {
                         game.setCanMove();
                         timer.cancel();
                     } catch (IOException e) {
-                        System.out.println("Linia 106");
-                        System.out.println(e);
+                        System.out.println("Linia 86");
+                        e.printStackTrace();
                     }
                 }
             }
@@ -97,25 +93,17 @@ public class Server implements Runnable {
                     out.close();
                     socket.close();
                 } catch (IOException e) {
-                    System.out.println("ACOIIII");
-                    System.out.println(e);
+                    System.out.println("Linia 100");
+                    e.printStackTrace();
                 }
                 break;
             }
             try {
                 System.out.println("astept ceva");
                 ChessBoard newCB = game.getChessBoard();
-                Loc[][] temp = (Loc[][]) in.readObject();
+                transfer = (Loc[][]) in.readObject();
                 game.setCanMove();
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 0; j < 8; j++) {
-                        if (temp[i][j].getPiece() != null) {
-                            newCB.getLocation(i, j).setPiece(temp[i][j].getPiece());
-                        } else {
-                            newCB.getLocation(i, j).setPiece(null);
-                        }
-                    }
-                }
+                copyLocFromTransfer(transfer, newCB);
                 newCB.reverseBoard();
                 game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
@@ -135,8 +123,26 @@ public class Server implements Runnable {
                 System.out.println(timer.toString());
                 e.printStackTrace();
             } catch (ClassCastException e) {
-                System.out.println(e);
                 e.printStackTrace();
+            }
+        }
+    }
+    private void copyLocFromTransfer(Loc[][] transfer, ChessBoard cb) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (transfer[i][j].getPiece() != null) {
+                    cb.getLocation(i ,j).setPiece(transfer[i][j].getPiece());
+                } else {
+                    cb.getLocation(i, j).setPiece(null);
+                }
+            }
+        }
+    }
+
+    private void copyLocForTransfer(Loc[][] transfer, ChessBoard cb) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                transfer[i][j] = cb.getLocation(i, j);
             }
         }
     }

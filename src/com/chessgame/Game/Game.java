@@ -12,13 +12,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
     private Piece testPiece;
     public JFrame frame;
     public JPanel chessboard;
@@ -26,7 +24,6 @@ public class Game implements Serializable {
     volatile boolean movedPiece;
     private boolean canMove;
     private ChessBoard clone;
-    final private GameInitialization gi;
     public Player white, black;
     private boolean turn;
     private ArrayList<Rook> castling;
@@ -36,7 +33,7 @@ public class Game implements Serializable {
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
-        gi = new GameInitialization(num);
+        GameInitialization gi = new GameInitialization(num);
         gameChessboard = gi.getCb();
         white = new Player("white", getChessBoard());
         black = new Player("black", getChessBoard());
@@ -116,29 +113,11 @@ public class Game implements Serializable {
                         System.out.println("c instanceof jpanel return");
                         return;
                     }
+                    King temp;
                     if (c instanceof JLabel && piece[0] == null) {
 
                         testPiece = getChessBoard().getLocation(row, column).getPiece();
-                        if (turn && testPiece.getColor().equals("white")) {
-                            boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
-                            piece[0] = (JLabel) c;
-                            changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
-                            check = checkMoveToChangeBackground(getChessBoard(), row, column, 2);
-                            changeJPanelBackground(check, 2, testPiece.getRow(), testPiece.getColumn());
-                            if (testPiece.toString().equals("King")) {
-                                castling = checkCastling((King) testPiece);
-                                if (castling.size() == 0) {
-                                    System.out.println("No castling available");
-                                } else {
-                                    for (Rook r: castling) {
-                                        Loc t = castlingLocation(r);
-                                        check[t.row][t.column] = true;
-                                        changeJPanelBackground(check, 3, testPiece.getRow(), testPiece.getColumn());
-                                    }
-                                }
-                            }
-                            chessboard.updateUI();
-                        } else if (!turn && testPiece.getColor().equals("black")){
+                        if ((turn && testPiece.getColor().equals("white")) || (!turn && testPiece.getColor().equals("black"))) {
                             boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
                             piece[0] = (JLabel) c;
                             changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
@@ -166,14 +145,7 @@ public class Game implements Serializable {
                             if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
                                 clone = cloneBoard();
                                 clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().capture(clone, row, column);
-                                King temp = null;
-                                for (int i = 0; i < 8; i++) {
-                                    for (int j = 0; j < 8; j++) {
-                                        if (clone.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(testPiece.getColor())) {
-                                            temp = new King(i, j, testPiece.getColor());
-                                        }
-                                    }
-                                }
+                                temp = getKing(clone, testPiece);
                                 if (checkIfChecked(temp, clone)) {
                                     System.out.println("still checked, try again");
                                     clone = new ChessBoard();
@@ -210,19 +182,13 @@ public class Game implements Serializable {
                             }
                         }
                     }
-                    if (c instanceof JPanel && piece[0] != null) {
+                    if (c instanceof JPanel) {
                         if (testPiece.isValidMove(getChessBoard(), row, column)) {
                             if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
                                 clone = cloneBoard();
                                 clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().move(clone, row, column);
-                                King temp = null;
-                                for (int i = 0; i < 8; i++) {
-                                    for (int j = 0; j < 8; j++) {
-                                        if (clone.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(testPiece.getColor())) {
-                                            temp = new King(i, j, testPiece.getColor());
-                                        }
-                                    }
-                                }
+
+                                temp = getKing(clone, testPiece);
                                 if (checkIfChecked(temp, clone)) {
                                     System.out.println("still checked, try again");
                                 } else {
@@ -294,12 +260,7 @@ public class Game implements Serializable {
             }
         };
         chessboard.addMouseListener(ma);
-
         return jFrame;
-    }
-
-    public boolean getCanMove() {
-        return canMove;
     }
 
     public void setCanMove() {
@@ -492,6 +453,17 @@ public class Game implements Serializable {
                 if (getChessBoard().getLocation(i, j).getPiece() != null && getChessBoard().getLocation(i, j).getPiece().toString().equals("King") &&
                         getChessBoard().getLocation(i, j).getPiece().getColor().equals(color)) {
                     return getChessBoard().getLocation(i,j).getPiece();
+                }
+            }
+        }
+        return null;
+    }
+
+    private King getKing(ChessBoard cb, Piece piece) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (cb.getLocation(i, j).toString().equals("King") && clone.getLocation(i, j).getPiece().getColor().equals(piece.getColor())) {
+                    return new King(i, j, piece.getColor());
                 }
             }
         }
