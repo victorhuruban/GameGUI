@@ -57,9 +57,10 @@ public class Client implements Runnable {
         while (tru) {
             try {
                 ChessBoard newCB = game.getChessBoard();
-                transfer = (Loc[][]) in.readObject();
+                Object[] trans = (Object[]) in.readObject();
+                System.out.println(trans[1]);
                 game.setCanMove();
-                copyLocFromTransfer(transfer, newCB);
+                copyLocFromTransfer((Loc[][]) trans[0], newCB);
                 newCB.reverseBoard();
                 game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
@@ -89,9 +90,11 @@ public class Client implements Runnable {
                     try {
                         transfer = new Loc[8][8];
                         copyLocForTransfer(transfer, game.getChessBoard());
+                        Object[] trans = {transfer, game.getSB()};
                         out.flush();
-                        out.writeObject(transfer);
+                        out.writeObject(trans);
                         out.flush();
+                        game.getSB().delete(0, game.getSB().length());
                         game.changeMovedPiece();
                         game.changeTurn();
                         game.setCanMove();

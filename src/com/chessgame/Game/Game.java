@@ -28,8 +28,12 @@ public class Game implements Serializable {
     private boolean turn;
     private ArrayList<Rook> castling;
     private ChessBoard gameChessboard;
+    private StringBuilder log;
+    private int[] logArr;
 
     public Game(int num) throws IOException {
+        log = new StringBuilder();
+        logArr = new int[4];
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
@@ -73,8 +77,12 @@ public class Game implements Serializable {
         c.anchor = GridBagConstraints.LINE_START;
 
         JPanel chatPane = new JPanel();
+        JTextArea log = new JTextArea(19, 32);
+        JScrollPane scroll = new JScrollPane(log);
+        scroll.setHorizontalScrollBar(null);
+        chatPane.add(scroll);
         chatPane.setBackground(Color.GRAY);
-        chatPane.setPreferredSize(new Dimension(300, 325));
+        chatPane.setPreferredSize(new Dimension(300, 318));
         jFrame.add(chatPane, c);
 
         c.gridx = 1;
@@ -95,7 +103,6 @@ public class Game implements Serializable {
 
         JButton exitButton = new JButton("EXIT");
         jFrame.add(exitButton, c);
-
 
         jLayeredPane.add(chessboard, JLayeredPane.DEFAULT_LAYER);
         chessboard.setLayout(new GridLayout(8,8));
@@ -118,6 +125,8 @@ public class Game implements Serializable {
 
                         testPiece = getChessBoard().getLocation(row, column).getPiece();
                         if ((turn && testPiece.getColor().equals("white")) || (!turn && testPiece.getColor().equals("black"))) {
+                            addLogArr(0, row);
+                            addLogArr(1, column);
                             boolean[][] check = checkMoveToChangeBackground(getChessBoard(), row, column, 1);
                             piece[0] = (JLabel) c;
                             changeJPanelBackground(check, 1, testPiece.getRow(), testPiece.getColumn());
@@ -147,15 +156,23 @@ public class Game implements Serializable {
                                 clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().capture(clone, row, column);
                                 temp = getKing(clone, testPiece);
                                 if (checkIfChecked(temp, clone)) {
+                                    clearLogArr();
                                     System.out.println("still checked, try again");
                                     clone = new ChessBoard();
                                 } else {
                                     testPiece.capture(getChessBoard(), row, column);
+                                    addLogArr(2, row);
+                                    addLogArr(3, column);
                                     try {
                                         updateChessBoardUI(getChessBoard(), chessboard);
                                     } catch (IOException ioException) {
                                         ioException.printStackTrace();
                                     }
+                                    StringBuilder tempSB = getSB();
+                                    tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
+                                            .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
+                                            .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                    clearLogArr();
                                     changeMovedPiece();
                                     changeTurn();
                                     System.out.println("good capture, next player");
@@ -165,6 +182,8 @@ public class Game implements Serializable {
                                 }
                             } else {
                                 testPiece.capture(getChessBoard(), row, column);
+                                addLogArr(2, row);
+                                addLogArr(3, column);
                                 try {
                                     updateChessBoardUI(getChessBoard(), chessboard);
                                 } catch (IOException ioException) {
@@ -173,6 +192,11 @@ public class Game implements Serializable {
                                 if (!castling.isEmpty()) {
                                     castling.clear();
                                 }
+                                StringBuilder tempSB = getSB();
+                                tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
+                                        .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
+                                        .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                clearLogArr();
                                 changeMovedPiece();
                                 changeTurn();
                                 System.out.println("good capture, next player");
@@ -190,14 +214,23 @@ public class Game implements Serializable {
 
                                 temp = getKing(clone, testPiece);
                                 if (checkIfChecked(temp, clone)) {
+                                    clearLogArr();
                                     System.out.println("still checked, try again");
+                                    clearLogArr();
                                 } else {
                                     testPiece.move(getChessBoard(), row, column);
+                                    addLogArr(2, row);
+                                    addLogArr(3, column);
                                     try {
                                         updateChessBoardUI(getChessBoard(), chessboard);
                                     } catch (IOException ioException) {
                                         ioException.printStackTrace();
                                     }
+                                    StringBuilder tempSB = getSB();
+                                    tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
+                                            .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
+                                            .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                    clearLogArr();
                                     changeMovedPiece();
                                     System.out.println("good, change player");
                                     changeTurn();
@@ -208,6 +241,8 @@ public class Game implements Serializable {
                                 clone = new ChessBoard();
                             } else {
                                 testPiece.move(getChessBoard(), row, column);
+                                addLogArr(2, row);
+                                addLogArr(3, column);
                                 try {
                                     updateChessBoardUI(getChessBoard(), chessboard);
                                 } catch (IOException ioException) {
@@ -216,6 +251,11 @@ public class Game implements Serializable {
                                 if (!castling.isEmpty()) {
                                     castling.clear();
                                 }
+                                StringBuilder tempSB = getSB();
+                                tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
+                                        .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
+                                        .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                clearLogArr();
                                 changeMovedPiece();
                                 System.out.println("good, change player");
                                 changeTurn();
@@ -261,6 +301,112 @@ public class Game implements Serializable {
         };
         chessboard.addMouseListener(ma);
         return jFrame;
+    }
+
+    public String getPos(String color, int row, int column) {
+        StringBuilder sb = new StringBuilder();
+        if (row == 0 && color.equalsIgnoreCase("white")) {
+            sb.append("8");
+        } else {
+            sb.append("1");
+        }
+        if (row == 1 && color.equalsIgnoreCase("white")) {
+            sb.append("7");
+        } else {
+            sb.append("2");
+        }
+        if (row == 2 && color.equalsIgnoreCase("white")) {
+            sb.append("6");
+        } else {
+            sb.append("3");
+        }
+        if (row == 3 && color.equalsIgnoreCase("white")) {
+            sb.append("5");
+        } else {
+            sb.append("4");
+        }
+        if (row == 4 && color.equalsIgnoreCase("white")) {
+            sb.append("4");
+        } else {
+            sb.append("5");
+        }
+        if (row == 5 && color.equalsIgnoreCase("white")) {
+            sb.append("3");
+        } else {
+            sb.append("6");
+        }
+        if (row == 6 && color.equalsIgnoreCase("white")) {
+            sb.append("2");
+        } else {
+            sb.append("7");
+        }
+        if (row == 7 && color.equalsIgnoreCase("white")) {
+            sb.append("1");
+        } else {
+            sb.append("8");
+        }
+
+        if (column == 0 && color.equalsIgnoreCase("white")) {
+            sb.append("A");
+        } else {
+            sb.append("H");
+        }
+        if (column == 1 && color.equalsIgnoreCase("white")) {
+            sb.append("B");
+        } else {
+            sb.append("G");
+        }
+        if (column == 2 && color.equalsIgnoreCase("white")) {
+            sb.append("C");
+        } else {
+            sb.append("F");
+        }
+        if (column == 3 && color.equalsIgnoreCase("white")) {
+            sb.append("D");
+        } else {
+            sb.append("E");
+        }
+        if (column == 4 && color.equalsIgnoreCase("white")) {
+            sb.append("E");
+        } else {
+            sb.append("D");
+        }
+        if (column == 5 && color.equalsIgnoreCase("white")) {
+            sb.append("F");
+        } else {
+            sb.append("C");
+        }
+        if (column == 6 && color.equalsIgnoreCase("white")) {
+            sb.append("G");
+        } else {
+            sb.append("B");
+        }
+        if (column == 7 && color.equalsIgnoreCase("white")) {
+            sb.append("H");
+        } else {
+            sb.append("A");
+        }
+
+
+        return sb.toString();
+    }
+
+    public StringBuilder getSB() {
+        return log;
+    }
+
+    public int[] getLogArr() {
+        return logArr;
+    }
+
+    public void addLogArr(int index, int loc) {
+        logArr[index] = loc;
+    }
+
+    public void clearLogArr() {
+        for (int i = 0; i < 4; i++) {
+            logArr[i] = 0;
+        }
     }
 
     public void setCanMove() {
