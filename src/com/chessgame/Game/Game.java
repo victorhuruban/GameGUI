@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class Game implements Serializable {
     private Piece testPiece;
+    public JTextArea logTA;
     public JFrame frame;
     public JPanel chessboard;
     private boolean gameover;
@@ -34,6 +35,7 @@ public class Game implements Serializable {
     public Game(int num) throws IOException {
         log = new StringBuilder();
         logArr = new int[4];
+        logTA = new JTextArea(19, 32);
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
@@ -77,8 +79,7 @@ public class Game implements Serializable {
         c.anchor = GridBagConstraints.LINE_START;
 
         JPanel chatPane = new JPanel();
-        JTextArea log = new JTextArea(19, 32);
-        JScrollPane scroll = new JScrollPane(log);
+        JScrollPane scroll = new JScrollPane(logTA);
         scroll.setHorizontalScrollBar(null);
         chatPane.add(scroll);
         chatPane.setBackground(Color.GRAY);
@@ -172,6 +173,7 @@ public class Game implements Serializable {
                                     tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
                                             .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
                                             .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                    getLogTA().append(String.valueOf(tempSB));
                                     clearLogArr();
                                     changeMovedPiece();
                                     changeTurn();
@@ -196,6 +198,7 @@ public class Game implements Serializable {
                                 tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
                                         .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
                                         .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                getLogTA().append(String.valueOf(tempSB));
                                 clearLogArr();
                                 changeMovedPiece();
                                 changeTurn();
@@ -230,6 +233,7 @@ public class Game implements Serializable {
                                     tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
                                             .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
                                             .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                    getLogTA().append(String.valueOf(tempSB));
                                     clearLogArr();
                                     changeMovedPiece();
                                     System.out.println("good, change player");
@@ -255,6 +259,7 @@ public class Game implements Serializable {
                                 tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
                                         .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
                                         .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                getLogTA().append(String.valueOf(tempSB));
                                 clearLogArr();
                                 changeMovedPiece();
                                 System.out.println("good, change player");
@@ -303,87 +308,91 @@ public class Game implements Serializable {
         return jFrame;
     }
 
+    public JTextArea getLogTA() {
+        return logTA;
+    }
+
     public String getPos(String color, int row, int column) {
         StringBuilder sb = new StringBuilder();
         if (row == 0 && color.equalsIgnoreCase("white")) {
             sb.append("8");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("1");
         }
         if (row == 1 && color.equalsIgnoreCase("white")) {
             sb.append("7");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("2");
         }
         if (row == 2 && color.equalsIgnoreCase("white")) {
             sb.append("6");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("3");
         }
         if (row == 3 && color.equalsIgnoreCase("white")) {
             sb.append("5");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("4");
         }
         if (row == 4 && color.equalsIgnoreCase("white")) {
             sb.append("4");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("5");
         }
         if (row == 5 && color.equalsIgnoreCase("white")) {
             sb.append("3");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("6");
         }
         if (row == 6 && color.equalsIgnoreCase("white")) {
             sb.append("2");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("7");
         }
         if (row == 7 && color.equalsIgnoreCase("white")) {
             sb.append("1");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("8");
         }
 
         if (column == 0 && color.equalsIgnoreCase("white")) {
             sb.append("A");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("H");
         }
         if (column == 1 && color.equalsIgnoreCase("white")) {
             sb.append("B");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("G");
         }
         if (column == 2 && color.equalsIgnoreCase("white")) {
             sb.append("C");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("F");
         }
         if (column == 3 && color.equalsIgnoreCase("white")) {
             sb.append("D");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("E");
         }
         if (column == 4 && color.equalsIgnoreCase("white")) {
             sb.append("E");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("D");
         }
         if (column == 5 && color.equalsIgnoreCase("white")) {
             sb.append("F");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("C");
         }
         if (column == 6 && color.equalsIgnoreCase("white")) {
             sb.append("G");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("B");
         }
         if (column == 7 && color.equalsIgnoreCase("white")) {
             sb.append("H");
-        } else {
+        } else if (color.equalsIgnoreCase("black")) {
             sb.append("A");
         }
 

@@ -104,7 +104,7 @@ public class Server implements Runnable {
                 System.out.println("astept ceva");
                 ChessBoard newCB = game.getChessBoard();
                 Object[] trans = (Object[]) in.readObject();
-                System.out.println(trans[1]);
+                game.getLogTA().append((String) trans[1]);
                 game.setCanMove();
                 copyLocFromTransfer((Loc[][]) trans[0], newCB);
                 newCB.reverseBoard();
