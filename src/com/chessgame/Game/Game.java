@@ -35,7 +35,7 @@ public class Game implements Serializable {
     public Game(int num) throws IOException {
         log = new StringBuilder();
         logArr = new int[4];
-        logTA = new JTextArea(19, 32);
+        logTA = new JTextArea(19, 30);
         castling = new ArrayList<>();
         testPiece = null;
         turn = true; gameover = false;
@@ -80,9 +80,10 @@ public class Game implements Serializable {
 
         JPanel chatPane = new JPanel();
         JScrollPane scroll = new JScrollPane(logTA);
+        scroll.setBackground(Color.LIGHT_GRAY);
         scroll.setHorizontalScrollBar(null);
         chatPane.add(scroll);
-        chatPane.setBackground(Color.GRAY);
+        chatPane.setBackground(Color.DARK_GRAY);
         chatPane.setPreferredSize(new Dimension(300, 318));
         jFrame.add(chatPane, c);
 
@@ -170,9 +171,9 @@ public class Game implements Serializable {
                                         ioException.printStackTrace();
                                     }
                                     StringBuilder tempSB = getSB();
-                                    tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
-                                            .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
-                                            .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
                                     getLogTA().append(String.valueOf(tempSB));
                                     clearLogArr();
                                     changeMovedPiece();
@@ -195,9 +196,9 @@ public class Game implements Serializable {
                                     castling.clear();
                                 }
                                 StringBuilder tempSB = getSB();
-                                tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
-                                        .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
-                                        .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                        .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
+                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
                                 getLogTA().append(String.valueOf(tempSB));
                                 clearLogArr();
                                 changeMovedPiece();
@@ -230,9 +231,9 @@ public class Game implements Serializable {
                                         ioException.printStackTrace();
                                     }
                                     StringBuilder tempSB = getSB();
-                                    tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
-                                            .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
-                                            .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
                                     getLogTA().append(String.valueOf(tempSB));
                                     clearLogArr();
                                     changeMovedPiece();
@@ -256,9 +257,9 @@ public class Game implements Serializable {
                                     castling.clear();
                                 }
                                 StringBuilder tempSB = getSB();
-                                tempSB.append("The ").append(testPiece.getColor()).append(" player moved the ")
-                                        .append(testPiece.toString()).append(" from position ").append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1]))
-                                        .append(" to ").append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                        .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
+                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
                                 getLogTA().append(String.valueOf(tempSB));
                                 clearLogArr();
                                 changeMovedPiece();
