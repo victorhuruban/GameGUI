@@ -11,6 +11,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Client implements Runnable {
+    private final String name;
     private final String address;
     private final int port;
     private Socket socket = null;
@@ -20,7 +21,8 @@ public class Client implements Runnable {
     private ObjectInputStream in;
     private Loc[][] transfer;
 
-    public Client(String address, int port) throws IOException {
+    public Client(String address, int port, String name) throws IOException {
+        this.name = name;
         this.game = new Game(2);
         this.address = address;
         this.port = port;
@@ -32,10 +34,14 @@ public class Client implements Runnable {
         try {
             game.changeTurn();
             game.createJFrameCB().setVisible(true);
+            game.getMyNameL().setText("My name:         " + name);
             game.setCanMove();
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            out.writeUTF(name);
+            String opponent = in.readUTF();
+            game.getOpponentsNameL().setText("Opponent's name:  " + opponent);
             myTurn();
         } catch (IOException e) {
             e.printStackTrace();

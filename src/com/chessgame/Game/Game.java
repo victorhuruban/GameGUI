@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
+    private JLabel myName, opponentName;
     private Piece testPiece;
     public JTextArea logTA;
     public JFrame frame;
@@ -94,8 +95,8 @@ public class Game implements Serializable {
 
         JPanel namesPanel = new JPanel(new GridLayout(2,0));
         namesPanel.setBackground(Color.GRAY);
-        JLabel myName = new JLabel("My name");
-        JLabel opponentName = new JLabel("Opponent's name");
+        myName = new JLabel();
+        opponentName = new JLabel();
         namesPanel.add(myName);
         namesPanel.add(opponentName);
         jFrame.add(namesPanel, c);
@@ -747,5 +748,13 @@ public class Game implements Serializable {
 
     public boolean getGameover() {
         return gameover;
+    }
+
+    public JLabel getMyNameL() {
+        return myName;
+    }
+
+    public JLabel getOpponentsNameL() {
+        return opponentName;
     }
 }

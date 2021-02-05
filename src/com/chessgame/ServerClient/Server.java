@@ -12,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Server implements Runnable {
+    private final String name;
     private final int port;
     private Socket socket = null;
     private ServerSocket server = null;
@@ -21,7 +22,8 @@ public class Server implements Runnable {
     private ObjectInputStream in;
     private Loc[][] transfer;
 
-    public Server(int port) throws IOException {
+    public Server(int port, String name) throws IOException {
+        this.name = name;
         this.game = new Game( 1);
         this.port = port;
         run();
@@ -32,6 +34,7 @@ public class Server implements Runnable {
         try {
             System.out.println();
             game.createJFrameCB().setVisible(true);
+            game.getMyNameL().setText("My name:        " + name);
             server = new ServerSocket(port);
             System.out.println("Server started");
             System.out.println("Waiting for client...");
@@ -39,6 +42,9 @@ public class Server implements Runnable {
             System.out.println("Client accepted");
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            String opponent = in.readUTF();
+            game.getOpponentsNameL().setText(opponent);
+            out.writeUTF(name);
 
         } catch (IOException e) {
             e.printStackTrace();

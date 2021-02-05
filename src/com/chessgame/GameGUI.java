@@ -8,10 +8,11 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GameGUI {
-    private JFrame frame;
-    private JPanel mainCards;
-    private JPanel choiceCard;
-    private JPanel chessHostJoinCard;
+    private String name;
+    private final JFrame frame;
+    private final JPanel mainCards;
+    private final int DEFAULT_PORT = 57894;
+    private Runnable runnable;
 
 
     public GameGUI() {
@@ -19,36 +20,70 @@ public class GameGUI {
         this.mainCards = new JPanel(new CardLayout());
 
         // CHOICE CARD
-        this.choiceCard = new JPanel() {
+        JPanel choiceCard = new JPanel() {
             public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
         };
-        JButton button = new JButton("Start Chess Game");
-        this.choiceCard.add(button);
+        JButton startChessGame = new JButton("Start Chess Game");
+        choiceCard.add(startChessGame);
         // END OF CHOICE GAME
 
-        // CHESS-HOST-JOIN FUNCTIONALITY
-        this.chessHostJoinCard = new JPanel() {
-            public void paintComponent (Graphics g) {
+        // SET NAME
+        JPanel setNameCard = new JPanel() {
+            public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
                 g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
             }
         };
-        JButton button1 = new JButton("Host");
-        JButton button2 = new JButton("Join");
-        JButton button3 = new JButton("Back");
-        JTextField field = new JTextField(20);
-        chessHostJoinCard.add(button1);
-        chessHostJoinCard.add(button2);
-        chessHostJoinCard.add(button3);
-        chessHostJoinCard.add(field);
+        JButton setNameButton = new JButton("Set");
+        JButton backButton1 = new JButton("Back");
+        JTextField nameField = new JTextField(15);
+        setNameCard.add(setNameButton);
+        setNameCard.add(backButton1);
+        setNameCard.add(nameField);
+
+        // CHOICE FRAME: HOST OR JOIN A GAME
+        JPanel chooseHostOrJoin = new JPanel() {
+            public void paintComponent(Graphics g) {
+                Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
+                g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        };
+        JButton hostChoice = new JButton("Host");
+        JButton joinChoice = new JButton("Join");
+        JButton changeName = new JButton("Change Name");
+        chooseHostOrJoin.add(hostChoice);
+        chooseHostOrJoin.add(joinChoice);
+        chooseHostOrJoin.add(changeName);
+
+        // CHESS-HOST-JOIN FUNCTIONALITY
+        JPanel chessJoinCard = new JPanel() {
+            public void paintComponent(Graphics g) {
+                Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
+                g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), this);
+            }
+        };
+        JButton joinButton = new JButton("Join");
+        JButton backButton2 = new JButton("Back");
+        JTextField ipField1 = new JTextField(3);
+        JTextField ipField2 = new JTextField(3);
+        JTextField ipField3 = new JTextField(3);
+        JTextField ipField4 = new JTextField(3);
+        chessJoinCard.add(joinButton);
+        chessJoinCard.add(backButton2);
+        chessJoinCard.add(ipField1);
+        chessJoinCard.add(ipField2);
+        chessJoinCard.add(ipField3);
+        chessJoinCard.add(ipField4);
         // END OF CHESS-HOST-JOIN CARD
 
         // ADDING CARDS TO THE MAIN-CARD PANEL
-        this.mainCards.add(this.choiceCard, "1");
-        this.mainCards.add(this.chessHostJoinCard, "2");
+        this.mainCards.add(choiceCard, "1");
+        this.mainCards.add(setNameCard, "2");
+        this.mainCards.add(chooseHostOrJoin, "3");
+        this.mainCards.add(chessJoinCard, "4");
 
         // FRAME SET UP
         this.frame.setSize(800, 800);
@@ -57,62 +92,109 @@ public class GameGUI {
         this.frame.add(this.mainCards);
         this.frame.setVisible(true);
 
-        // BUTTON ACTION LISTENERS
-        button.addActionListener(e -> {
+        // START CHESS GAME FRAME
+        startChessGame.addActionListener(e -> {
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
             cl.show(this.mainCards, "2");
         });
 
-        button1.addActionListener(e -> {
-            startServerOrClient(field.getText());
+        // SET NAME BUTTON AND GO TO HOST/JOIN CHOICE FRAME
+        setNameButton.addActionListener(e -> {
+            if (checkName(nameField.getText())) {
+                name = nameField.getText();
+                CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                cl.show(this.mainCards, "3");
+            }
         });
 
-        button2.addActionListener(e -> {
-            startServerOrClient(field.getText());
-        });
-
-        button3.addActionListener(e -> {
+        // BACK BUTTON TO CHOOSE A DIFFERENT GAME (SOON TO COME!)
+        backButton1.addActionListener(e -> {
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
             cl.show(this.mainCards, "1");
         });
+
+        // STRAIGHT HOST A GAME
+        hostChoice.addActionListener(e -> startServerAndHost());
+
+        // GO BACK AND CHANGE NAME
+        changeName.addActionListener(e -> {
+            CardLayout cl = (CardLayout) this.mainCards.getLayout();
+            cl.show(this.mainCards, "2");
+        });
+
+        // GO TO THE JOIN FRAME
+        joinChoice.addActionListener(e -> {
+            CardLayout cl = (CardLayout) this.mainCards.getLayout();
+            cl.show(this.mainCards, "4");
+        });
+
+        // AFTER FILLING THE TEXT AREAS WITH RELEVANT IP, JOIN THE RESPECTIVE GAME
+        joinButton.addActionListener(e -> {
+            if (!getIp(ipField1.getText(),ipField2.getText(),ipField3.getText(),ipField4.getText()).equals("")) {
+                startClientAndJoin(getIp(ipField1.getText(),ipField2.getText(),ipField3.getText(),ipField4.getText()));
+            } else {
+                System.out.println("Invalid IP");
+            }
+        });
+
+        // GO BACK TO THE HOST/JOIN FRAME
+        backButton2.addActionListener(e -> {
+            CardLayout cl = (CardLayout) this.mainCards.getLayout();
+            cl.show(this.mainCards, "3");
+        });
     }
 
-    // METHOD WHICH IS CREATING THE SERVER SOCKET AND CLIENT
-    public void startServerOrClient (String input) { // TODO: FIND WAYS TO IMPROVE; ADD ERROR HANDLING
-        Runnable runnable;
-
-        if (input.equals("")) {
-            System.out.println("Nu i bun inputu");
+    // CHECKS IF THE IP IS VALID OR NOT METHOD FOR THE JOIN FUNCTION
+    // TODO: IMPROVE THE FUNCTION FURTHER
+    public String getIp(String first, String second, String third, String forth) {
+        if (first.length() > 0 && first.length() <= 3 && second.length() > 0 && second.length() <= 3 &&
+                third.length() > 0 && third.length() <= 3 && forth.length() > 0 && forth.length() <= 3) {
+            return first + "." + second + "." + third + "." + forth;
         } else {
-            if (input.length() >= 1 && input.length() <= 5) {
-                runnable = () -> {
-                    try {
-                        Server server = new Server(Integer.parseInt(input));
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                };
-                Thread serverThread = new Thread(runnable);
-                serverThread.start();
-                getFrame().setVisible(false);
-                serverThread.interrupt();
-            } else {
-                String[] temp = input.split(" ");
-                runnable = () -> {
-                    try {
-                        Client client = new Client(temp[0], Integer.parseInt(temp[1]));
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                };
-                Thread clientThread = new Thread(runnable);
-                clientThread.start();
-                getFrame().setVisible(false);
-                clientThread.interrupt();
-            }
+            return "";
         }
     }
 
+    // METHOD WHICH IS CREATING THE SERVER SOCKET
+    public void startServerAndHost() {
+        runnable = () -> {
+            try {
+                Server server = new Server(DEFAULT_PORT, name);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        };
+        Thread serverThread = new Thread(runnable);
+        serverThread.start();
+        getFrame().setVisible(false);
+        serverThread.interrupt();
+    }
+
+    // METHOD WHICH IS CREATING THE CLIENT
+    public void startClientAndJoin (String input) { // TODO: FIND WAYS TO IMPROVE; ADD ERROR HANDLING
+        if (input.equals("")) {
+            System.out.println("Invalid");
+        } else {
+            runnable = () -> {
+                try {
+                    Client client = new Client(input, DEFAULT_PORT, name);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            };
+            Thread clientThread = new Thread(runnable);
+            clientThread.start();
+            getFrame().setVisible(false);
+            clientThread.interrupt();
+        }
+    }
+
+    // CHECKS IF NAME IS VALID
+    public boolean checkName(String name) {
+        return !name.equals("");
+    }
+
+    // RETURN FRAME
     public JFrame getFrame() {
         return this.frame;
     }
