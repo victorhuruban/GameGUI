@@ -56,9 +56,10 @@ public class Server implements Runnable {
             return;
         }
         if (game.getOpponentsNameL().getText().equals("")) {
-            try {
-                out.writeUTF(name);
-                String opponentName = in.readUTF();
+            try (DataOutputStream nameOut = new DataOutputStream(socket.getOutputStream());
+                 DataInputStream nameIn = new DataInputStream(socket.getInputStream())) {
+                nameOut.writeUTF(name);
+                String opponentName = nameIn.readUTF();
                 System.out.println(opponentName);
             } catch (IOException e) {
                 System.out.println("CE PLM");

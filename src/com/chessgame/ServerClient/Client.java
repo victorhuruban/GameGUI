@@ -51,10 +51,11 @@ public class Client implements Runnable {
         }
 
         if (game.getOpponentsNameL().getText().equals("")) {
-            try {
-                String opponentName = in.readUTF();
+            try (DataOutputStream nameOut = new DataOutputStream(socket.getOutputStream());
+                 DataInputStream nameIn = new DataInputStream(socket.getInputStream())) {
+                String opponentName = nameIn.readUTF();
                 System.out.println(opponentName);
-                out.writeUTF(name);
+                nameOut.writeUTF(name);
             } catch (IOException e) {
                 System.out.println("CE PLM");
             }
