@@ -42,9 +42,8 @@ public class Server implements Runnable {
             System.out.println("Client accepted");
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            String opponent = in.readUTF();
-            game.getOpponentsNameL().setText(opponent);
-            out.writeUTF(name);
+            //out.writeUTF(name);
+            //System.out.println(in.readUTF());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,6 +54,15 @@ public class Server implements Runnable {
     public void myTurn() {
         if (game.getGameover()) {
             return;
+        }
+        if (game.getOpponentsNameL().getText().equals("")) {
+            try {
+                out.writeUTF(name);
+                String opponentName = in.readUTF();
+                System.out.println(opponentName);
+            } catch (IOException e) {
+                System.out.println("CE PLM");
+            }
         }
         if (game.isCheckMate(game.getKing("white"))) {
             game.youLost();

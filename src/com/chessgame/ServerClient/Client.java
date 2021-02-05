@@ -39,9 +39,6 @@ public class Client implements Runnable {
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            out.writeUTF(name);
-            String opponent = in.readUTF();
-            game.getOpponentsNameL().setText("Opponent's name:  " + opponent);
             myTurn();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,6 +48,16 @@ public class Client implements Runnable {
     public void myTurn() throws IOException {
         if (game.getGameover()) {
             return;
+        }
+
+        if (game.getOpponentsNameL().getText().equals("")) {
+            try {
+                String opponentName = in.readUTF();
+                System.out.println(opponentName);
+                out.writeUTF(name);
+            } catch (IOException e) {
+                System.out.println("CE PLM");
+            }
         }
 
         if (game.isCheckMate(game.getKing("black"))) {
