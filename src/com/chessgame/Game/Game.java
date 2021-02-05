@@ -2,6 +2,7 @@ package com.chessgame.Game;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
+import com.chessgame.GameGUI;
 import com.chessgame.Main;
 import com.chessgame.Pieces.*;
 import com.chessgame.Player.Player;
@@ -106,6 +107,9 @@ public class Game implements Serializable {
         c.anchor = GridBagConstraints.LAST_LINE_END;
 
         JButton exitButton = new JButton("EXIT");
+        exitButton.addActionListener(e -> {
+            System.exit(0); // TODO: IMPROVE STUFF
+        });
         jFrame.add(exitButton, c);
 
         jLayeredPane.add(chessboard, JLayeredPane.DEFAULT_LAYER);
