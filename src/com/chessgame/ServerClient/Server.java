@@ -20,6 +20,8 @@ public class Server implements Runnable {
     public Game game;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private DataOutputStream nameOut;
+    private DataInputStream nameIn;
     private Loc[][] transfer;
 
     public Server(int port, String name) throws IOException {
@@ -40,10 +42,17 @@ public class Server implements Runnable {
             System.out.println("Waiting for client...");
             socket = server.accept();
             System.out.println("Client accepted");
+            try {
+                nameIn = new DataInputStream(socket.getInputStream());
+                nameOut = new DataOutputStream(socket.getOutputStream());
+                nameOut.writeUTF(name);
+                String opponentName = nameIn.readUTF();
+                game.getOpponentsNameL().setText("Opponent's name:  " + opponentName);
+            } catch (IOException e) {
+                System.out.println("CE PLM");
+            }
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            //out.writeUTF(name);
-            //System.out.println(in.readUTF());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,16 +64,7 @@ public class Server implements Runnable {
         if (game.getGameover()) {
             return;
         }
-        if (game.getOpponentsNameL().getText().equals("")) {
-            try (DataOutputStream nameOut = new DataOutputStream(socket.getOutputStream());
-                 DataInputStream nameIn = new DataInputStream(socket.getInputStream())) {
-                nameOut.writeUTF(name);
-                String opponentName = nameIn.readUTF();
-                System.out.println(opponentName);
-            } catch (IOException e) {
-                System.out.println("CE PLM");
-            }
-        }
+
         if (game.isCheckMate(game.getKing("white"))) {
             game.youLost();
             JOptionPane.showMessageDialog(frame, "White lost outside");

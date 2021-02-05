@@ -19,6 +19,8 @@ public class Client implements Runnable {
     public JFrame frame;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private DataOutputStream nameOut;
+    private DataInputStream nameIn;
     private Loc[][] transfer;
 
     public Client(String address, int port, String name) throws IOException {
@@ -37,6 +39,14 @@ public class Client implements Runnable {
             game.getMyNameL().setText("My name:         " + name);
             game.setCanMove();
             socket = new Socket(address, port);
+            try (DataOutputStream nameOut = new DataOutputStream(socket.getOutputStream());
+                 DataInputStream nameIn = new DataInputStream(socket.getInputStream())) {
+                String opponentName = nameIn.readUTF();
+                game.getOpponentsNameL().setText("Opponent's name:  " + opponentName);
+                nameOut.writeUTF(name);
+            } catch (IOException e) {
+                System.out.println("CE PLM");
+            }
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             myTurn();
@@ -48,17 +58,6 @@ public class Client implements Runnable {
     public void myTurn() throws IOException {
         if (game.getGameover()) {
             return;
-        }
-
-        if (game.getOpponentsNameL().getText().equals("")) {
-            try (DataOutputStream nameOut = new DataOutputStream(socket.getOutputStream());
-                 DataInputStream nameIn = new DataInputStream(socket.getInputStream())) {
-                String opponentName = nameIn.readUTF();
-                System.out.println(opponentName);
-                nameOut.writeUTF(name);
-            } catch (IOException e) {
-                System.out.println("CE PLM");
-            }
         }
 
         if (game.isCheckMate(game.getKing("black"))) {
