@@ -20,8 +20,6 @@ public class Server implements Runnable {
     public Game game;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private DataOutputStream nameOut;
-    private DataInputStream nameIn;
     private Loc[][] transfer;
 
     public Server(int port, String name) throws IOException {
@@ -42,17 +40,18 @@ public class Server implements Runnable {
             System.out.println("Waiting for client...");
             socket = server.accept();
             System.out.println("Client accepted");
-            try {
-                nameIn = new DataInputStream(socket.getInputStream());
-                nameOut = new DataOutputStream(socket.getOutputStream());
-                nameOut.writeUTF(name);
-                String opponentName = nameIn.readUTF();
-                game.getOpponentsNameL().setText("Opponent's name:  " + opponentName);
-            } catch (IOException e) {
-                System.out.println("CE PLM");
-            }
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            try {
+                Object[] trans = { name };
+                out.writeObject(trans);
+                trans = (Object[]) in.readObject();
+                game.getOpponentsNameL().setText("Opponent's name:  " + trans[0]);
+            } catch (IOException e) {
+                System.out.println("CE PLM");
+            } catch (ClassNotFoundException e) {
+                System.out.println("CE PLM 2");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

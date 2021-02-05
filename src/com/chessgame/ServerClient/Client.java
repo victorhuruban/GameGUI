@@ -39,16 +39,18 @@ public class Client implements Runnable {
             game.getMyNameL().setText("My name:         " + name);
             game.setCanMove();
             socket = new Socket(address, port);
-            try (DataOutputStream nameOut = new DataOutputStream(socket.getOutputStream());
-                 DataInputStream nameIn = new DataInputStream(socket.getInputStream())) {
-                String opponentName = nameIn.readUTF();
-                game.getOpponentsNameL().setText("Opponent's name:  " + opponentName);
-                nameOut.writeUTF(name);
-            } catch (IOException e) {
-                System.out.println("CE PLM");
-            }
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            try {
+                Object[] trans = (Object[]) in.readObject();
+                game.getOpponentsNameL().setText("Opponent's name:  " + trans[0]);
+                trans[0] = name ;
+                out.writeObject(trans);
+            } catch (IOException e) {
+                System.out.println("CE PLM");
+            } catch (ClassNotFoundException e) {
+                System.out.println("CE PLM 2");
+            }
             myTurn();
         } catch (IOException e) {
             e.printStackTrace();
