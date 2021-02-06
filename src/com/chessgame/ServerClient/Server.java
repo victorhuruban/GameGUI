@@ -34,7 +34,7 @@ public class Server implements Runnable {
         try {
             System.out.println();
             game.createJFrameCB().setVisible(true);
-            game.getMyNameL().setText("My name:        " + name);
+            game.getMyNameL().setText(" My name:                  " + name + " ");
             server = new ServerSocket(port);
             System.out.println("Server started");
             System.out.println("Waiting for client...");
@@ -100,7 +100,7 @@ public class Server implements Runnable {
                     }
                 }
             }
-        }, 100, 5000);
+        }, 50, 5000);
         boolean tru = true;
         while (tru) {
             if (game.getGameover()) {

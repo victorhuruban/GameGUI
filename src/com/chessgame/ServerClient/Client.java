@@ -36,7 +36,7 @@ public class Client implements Runnable {
         try {
             game.changeTurn();
             game.createJFrameCB().setVisible(true);
-            game.getMyNameL().setText("My name:         " + name);
+            game.getMyNameL().setText(" My name:                  " + name + " ");
             game.setCanMove();
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());

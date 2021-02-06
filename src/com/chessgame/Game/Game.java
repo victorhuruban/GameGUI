@@ -83,7 +83,6 @@ public class Game implements Serializable {
 
         JPanel chatPane = new JPanel();
         JScrollPane scroll = new JScrollPane(logTA);
-        scroll.setBackground(Color.LIGHT_GRAY);
         scroll.setHorizontalScrollBar(null);
         chatPane.add(scroll);
         chatPane.setBackground(Color.DARK_GRAY);
@@ -95,9 +94,12 @@ public class Game implements Serializable {
         c.anchor = GridBagConstraints.FIRST_LINE_START;
 
         JPanel namesPanel = new JPanel(new GridLayout(2,0));
-        namesPanel.setBackground(Color.GRAY);
+        namesPanel.setBackground(Color.LIGHT_GRAY);
+        namesPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
         myName = new JLabel();
+        myName.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
         opponentName = new JLabel();
+        opponentName.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
         namesPanel.add(myName);
         namesPanel.add(opponentName);
         jFrame.add(namesPanel, c);
@@ -179,7 +181,7 @@ public class Game implements Serializable {
                                     StringBuilder tempSB = getSB();
                                     tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
-                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (capture)\n");
                                     getLogTA().append(String.valueOf(tempSB));
                                     clearLogArr();
                                     changeMovedPiece();
@@ -239,7 +241,7 @@ public class Game implements Serializable {
                                     StringBuilder tempSB = getSB();
                                     tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
-                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (move)\n");
                                     getLogTA().append(String.valueOf(tempSB));
                                     clearLogArr();
                                     changeMovedPiece();
@@ -265,7 +267,7 @@ public class Game implements Serializable {
                                 StringBuilder tempSB = getSB();
                                 tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                         .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
-                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (move)\n");
                                 getLogTA().append(String.valueOf(tempSB));
                                 clearLogArr();
                                 changeMovedPiece();
