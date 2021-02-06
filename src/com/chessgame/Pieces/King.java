@@ -6,7 +6,6 @@ import com.chessgame.Board.Loc;
 import java.io.Serializable;
 
 public class King extends Piece implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
     private boolean isMoved;
 
     public King(int row, int column, String color) {
@@ -93,9 +92,9 @@ public class King extends Piece implements Serializable {
     public boolean isValidCapture(ChessBoard cb, int toRow, int toColumn) {
         Piece current = cb.getLocation(getRow(), getColumn()).getPiece();
         try {
-            if (!cb.getLocation(toRow, toColumn).isOccupied()) {
+            /*if (!cb.getLocation(toRow, toColumn).isOccupied()) {
                 return false;
-            }
+            }*/
 
             if (!current.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
                 if ((toRow == getRow() && toColumn != getColumn()) || (toRow != getRow() && toColumn == getColumn())) {

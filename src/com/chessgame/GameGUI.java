@@ -16,10 +16,27 @@ public class GameGUI {
 
 
     public GameGUI() {
+        /////////////////
+        // FRAME SET UP//
+        /////////////////
+
+        // FRAME SET UP
+        //
         this.frame = new JFrame("Games");
         this.mainCards = new JPanel(new CardLayout());
+        this.frame.setSize(800, 800);
+        this.frame.setLayout(new BorderLayout());
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.add(this.mainCards);
+        this.frame.setVisible(true);
+
+
+        ////////////////////////
+        // CARD LAYOUT SET UP //
+        ////////////////////////
 
         // CHOICE CARD
+        //
         JPanel choiceCard = new JPanel() {
             public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
@@ -28,9 +45,9 @@ public class GameGUI {
         };
         JButton startChessGame = new JButton("Start Chess Game");
         choiceCard.add(startChessGame);
-        // END OF CHOICE GAME
 
-        // SET NAME
+        // SET NAME CARD
+        //
         JPanel setNameCard = new JPanel() {
             public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
@@ -44,7 +61,8 @@ public class GameGUI {
         setNameCard.add(backButton1);
         setNameCard.add(nameField);
 
-        // CHOICE FRAME: HOST OR JOIN A GAME
+        // CHOICE CARD: HOST OR JOIN A GAME
+        //
         JPanel chooseHostOrJoin = new JPanel() {
             public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
@@ -58,7 +76,8 @@ public class GameGUI {
         chooseHostOrJoin.add(joinChoice);
         chooseHostOrJoin.add(changeName);
 
-        // CHESS-HOST-JOIN FUNCTIONALITY
+        // CHESS-HOST-JOIN FUNCTIONALITY CARD
+        //
         JPanel chessJoinCard = new JPanel() {
             public void paintComponent(Graphics g) {
                 Image background = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/res/background_chess.jpg"));
@@ -77,20 +96,17 @@ public class GameGUI {
         chessJoinCard.add(ipField2);
         chessJoinCard.add(ipField3);
         chessJoinCard.add(ipField4);
-        // END OF CHESS-HOST-JOIN CARD
 
         // ADDING CARDS TO THE MAIN-CARD PANEL
+        //
         this.mainCards.add(choiceCard, "1");
         this.mainCards.add(setNameCard, "2");
         this.mainCards.add(chooseHostOrJoin, "3");
         this.mainCards.add(chessJoinCard, "4");
 
-        // FRAME SET UP
-        this.frame.setSize(800, 800);
-        this.frame.setLayout(new BorderLayout());
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.add(this.mainCards);
-        this.frame.setVisible(true);
+        //////////////////////////////
+        // BUTTONS ACTION LISTENERS //
+        //////////////////////////////
 
         // START CHESS GAME FRAME
         startChessGame.addActionListener(e -> {

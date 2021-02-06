@@ -5,11 +5,16 @@ import com.chessgame.Pieces.Piece;
 import java.io.Serializable;
 
 public class Loc implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
+
     public int row;
     public int column;
     private Piece piece;
 
+    // Loc class:  Used to populate the List of locations in the ChessBoard instance
+    //           and keep track of the state of the location:
+    //              - "null" -> there is nothing on the respective location
+    //              - "Piece" -> the piece instance
+    //
     public Loc(int row, int column) {
         this.piece = null;
         this.row = row;

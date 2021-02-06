@@ -63,6 +63,9 @@ public class Piece implements Serializable {
     }
 
     public boolean isValidCapture (ChessBoard cb, int toRow, int toColumn) {
+        if (!cb.getLocation(toRow, toColumn).isOccupied()) {
+            return false;
+        }
         return isValidMove(cb, toRow, toColumn);
     }
 

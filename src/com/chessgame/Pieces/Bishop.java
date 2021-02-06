@@ -20,13 +20,13 @@ public class Bishop extends Piece implements Serializable {
     @Override
     public boolean isValidCapture(ChessBoard cb, int toRow, int toColumn) {
         Piece current = cb.getLocation(getRow(), getColumn()).getPiece();
-        try {
+        /*try {
             if (!cb.getLocation(toRow, toColumn).isOccupied()) {
                 return false;
             }
         } catch (NullPointerException ignored) {
             return false;
-        }
+        }*/
 
         try {
             if (!current.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {

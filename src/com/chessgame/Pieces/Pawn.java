@@ -40,18 +40,6 @@ public class Pawn extends Piece implements Serializable {
         if (toRow == getRow() - 1 && getColumn() == toColumn) {
             return true;
         } else return !isMoved() && toRow == getRow() - 2 && getColumn() == toColumn;
-
-        /*if (getColor().equals("white")) {
-            if (toRow == getRow() - 1 && getColumn() == toColumn) {
-                return true;
-            } else return !isMoved() && toRow == getRow() - 2 && getColumn() == toColumn;
-        } else if (getColor().equals("black")) {
-            if (toRow == getRow() + 1 && getColumn() == toColumn) {
-                return true;
-            } else return !isMoved() && toRow == getRow() + 2 && getColumn() == toColumn;
-        } else {
-            return false;
-        }*/
     }
 
     /* The "move" method takes 3 parameters, which are the current ChessBoard object, and the row and column of the
@@ -97,17 +85,12 @@ public class Pawn extends Piece implements Serializable {
 
         Piece captureTemp = cb.getLocation(getRow(), getColumn()).getPiece();
         try {
-            if (!cb.getLocation(toRow, toColumn).isOccupied()) {
+            /*if (!cb.getLocation(toRow, toColumn).isOccupied()) {
                 return false;
-            }
+            }*/
             if (!captureTemp.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
                 return toRow == getRow() - 1 && (getColumn() == toColumn - 1 || getColumn() == toColumn + 1);
             }
-            /*if (!captureTemp.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
-                if (captureTemp.getColor().equals("white")) {
-                    return toRow == getRow() - 1 && (getColumn() == toColumn - 1 || getColumn() == toColumn + 1);
-                } else return toRow == getRow() + 1 && (getColumn() == toColumn + 1 || getColumn() == toColumn - 1);
-            }*/
         } catch (NullPointerException ignored) {
             return false;
         }

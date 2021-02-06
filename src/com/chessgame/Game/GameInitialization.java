@@ -6,9 +6,14 @@ import com.chessgame.Pieces.*;
 import java.io.Serializable;
 
 public class GameInitialization implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
     final private ChessBoard cb;
 
+    // Game initialization class: Populates the Chessboard's Loc objects with specific pieces.
+    //                            args:
+    //                              - int num:
+    //                                     - 1 : Puts the white pieces at the bottom, and black pieces at the top
+    //                                     - 2 : Puts the black pieces at the bottom, and white pieces at the top
+    //
     public GameInitialization(int num) {
         cb = new ChessBoard();
         if (num == 1) {
@@ -59,6 +64,8 @@ public class GameInitialization implements Serializable {
 
     }
 
+    // Used only to get a reference for the Game class. Not used otherwise
+    //
     public ChessBoard getCb() {
         return cb;
     }
