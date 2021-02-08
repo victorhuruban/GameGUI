@@ -23,12 +23,10 @@ public class Game implements Serializable {
     public JTextArea logTA;
     public JFrame frame;
     public JPanel chessboard;
-    private boolean gameover;
+    private boolean gameover, canMove, turn, endPawn;
     volatile boolean movedPiece;
-    private boolean canMove;
     private ChessBoard clone;
     public Player white, black;
-    private boolean turn;
     private ArrayList<Rook> castling;
     private ChessBoard gameChessboard;
     private StringBuilder log;
@@ -50,6 +48,7 @@ public class Game implements Serializable {
         chessboard = new JPanel();
         movedPiece = false;
         canMove = true;
+        endPawn = false;
         updateChessBoardUI(getChessBoard(), chessboard);
     }
 
@@ -171,24 +170,7 @@ public class Game implements Serializable {
                                 } else {
                                     testPiece.capture(getChessBoard(), row, column);
                                     if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
-                                        Pawn test = (Pawn) testPiece;
-                                        System.out.println(test);
-
-                                       /* JFrame changePiece = new JFrame("Change piece");
-                                        changePiece.setSize(100, 50);
-                                        changePiece.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-                                        JButton queenC = new JButton("Queen");
-                                        JButton rookC = new JButton("Rook");
-                                        JButton knightC = new JButton("Knight");
-                                        JButton bishopC = new JButton("Bishop");
-
-                                        changePiece.add(queenC);
-                                        changePiece.add(rookC);
-                                        changePiece.add(knightC);
-                                        changePiece.add(bishopC);
-
-                                        changePiece.setVisible(true);*/
+                                        endPawn = true;
                                     }
                                     addLogArr(2, row);
                                     addLogArr(3, column);
@@ -213,8 +195,7 @@ public class Game implements Serializable {
                             } else {
                                 testPiece.capture(getChessBoard(), row, column);
                                 if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
-                                    Pawn test = (Pawn) testPiece;
-                                    System.out.println(test);
+                                    endPawn = true;
                                 }
                                 addLogArr(2, row);
                                 addLogArr(3, column);
@@ -255,8 +236,7 @@ public class Game implements Serializable {
                                 } else {
                                     testPiece.move(getChessBoard(), row, column);
                                     if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
-                                        Pawn test = (Pawn) testPiece;
-                                        System.out.println(test);
+                                        endPawn = true;
                                     }
                                     addLogArr(2, row);
                                     addLogArr(3, column);
@@ -282,8 +262,7 @@ public class Game implements Serializable {
                             } else {
                                 testPiece.move(getChessBoard(), row, column);
                                 if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
-                                    Pawn test = (Pawn) testPiece;
-                                    System.out.println(test);
+                                    endPawn = true;
                                 }
                                 addLogArr(2, row);
                                 addLogArr(3, column);
@@ -773,6 +752,14 @@ public class Game implements Serializable {
             }
         }
         return ret;
+    }
+
+    public boolean getEndPawn() {
+        return endPawn;
+    }
+
+    public void changeEndPawn() {
+        endPawn = !endPawn;
     }
 
     public void changeTurn() {

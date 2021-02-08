@@ -3,8 +3,10 @@ package com.chessgame.ServerClient;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
+import com.chessgame.Pieces.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
@@ -19,15 +21,15 @@ public class Client implements Runnable {
     public JFrame frame;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private DataOutputStream nameOut;
-    private DataInputStream nameIn;
     private Loc[][] transfer;
+    private String changedPiece;
 
     public Client(String address, int port, String name) throws IOException {
         this.name = name;
         this.game = new Game(2);
         this.address = address;
         this.port = port;
+        changedPiece = "";
         run();
     }
 
@@ -73,6 +75,7 @@ public class Client implements Runnable {
         while (tru) {
             try {
                 ChessBoard newCB = game.getChessBoard();
+                System.out.println("acu aci");
                 Object[] trans = (Object[]) in.readObject();
                 game.getLogTA().append(trans[1].toString());
                 game.setCanMove();
@@ -104,17 +107,30 @@ public class Client implements Runnable {
                 if (game.getMovedPiece()) {
                     System.out.println(timer.toString());
                     try {
-                        transfer = new Loc[8][8];
-                        copyLocForTransfer(transfer, game.getChessBoard());
-                        Object[] trans = {transfer, game.getSB()};
-                        out.flush();
-                        out.writeObject(trans);
-                        out.flush();
-                        game.getSB().delete(0, game.getSB().length());
-                        game.changeMovedPiece();
-                        game.changeTurn();
-                        game.setCanMove();
-                        timer.cancel();
+                        if (game.getEndPawn()) {
+                            changeEndPawn();
+                            game.changeEndPawn();
+                            game.changeMovedPiece();
+                        } else {
+                            if (!changedPiece.equals("")) {
+                                String[] elems = changedPiece.split(" ");
+                                game.getChessBoard().getLocation(Integer.parseInt(elems[1]), Integer.parseInt(elems[2]))
+                                        .setPiece(transformPawn(elems[0], Integer.parseInt(elems[1]), Integer.parseInt(elems[2])));
+                                game.updateChessBoardUI(game.getChessBoard(), game.chessboard);
+                                game.chessboard.updateUI();
+                                changedPiece = "";
+                            }
+                            transfer = new Loc[8][8];
+                            copyLocForTransfer(transfer, game.getChessBoard());
+                            Object[] trans = {transfer, game.getSB()};
+                            out.flush();
+                            out.writeObject(trans);
+                            out.flush();
+                            game.getSB().delete(0, game.getSB().length());
+                            game.changeMovedPiece();
+                            game.setCanMove();
+                            timer.cancel();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
@@ -147,5 +163,73 @@ public class Client implements Runnable {
                 transfer[i][j] = cb.getLocation(i, j);
             }
         }
+    }
+
+    private void changeEndPawn() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (game.getChessBoard().getLocation(i, j).isOccupied()) {
+                    if (game.getChessBoard().getLocation(i, j).getPiece().toString().equals("Pawn") &&
+                            game.getChessBoard().getLocation(i, j).getPiece().getRow() == 0) {
+                        launchChangeFrame(i, j);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private Piece transformPawn(String piece, int row, int column) {
+        switch (piece) {
+            case "Queen":
+                return new Queen(row, column, "white");
+            case "Rook":
+                return new Rook(row, column, "white");
+            case "Knight":
+                return new Knight(row, column, "white");
+            default:
+                return new Bishop(row, column, "white");
+        }
+    }
+
+    private void launchChangeFrame(int row, int column) {
+        JFrame frame = new JFrame("Change pawn");
+        frame.setLayout(new FlowLayout());
+        frame.setSize(250, 1250);
+        frame.setVisible(true);
+
+        JButton queenC = new JButton("Queen");
+        JButton rookC = new JButton("Rook");
+        JButton knightC = new JButton("Knight");
+        JButton bishopC = new JButton("Bishop");
+        frame.add(queenC);
+        frame.add(rookC);
+        frame.add(knightC);
+        frame.add(bishopC);
+
+        queenC.addActionListener(e -> {
+            changedPiece = "Queen " + row + " " + column;
+            game.changeMovedPiece();
+            frame.dispose();
+        });
+
+        rookC.addActionListener(e -> {
+            changedPiece = "Rook " + row + " " + column;
+            game.changeMovedPiece();
+            frame.dispose();
+        });
+
+        knightC.addActionListener(e -> {
+            changedPiece = "Knight " + row + " " + column;
+            notifyAll();
+            game.changeMovedPiece();
+            frame.dispose();
+        });
+
+        bishopC.addActionListener(e -> {
+            changedPiece = "Bishop " + row + " " + column;
+            game.changeMovedPiece();
+            frame.dispose();
+        });
     }
 }
