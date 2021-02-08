@@ -206,7 +206,7 @@ public class Game implements Serializable {
                                 StringBuilder tempSB = getSB();
                                 tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                         .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
-                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(".\n");
+                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (capture)\n");
                                 getLogTA().append(String.valueOf(tempSB));
                                 clearLogArr();
                                 changeMovedPiece();
