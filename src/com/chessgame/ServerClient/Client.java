@@ -42,6 +42,7 @@ public class Client implements Runnable {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             try {
+                System.out.println("Aci");
                 Object[] trans = (Object[]) in.readObject();
                 game.getOpponentsNameL().setText("Opponent's name:  " + trans[0]);
                 trans[0] = name ;

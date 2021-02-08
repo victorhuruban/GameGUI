@@ -132,7 +132,6 @@ public class Game implements Serializable {
                     }
                     King temp;
                     if (c instanceof JLabel && piece[0] == null) {
-
                         testPiece = getChessBoard().getLocation(row, column).getPiece();
                         if ((turn && testPiece.getColor().equals("white")) || (!turn && testPiece.getColor().equals("black"))) {
                             addLogArr(0, row);
@@ -171,6 +170,26 @@ public class Game implements Serializable {
                                     clone = new ChessBoard();
                                 } else {
                                     testPiece.capture(getChessBoard(), row, column);
+                                    if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
+                                        Pawn test = (Pawn) testPiece;
+                                        System.out.println(test);
+
+                                       /* JFrame changePiece = new JFrame("Change piece");
+                                        changePiece.setSize(100, 50);
+                                        changePiece.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+                                        JButton queenC = new JButton("Queen");
+                                        JButton rookC = new JButton("Rook");
+                                        JButton knightC = new JButton("Knight");
+                                        JButton bishopC = new JButton("Bishop");
+
+                                        changePiece.add(queenC);
+                                        changePiece.add(rookC);
+                                        changePiece.add(knightC);
+                                        changePiece.add(bishopC);
+
+                                        changePiece.setVisible(true);*/
+                                    }
                                     addLogArr(2, row);
                                     addLogArr(3, column);
                                     try {
@@ -193,6 +212,10 @@ public class Game implements Serializable {
                                 }
                             } else {
                                 testPiece.capture(getChessBoard(), row, column);
+                                if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
+                                    Pawn test = (Pawn) testPiece;
+                                    System.out.println(test);
+                                }
                                 addLogArr(2, row);
                                 addLogArr(3, column);
                                 try {
@@ -231,6 +254,10 @@ public class Game implements Serializable {
                                     clearLogArr();
                                 } else {
                                     testPiece.move(getChessBoard(), row, column);
+                                    if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
+                                        Pawn test = (Pawn) testPiece;
+                                        System.out.println(test);
+                                    }
                                     addLogArr(2, row);
                                     addLogArr(3, column);
                                     try {
@@ -254,6 +281,10 @@ public class Game implements Serializable {
                                 clone = new ChessBoard();
                             } else {
                                 testPiece.move(getChessBoard(), row, column);
+                                if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
+                                    Pawn test = (Pawn) testPiece;
+                                    System.out.println(test);
+                                }
                                 addLogArr(2, row);
                                 addLogArr(3, column);
                                 try {

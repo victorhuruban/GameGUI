@@ -7,12 +7,9 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class Pawn extends Piece implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
-    boolean end;
 
     public Pawn(int row, int column, String color) {
         super(row, column, color);
-        this.end = false;
     }
 
     @Override
@@ -71,11 +68,7 @@ public class Pawn extends Piece implements Serializable {
             current.setMoved();
             moved.setPiece(current);
             remove.removePiece();
-            if (getColor().equals("white") && getRow() == 0) {
-                transformPawn(cb, getRow(), getColumn(), "white");
-            } else if (getColor().equals("black") && getRow() == 7) {
-                transformPawn(cb, getRow(), getColumn(), "black");
-            }
+
             return true;
         } else return false;
     }
@@ -85,9 +78,6 @@ public class Pawn extends Piece implements Serializable {
 
         Piece captureTemp = cb.getLocation(getRow(), getColumn()).getPiece();
         try {
-            /*if (!cb.getLocation(toRow, toColumn).isOccupied()) {
-                return false;
-            }*/
             if (!captureTemp.getColor().equals(cb.getLocation(toRow, toColumn).getPiece().getColor())) {
                 return toRow == getRow() - 1 && (getColumn() == toColumn - 1 || getColumn() == toColumn + 1);
             }
@@ -112,49 +102,9 @@ public class Pawn extends Piece implements Serializable {
             captured.setRow(toRow);
             captured.setColumn(toColumn);
             moved.setPiece(captured);
+
             return true;
         }
         return false;
-    }
-
-    private void transformPawn(ChessBoard cb, int row, int column, String color) {
-        System.out.println("Pawn reached end of table. What piece do you want on table?");
-        System.out.println("Your choices are: Rook, Knight, Bishop, Queen");
-        System.out.print("Write the name of your choice: ");
-
-        Loc removePawn = cb.getLocation(row, column);
-        removePawn.removePiece();
-        Piece piece;
-
-        boolean terminate = true;
-        Scanner scanner = new Scanner(System.in);
-
-        while (terminate) {
-            String choice = scanner.nextLine();
-            switch (choice) {
-                case "Rook":
-                    piece = new Rook(getRow(), getColumn(), "white");
-                    removePawn.setPiece(piece);
-                    terminate = false;
-                    break;
-                case "Knight":
-                    piece = new Knight(getRow(), getColumn(), "white");
-                    removePawn.setPiece(piece);
-                    terminate = false;
-                    break;
-                case "Bishop":
-                    piece = new Bishop(getRow(), getColumn(), "white");
-                    removePawn.setPiece(piece);
-                    terminate = false;
-                    break;
-                case "Queen":
-                    piece = new Queen(getRow(), getColumn(), "white");
-                    removePawn.setPiece(piece);
-                    terminate = false;
-                    break;
-                default:
-                    System.out.println("invalid input, Write the name of your choice: ");
-            }
-        }
     }
 }
