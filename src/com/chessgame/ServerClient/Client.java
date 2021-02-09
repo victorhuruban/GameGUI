@@ -133,20 +133,19 @@ public class Client implements Runnable {
                             game.changeMovedPiece();
                             game.setCanMove();
                             timer.cancel();
+                            try {
+                                game.changeTurn();
+                                myTurn();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } finally {
-                        try {
-                            game.changeTurn();
-                            myTurn();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
-        }, 100, 5000);
+        }, 50, 5000);
     }
 
     private void copyLocFromTransfer(Loc[][] transfer, ChessBoard cb) {
@@ -199,7 +198,7 @@ public class Client implements Runnable {
     private void launchChangeFrame(int row, int column) {
         JFrame frame = new JFrame("Change pawn");
         frame.setLayout(new FlowLayout());
-        frame.setSize(250, 1250);
+        frame.setSize(250, 125);
         frame.setVisible(true);
 
         JButton queenC = new JButton("Queen");
@@ -225,7 +224,6 @@ public class Client implements Runnable {
 
         knightC.addActionListener(e -> {
             changedPiece = "Knight " + row + " " + column;
-            notifyAll();
             game.changeMovedPiece();
             frame.dispose();
         });

@@ -216,7 +216,7 @@ public class Server implements Runnable {
     private void launchChangeFrame(int row, int column) {
         JFrame frame = new JFrame("Change pawn");
         frame.setLayout(new FlowLayout());
-        frame.setSize(250, 1250);
+        frame.setSize(250, 125);
         frame.setVisible(true);
 
         JButton queenC = new JButton("Queen");
