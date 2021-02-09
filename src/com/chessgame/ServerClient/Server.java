@@ -242,7 +242,6 @@ public class Server implements Runnable {
 
         knightC.addActionListener(e -> {
             changedPiece = "Knight " + row + " " + column;
-            notifyAll();
             game.changeMovedPiece();
             frame.dispose();
         });
