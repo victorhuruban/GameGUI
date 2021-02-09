@@ -185,13 +185,13 @@ public class Client implements Runnable {
     private Piece transformPawn(String piece, int row, int column) {
         switch (piece) {
             case "Queen":
-                return new Queen(row, column, "white");
+                return new Queen(row, column, "black");
             case "Rook":
-                return new Rook(row, column, "white");
+                return new Rook(row, column, "black");
             case "Knight":
-                return new Knight(row, column, "white");
+                return new Knight(row, column, "black");
             default:
-                return new Bishop(row, column, "white");
+                return new Bishop(row, column, "black");
         }
     }
 

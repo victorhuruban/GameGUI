@@ -6,7 +6,6 @@ import com.chessgame.Board.Loc;
 import java.io.Serializable;
 
 public class Bishop extends Piece implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
 
     public Bishop(int row, int column, String color) {
         super(row, column, color);
@@ -42,12 +41,24 @@ public class Bishop extends Piece implements Serializable {
                 }
 
                 if (toRow < getRow() && toColumn > getColumn()) { // UPRIGHT
+                    if (toRow + 1 == getRow() && toColumn - 1 == getColumn() && temp.isOccupied()) {
+                        return true;
+                    }
                     return isValidMove(cb, toRow + 1, toColumn - 1) && temp.isOccupied();
                 } else if (toRow < getRow() && toColumn < getColumn()) { // UPLEFT
+                    if (toRow + 1 == getRow() && toColumn + 1 == getColumn() && temp.isOccupied()) {
+                        return true;
+                    }
                     return isValidMove(cb, toRow + 1, toColumn + 1) && temp.isOccupied();
                 } else if (toRow > getRow() && toColumn > getColumn()) { // DOWNRIGHT
+                    if (toRow - 1 == getRow() && toColumn - 1 == getColumn() && temp.isOccupied()) {
+                        return true;
+                    }
                     return isValidMove(cb, toRow - 1, toColumn - 1) && temp.isOccupied();
                 } else if (toRow > getRow() && toColumn < getColumn()) { // DOWNLEFT
+                    if (toRow - 1 == getRow() && toColumn + 1 == getColumn() && temp.isOccupied()) {
+                        return true;
+                    }
                     return isValidMove(cb, toRow - 1, toColumn + 1) && temp.isOccupied();
                 }
             }

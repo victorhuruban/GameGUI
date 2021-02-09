@@ -70,7 +70,7 @@ public class Piece implements Serializable {
         } catch (NullPointerException ignored) {
             return false;
         }
-        return isValidMove(cb, toRow, toColumn);
+        return true; // AICI AM SCHI*MBAT
     }
 
     public boolean move(ChessBoard cb, int toRow, int toColumn) {

@@ -6,7 +6,6 @@ import com.chessgame.Board.Loc;
 import java.io.Serializable;
 
 public class Rook extends Piece implements Serializable {
-    //private static final long serialVersionUID = 6156930883005779968L;
     private boolean isMoved;
 
     public Rook(int row, int column, String color) {
@@ -41,15 +40,15 @@ public class Rook extends Piece implements Serializable {
                     }
                 } else if (getColumn() != toColumn && getRow() == toRow) {
                     if (getColumn() > toColumn) {
-                        if (getColumn() - 1 == toRow) {
-                            return true;
-                        }
-                        return isValidMove(cb, toRow, toColumn - 1);
-                    } else {
-                        if (getColumn() + 1 == toRow) {
+                        if (getColumn() - 1 == toColumn) {
                             return true;
                         }
                         return isValidMove(cb, toRow, toColumn + 1);
+                    } else {
+                        if (getColumn() + 1 == toColumn) {
+                            return true;
+                        }
+                        return isValidMove(cb, toRow, toColumn - 1);
                     }
                 }
             }
@@ -81,7 +80,6 @@ public class Rook extends Piece implements Serializable {
         return false;
     }
 
-    @Override
     public boolean isValidMove(ChessBoard cb, int toRow, int toColumn) {
         if (!super.isValidMove(cb, toRow, toColumn)) {
             return false;
@@ -89,39 +87,42 @@ public class Rook extends Piece implements Serializable {
         Piece current;
         try {
             current = cb.getLocation(getRow(), getColumn()).getPiece();
+            /*if (capt) {
+                return !cb.getLocation(toRow, toColumn).isOccupied();
+            }*/
             if ((current.getRow() == toRow && current.getColumn() != toColumn) || (current.getRow() != toRow && current.getColumn() == toColumn)) {
                 if (current.getRow() < toRow) {
-                    for (int i = current.getRow() + 1; i <= toRow; i++) {
+                    for (int i = current.getRow() + 1; i < toRow; i++) {
                         boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
                         if (check) {
                             return false;
                         }
                     }
-                    return true;
+                    return !cb.getLocation(toRow, toColumn).isOccupied();
                 } else if (current.getRow() > toRow) {
-                    for (int i = current.getRow() - 1; i >= toRow; i--) {
+                    for (int i = current.getRow() - 1; i > toRow; i--) {
                         boolean check = cb.getLocation(i, current.getColumn()).isOccupied();
                         if (check) {
                             return false;
                         }
                     }
-                    return true;
+                    return !cb.getLocation(toRow, toColumn).isOccupied();
                 } else if (current.getColumn() < toColumn) {
-                    for (int i = current.getColumn() + 1; i <= toColumn; i++) {
+                    for (int i = current.getColumn() + 1; i < toColumn; i++) {
                         boolean check = cb.getLocation(current.getRow(), i).isOccupied();
                         if (check) {
                             return false;
                         }
                     }
-                    return true;
+                    return !cb.getLocation(toRow, toColumn).isOccupied();
                 } else if (current.getColumn() > toColumn) {
-                    for (int i = current.getColumn() - 1; i >= toColumn; i--) {
+                    for (int i = current.getColumn() - 1; i > toColumn; i--) {
                         boolean check = cb.getLocation(current.getRow(), i).isOccupied();
                         if (check) {
                             return false;
                         }
                     }
-                    return true;
+                    return !cb.getLocation(toRow, toColumn).isOccupied();
                 }
             }
         } catch (NullPointerException ignored) {
