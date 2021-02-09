@@ -89,11 +89,13 @@ public class Server implements Runnable {
                 if (game.getMovedPiece()) {
                     try {
                         if (game.getEndPawn()) {
+                            System.out.println("92");
                             changeEndPawn();
                             game.changeEndPawn();
                             game.changeMovedPiece();
                         } else {
                             if (!changedPiece.equals("")) {
+                                System.out.println("98");
                                 String[] elems = changedPiece.split(" ");
                                 game.getChessBoard().getLocation(Integer.parseInt(elems[1]), Integer.parseInt(elems[2]))
                                         .setPiece(transformPawn(elems[0], Integer.parseInt(elems[1]), Integer.parseInt(elems[2])));
@@ -101,6 +103,7 @@ public class Server implements Runnable {
                                 game.chessboard.updateUI();
                                 changedPiece = "";
                             }
+                            System.out.println("106");
                             transfer = new Loc[8][8];
                             copyLocForTransfer(transfer, game.getChessBoard());
                             Object[] trans = {transfer, game.getSB()};

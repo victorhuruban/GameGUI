@@ -108,11 +108,13 @@ public class Client implements Runnable {
                     System.out.println(timer.toString());
                     try {
                         if (game.getEndPawn()) {
+                            System.out.println("Ajuns la final");
                             changeEndPawn();
                             game.changeEndPawn();
                             game.changeMovedPiece();
                         } else {
                             if (!changedPiece.equals("")) {
+                                System.out.println("Ales chestia");
                                 String[] elems = changedPiece.split(" ");
                                 game.getChessBoard().getLocation(Integer.parseInt(elems[1]), Integer.parseInt(elems[2]))
                                         .setPiece(transformPawn(elems[0], Integer.parseInt(elems[1]), Integer.parseInt(elems[2])));
@@ -120,6 +122,7 @@ public class Client implements Runnable {
                                 game.chessboard.updateUI();
                                 changedPiece = "";
                             }
+                            System.out.println("trimis");
                             transfer = new Loc[8][8];
                             copyLocForTransfer(transfer, game.getChessBoard());
                             Object[] trans = {transfer, game.getSB()};
@@ -135,6 +138,7 @@ public class Client implements Runnable {
                         e.printStackTrace();
                     } finally {
                         try {
+                            game.changeTurn();
                             myTurn();
                         } catch (IOException e) {
                             e.printStackTrace();
