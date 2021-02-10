@@ -50,7 +50,7 @@ public class Server implements Runnable {
                 Object[] trans = { name };
                 out.writeObject(trans);
                 trans = (Object[]) in.readObject();
-                game.getOpponentsNameL().setText("Opponent's name:  " + trans[0]);
+                game.getOpponentsNameL().setText(" Opponent's name:   " + trans[0]);
             } catch (IOException e) {
                 System.out.println("CE PLM");
             } catch (ClassNotFoundException e) {

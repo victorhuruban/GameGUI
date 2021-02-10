@@ -16,8 +16,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Game implements Serializable {
+    private final Color MOVE_DARK_COLOR = new Color(193, 176, 28);
+    private final Color MOVE_LIGHT_COLOR = new Color(246, 242, 110);
+    private final Color CAPTURE_DARK_COLOR = new Color(193, 49, 28);
+    private final Color CAPTURE_LIGHT_COLOR = new Color(246, 114, 110);
+    private final Color MY_LOCATION_DARK_COLOR = new Color(65, 49, 155);
+    private final Color MY_LOCATION_LIGHT_COLOR = new Color(119, 114, 238);
+    private final Color DARK_COLOR = new Color(130, 97, 55);
+    private final Color LIGHT_COLOR = new Color(237,228,202);
     private JLabel myName, opponentName;
     private Piece testPiece;
     public JTextArea logTA;
@@ -61,6 +70,7 @@ public class Game implements Serializable {
         jFrame.setSize(1250, 847);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLayout(new GridBagLayout());
+        jFrame.setResizable(false);
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
@@ -463,26 +473,38 @@ public class Game implements Serializable {
     public void changeJPanelBackground(boolean[][] array, int choice, int roww, int column) {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-
+                int row = (getPosition(i, j) / 8) % 2;
                 JPanel square = (JPanel) chessboard.getComponent(getPosition(i, j));
                 if (!array[i][j]) {
-                    int row = (getPosition(i, j) / 8) % 2;
-                    if (square.getBackground() != Color.ORANGE) {
+                    if (square.getBackground() != MOVE_DARK_COLOR || square.getBackground() != MOVE_LIGHT_COLOR) {
                         if (row == 0) {
-                            square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(130, 97, 55) : new Color(237,228,202));
-                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(130, 97, 55));
+                            square.setBackground(getPosition(i, j) % 2 == 0 ? DARK_COLOR : LIGHT_COLOR);
+                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? LIGHT_COLOR : DARK_COLOR);
                     }
                 } else {
                     if (choice == 1) {
-                        square.setBackground(Color.ORANGE);
+                        for (boolean[] arr: array) {
+                            System.out.println(Arrays.toString(arr));
+                        }
+                        if (row == 0) {
+                            square.setBackground(getPosition(i, j) % 2 == 0 ? MOVE_DARK_COLOR : MOVE_LIGHT_COLOR);
+                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? MOVE_LIGHT_COLOR : MOVE_DARK_COLOR);
+                        /*square.setBackground(Color.YELLOW);*/
                     } else if (choice == 2) {
-                        square.setBackground(Color.RED);
+                        if (row == 0) {
+                            square.setBackground(getPosition(i, j) % 2 == 0 ? CAPTURE_DARK_COLOR : CAPTURE_LIGHT_COLOR);
+                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? CAPTURE_LIGHT_COLOR : CAPTURE_DARK_COLOR);
                     } else {
+                        /*if (row == 0) {
+                            square.setBackground(getPosition(i, j) % 2 == 0 ? MOVE_DARK_COLOR : MOVE_LIGHT_COLOR);
+                        } else square.setBackground(getPosition(i, j) % 2 == 0 ? MOVE_LIGHT_COLOR : MOVE_DARK_COLOR);*/
                         square.setBackground(Color.GREEN);
                     }
                 }
                 if (roww == i && column == j) {
-                    square.setBackground(Color.BLUE);
+                    if (row == 0) {
+                        square.setBackground(getPosition(i, j) % 2 == 0 ? MY_LOCATION_DARK_COLOR : MY_LOCATION_LIGHT_COLOR);
+                    } else square.setBackground(getPosition(i, j) % 2 == 0 ? MY_LOCATION_LIGHT_COLOR : MY_LOCATION_DARK_COLOR);
                 }
             }
         }
@@ -593,8 +615,8 @@ public class Game implements Serializable {
                 JPanel square = new JPanel(new BorderLayout());
                 int row = (getPosition(i, j) / 8) % 2;
                 if (row == 0) {
-                    square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(130, 97, 55) : new Color(237,228,202));
-                } else square.setBackground(getPosition(i, j) % 2 == 0 ? new Color(237,228,202) : new Color(130, 97, 55));
+                    square.setBackground(getPosition(i, j) % 2 == 0 ? DARK_COLOR : LIGHT_COLOR);
+                } else square.setBackground(getPosition(i, j) % 2 == 0 ? LIGHT_COLOR : DARK_COLOR);
 
                 if (!getChessBoard().getLocation(i, j).toString().equals("null")) {
                     String piece = getChessBoard().getLocation(i,j).getPiece().toString().toLowerCase();
