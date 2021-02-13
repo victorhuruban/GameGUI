@@ -2,8 +2,7 @@ package com.chessgame.Game;
 
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
-import com.chessgame.GameGUI;
-import com.chessgame.Main;
+import com.Main;
 import com.chessgame.Pieces.*;
 import com.chessgame.Player.Player;
 
@@ -16,7 +15,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Game implements Serializable {
     private final Color MOVE_DARK_COLOR = new Color(193, 176, 28);

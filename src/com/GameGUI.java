@@ -1,4 +1,4 @@
-package com.chessgame;
+package com;
 
 import com.chessgame.ServerClient.Client;
 import com.chessgame.ServerClient.Server;
