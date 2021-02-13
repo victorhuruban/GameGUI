@@ -24,12 +24,14 @@ public class Player {
         sharedCards = new ArrayList<>();
         folded = false;
 
-        this.addCards(pack.popCard());
+        this.addCards(new Card("two", "diamond"));
         this.addCards(pack.popCard());
 
         this.addSharedCards(pack.popCard());
+        this.addSharedCards(new Card("two", "spade"));
         this.addSharedCards(pack.popCard());
-        this.addSharedCards(pack.popCard());
+        this.addSharedCards(new Card("ten", "diamond"));
+        this.addSharedCards(new Card("ten", "club"));
 
         rank.addPlayerCard(ownCards);
         rank.addSharedCard(sharedCards);
@@ -82,5 +84,15 @@ public class Player {
         } else {
             System.out.println("All cards turned");
         }
+    }
+
+    public void displayCards() {
+        System.out.print("OWN: " + ownCards.get(0).getValue() + ":" + ownCards.get(0).getType() + " , " +
+                ownCards.get(1).getValue() + ":" + ownCards.get(1).getType() + "\n");
+        System.out.print("SHARED: " + sharedCards.get(0).getValue() + ":" + sharedCards.get(0).getType() + " , " +
+                sharedCards.get(1).getValue() + ":" + sharedCards.get(1).getType() + " , " +
+                sharedCards.get(2).getValue() + ":" + sharedCards.get(2).getType() + " , " +
+                sharedCards.get(3).getValue() + ":" + sharedCards.get(3).getType() + " , " +
+                sharedCards.get(4).getValue() + ":" + sharedCards.get(4).getType() + "\n");
     }
 }

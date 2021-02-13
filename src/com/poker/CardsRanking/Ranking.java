@@ -2,9 +2,7 @@ package com.poker.CardsRanking;
 
 import com.poker.Pack.Card;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Ranking {
     private ArrayList<Card> playerCards;
@@ -16,7 +14,7 @@ public class Ranking {
         playerCards = new ArrayList<>();
         sharedCards = new ArrayList<>();
         score = 0;
-        hand = "highest card";
+        hand = "";
     }
 
     public void addPlayerCard(ArrayList<Card> playerCards) {
@@ -41,215 +39,529 @@ public class Ranking {
                     temp = 1;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "three":
                     temp = 2;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "four":
                     temp = 3;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "five":
                     temp = 4;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "six":
                     temp = 5;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "seven":
                     temp = 6;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "eight":
                     temp = 7;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "nine":
                     temp = 8;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "ten":
                     temp = 9;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "jack":
                     temp = 10;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "queen":
                     temp = 11;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "king":
                     temp = 12;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
                     continue;
                 case "ace":
                     temp = 13;
                     if (score < temp) {
                         score = temp;
-                        hand = card.getValue() + " of " + card.getType();
+                        hand = card.getValue() + "+" + card.getType();
                     }
             }
         }
     }
 
-    public void checkPairs() {
+    private void checkCards(ArrayList<Card> cards) {
         boolean dp = false;
+        boolean tp = false;
+        ArrayList<Integer> holder = new ArrayList<>();
         HashMap<String, Integer> dict = new HashMap<>();
-        ArrayList<Card> tempArr = new ArrayList<>(playerCards);
-        tempArr.addAll(sharedCards);
 
-        for (Card card : tempArr) {
-            System.out.print(card.getValue() + " " + card.getType() + " : ");
+        for (Card card : cards) {
             if (dict.containsKey(card.getValue())) {
                 dict.put(card.getValue(), dict.get(card.getValue()) + 1);
             } else dict.put(card.getValue(), 1);
         }
 
         for (Map.Entry<String, Integer> entry: dict.entrySet()) {
-            if (entry.getValue() == 2 && dp) {
-                score += doublePair(entry.getKey());
+            int tempVal = 0;
+            if (entry.getValue() == 4) {
+                tempVal = fourPair(entry.getKey());
+                if (tempVal > score) { // FOUR PAIR
+                    score = tempVal;
+                }
+                continue;
+            }
+            if (entry.getValue() == 3 && !tp && !dp) {
+                tempVal = triplePair(entry.getKey());
+                if (tempVal > score) {
+                    score = tempVal;
+                }
+                holder.add(tempVal);
+                tp = true;
+                continue;
+            }
+            if (entry.getValue() == 3 && !tp) {
+                tempVal = triplePair(entry.getKey());
+                tempVal += 49;
+                if (tempVal > score) {
+                    score = tempVal; // FULL HOUSE
+                }
+                continue;
+            }
+            if (entry.getValue() == 2 && !dp && !tp) {
+                tempVal = doublePair(entry.getKey());
+                if (tempVal > score) {
+                    score = tempVal;
+                }
+                holder.add(tempVal);
+                dp = true;
+                continue;
             }
             if (entry.getValue() == 2 && !dp) {
-                score = doublePair(entry.getKey());
+                int tempH = holder.get(0) + 49;
+                if (tempH > score) { // FULL HOUSE!!!
+                    score = tempH;
+                }
                 dp = true;
+                continue;
+            }
+            if (entry.getValue() == 2 && !tp) {
+                tempVal = doublePair(entry.getKey());
+                if (tempVal + holder.get(0) > score) { // DOUBLE PAIR
+                    score = tempVal;
+                }
+                continue;
             }
         }
     }
+
+    public boolean checkStraight(ArrayList<Card> cards) {
+        int[] tempArr = new int[5];
+        for (int i = 0; i < cards.size(); i++) {
+            tempArr[i] = getCardValue(cards.get(i));
+        }
+        boolean sorted = false;
+        while (!sorted) {
+            sorted = true;
+            for (int i = 0; i < tempArr.length - 1; i++) {
+                if (tempArr[i] > tempArr[i + 1]) {
+                    int temp = tempArr[i];
+                    tempArr[i] = tempArr[i + 1];
+                    tempArr[i + 1] = temp;
+                    sorted = false;
+                }
+            }
+        }
+        for (int i = 0; i < tempArr.length - 1; i++) {
+            if (tempArr[i] + 1 != tempArr[i + 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int getStraightValue(ArrayList<Card> cards) {
+        int max = Integer.MIN_VALUE;
+        for (Card card : cards) {
+            int temp = getStraightValue(getCardValue(card));
+            if (temp > max) {
+                max = temp;
+            }
+        }
+        return max;
+    }
+
+    public boolean checkFlush(ArrayList<Card> cards) {
+        HashSet<String> tempSet = new HashSet<>();
+        for (Card card : cards) {
+            tempSet.add(card.getType());
+        }
+        return tempSet.size() == 1;
+    }
+
+    public void checkPairs() {
+        if (sharedCards.size() == 3) {
+            ArrayList<Card> pairOfFive = new ArrayList<>(playerCards);
+            pairOfFive.addAll(sharedCards);
+            checkCards(pairOfFive);
+            checkTwoAndThree(getSharedThreePairs());
+        } else if (sharedCards.size() == 4){
+            checkTwoAndThree(getSharedThreePairs());
+            checkOneAndFour(getSharedFourPairs());
+        } else if (sharedCards.size() == 5){
+            checkTwoAndThree(getSharedThreePairs());
+            checkOneAndFour(getSharedFourPairs());
+        }
+    }
+
+    private void checkTwoAndThree(ArrayList<ArrayList<Card>> cards) {
+        for (ArrayList<Card> card : cards) {
+            ArrayList<Card> tempArr = new ArrayList<>(playerCards);
+            tempArr.addAll(card);
+            checkCards(tempArr);
+            if (checkStraight(tempArr) && checkFlush(tempArr) && getStraightValue(tempArr) == 73) {
+                score = 1000;
+            }
+            if (checkStraight(tempArr) && checkFlush(tempArr)) {
+                int temp = getStraightValue(tempArr);
+                if (temp + 62 > score) {
+                    score = temp + 62;
+                }
+            }
+            if (checkStraight(tempArr)) {
+                int temp = getStraightValue(tempArr);
+                if (getStraightValue(temp) > score) {
+                    score = getStraightValue(temp);
+                }
+            }
+            if (checkFlush(tempArr)) {
+                if (score < 100) {
+                    score = 100;
+                }
+            }
+        }
+     }
+
+    private void checkOneAndFour(ArrayList<ArrayList<Card>> cards) {
+        for (ArrayList<Card> card : cards) {
+            ArrayList<Card> tempArr = new ArrayList<>();
+            tempArr.add(playerCards.get(0));
+            tempArr.addAll(card);
+            checkCards(tempArr);
+            if (checkStraight(tempArr) && checkFlush(tempArr) && getStraightValue(tempArr) == 73) {
+                score = 1000;
+            }
+            if (checkStraight(tempArr) && checkFlush(tempArr)) {
+                int temp = getStraightValue(tempArr);
+                if (temp + 62 > score) {
+                    score = temp + 62;
+                }
+            }
+            if (checkStraight(tempArr)) {
+                int temp = getStraightValue(tempArr);
+                if (getStraightValue(temp) > score) {
+                    score = getStraightValue(temp);
+                }
+            }
+            if (checkFlush(tempArr)) {
+                if (score < 100) {
+                    score = 100;
+                }
+            }
+        }
+        for (ArrayList<Card> card : cards) {
+            ArrayList<Card> tempArr = new ArrayList<>();
+            tempArr.add(playerCards.get(1));
+            tempArr.addAll(card);
+            checkCards(tempArr);
+            if (checkStraight(tempArr) && checkFlush(tempArr) && getStraightValue(tempArr) == 73) {
+                score = 1000;
+            }
+            if (checkStraight(tempArr) && checkFlush(tempArr)) {
+                int temp = getStraightValue(tempArr);
+                if (temp + 62 > score) {
+                    score = temp + 62;
+                }
+            }
+            if (checkStraight(tempArr)) {
+                int temp = getStraightValue(tempArr);
+                if (getStraightValue(temp) > score) {
+                    score = getStraightValue(temp);
+                }
+            }
+            if (checkFlush(tempArr)) {
+                if (score < 100) {
+                    score = 100;
+                }
+            }
+        }
+    }
+
+    private ArrayList<ArrayList<Card>> getSharedThreePairs() {
+        ArrayList<ArrayList<Card>> cds = new ArrayList<>();
+        for (int i = 0; i < sharedCards.size() - 2; i++) {
+            for (int j = i + 1; j < sharedCards.size() - 1; j++) {
+                for (int z = j + 1; z < sharedCards.size(); z++) {
+                    ArrayList<Card> tst = new ArrayList<>();
+                    tst.add(sharedCards.get(i));
+                    tst.add(sharedCards.get(j));
+                    tst.add(sharedCards.get(z));
+                    cds.add(tst);
+                }
+            }
+        }
+        return cds;
+    }
+
+    private ArrayList<ArrayList<Card>> getSharedFourPairs() {
+        ArrayList<ArrayList<Card>> cds = new ArrayList<>();
+        if (sharedCards.size() == 4) {
+            cds.add(sharedCards);
+        } else {
+            for (int i = 0; i < sharedCards.size(); i++) {
+                ArrayList<Card> tst = new ArrayList<>();
+                for (int j = 0; j < sharedCards.size(); j++) {
+                    if (j != i) {
+                        tst.add(sharedCards.get(j));
+                    }
+                }
+                cds.add(tst);
+            }
+        }
+        return cds;
+    }
+
 
     private int doublePair(String value) {
         int temp = 0;
         switch (value) {
             case "two":
                 temp = 14;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "three":
                 temp = 15;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "four":
                 temp = 16;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "five":
                 temp = 17;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "six":
                 temp = 18;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "seven":
                 temp = 19;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "eight":
                 temp = 20;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "nine":
                 temp = 21;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "ten":
                 temp = 22;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "jack":
                 temp = 23;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "queen":
                 temp = 24;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "king":
                 temp = 25;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
             case "ace":
                 temp = 26;
-                if (score < temp) {
-                    score = temp;
-                    hand = "Pair: " + value;
-                }
                 break;
         }
         return temp;
+    }
+
+    private int triplePair(String value) {
+        int temp = 0;
+        switch (value) {
+            case "two":
+                temp = 52;
+                break;
+            case "three":
+                temp = 53;
+                break;
+            case "four":
+                temp = 54;
+                break;
+            case "five":
+                temp = 55;
+                break;
+            case "six":
+                temp = 56;
+                break;
+            case "seven":
+                temp = 57;
+                break;
+            case "eight":
+                temp = 58;
+                break;
+            case "nine":
+                temp = 59;
+                break;
+            case "ten":
+                temp = 60;
+                break;
+            case "jack":
+                temp = 61;
+                break;
+            case "queen":
+                temp = 62;
+                break;
+            case "king":
+                temp = 63;
+                break;
+            case "ace":
+                temp = 64;
+                break;
+        }
+        return temp;
+    }
+
+    private int fourPair(String value) {
+        int temp = 0;
+        switch (value) {
+            case "two":
+                temp = 114;
+                break;
+            case "three":
+                temp = 115;
+                break;
+            case "four":
+                temp = 116;
+                break;
+            case "five":
+                temp = 117;
+                break;
+            case "six":
+                temp = 118;
+                break;
+            case "seven":
+                temp = 119;
+                break;
+            case "eight":
+                temp = 120;
+                break;
+            case "nine":
+                temp = 121;
+                break;
+            case "ten":
+                temp = 122;
+                break;
+            case "jack":
+                temp = 123;
+                break;
+            case "queen":
+                temp = 124;
+                break;
+            case "king":
+                temp = 125;
+                break;
+            case "ace":
+                temp = 126;
+                break;
+        }
+        return temp;
+    }
+
+    public int getCardValue(Card card) {
+        switch (card.getValue()) {
+            case "two":
+                return 1;
+            case "three":
+                return 2;
+            case "four":
+                return 3;
+            case "five":
+                return 4;
+            case "six":
+                return 5;
+            case "seven":
+                return 6;
+            case "eight":
+                return 7;
+            case "nine":
+                return 8;
+            case "ten":
+                return 9;
+            case "jack":
+                return 10;
+            case "queen":
+                return 11;
+            case "king":
+                return 12;
+            case "ace":
+                return 13;
+        }
+        return -1;
+    }
+
+    private int getStraightValue(int value) {
+        switch (value) {
+            case 5:
+                return 65;
+            case 6:
+                return 66;
+            case 7:
+                return 67;
+            case 8:
+                return 68;
+            case 9:
+                return 69;
+            case 10:
+                return 70;
+            case 11:
+                return 71;
+            case 12:
+                return 72;
+            case 13:
+                return 73;
+        }
+        return -1;
     }
 }
