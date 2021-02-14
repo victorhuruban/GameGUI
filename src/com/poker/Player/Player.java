@@ -24,14 +24,14 @@ public class Player {
         sharedCards = new ArrayList<>();
         folded = false;
 
-        this.addCards(new Card("two", "diamond"));
+        this.addCards(pack.popCard());
         this.addCards(pack.popCard());
 
         this.addSharedCards(pack.popCard());
-        this.addSharedCards(new Card("two", "spade"));
         this.addSharedCards(pack.popCard());
-        this.addSharedCards(new Card("ten", "diamond"));
-        this.addSharedCards(new Card("ten", "club"));
+        this.addSharedCards(pack.popCard());
+        this.addSharedCards(pack.popCard());
+        this.addSharedCards(pack.popCard());
 
         rank.addPlayerCard(ownCards);
         rank.addSharedCard(sharedCards);

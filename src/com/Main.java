@@ -11,14 +11,14 @@ public class Main {
         //GameGUI start = new GameGUI();
         int rolls = 100000;
 
-        Pack p = new Pack();
-        Player player = new Player("Vic", 1000, p);
-        player.getRank().getScore();
-        player.displayCards();
-       /* while (rolls != 0) {
 
+        while (rolls != 0) {
+            Pack p = new Pack();
+            Player player = new Player("Vic", 1000, p);
+            player.getRank().getScore();
+            player.displayCards();
 
             rolls--;
-        }*/
+        }
     }
 }

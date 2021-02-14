@@ -141,19 +141,20 @@ public class Ranking {
             } else dict.put(card.getValue(), 1);
         }
 
+        int tempScore = 0;
         for (Map.Entry<String, Integer> entry: dict.entrySet()) {
             int tempVal = 0;
             if (entry.getValue() == 4) {
                 tempVal = fourPair(entry.getKey());
-                if (tempVal > score) { // FOUR PAIR
-                    score = tempVal;
+                if (tempVal > tempScore) { // FOUR PAIR
+                    tempScore = tempVal;
                 }
                 continue;
             }
             if (entry.getValue() == 3 && !tp && !dp) {
                 tempVal = triplePair(entry.getKey());
-                if (tempVal > score) {
-                    score = tempVal;
+                if (tempVal > tempScore) {
+                    tempScore = tempVal;
                 }
                 holder.add(tempVal);
                 tp = true;
@@ -162,15 +163,15 @@ public class Ranking {
             if (entry.getValue() == 3 && !tp) {
                 tempVal = triplePair(entry.getKey());
                 tempVal += 49;
-                if (tempVal > score) {
-                    score = tempVal; // FULL HOUSE
+                if (tempVal > tempScore) {
+                    tempScore = tempVal; // FULL HOUSE
                 }
                 continue;
             }
             if (entry.getValue() == 2 && !dp && !tp) {
                 tempVal = doublePair(entry.getKey());
-                if (tempVal > score) {
-                    score = tempVal;
+                if (tempVal > tempScore) {
+                    tempScore = tempVal;
                 }
                 holder.add(tempVal);
                 dp = true;
@@ -178,19 +179,21 @@ public class Ranking {
             }
             if (entry.getValue() == 2 && !dp) {
                 int tempH = holder.get(0) + 49;
-                if (tempH > score) { // FULL HOUSE!!!
-                    score = tempH;
+                if (tempH > tempScore) { // FULL HOUSE!!!
+                    tempScore = tempH;
                 }
                 dp = true;
                 continue;
             }
             if (entry.getValue() == 2 && !tp) {
                 tempVal = doublePair(entry.getKey());
-                if (tempVal + holder.get(0) > score) { // DOUBLE PAIR
-                    score = tempVal;
+                if (tempVal > tempScore && tempVal > holder.get(0)) { // DOUBLE PAIR
+                    tempScore = tempVal;
                 }
-                continue;
             }
+        }
+        if (tempScore > score) {
+            score = tempScore;
         }
     }
 
@@ -255,83 +258,95 @@ public class Ranking {
 
     private void checkTwoAndThree(ArrayList<ArrayList<Card>> cards) {
         for (ArrayList<Card> card : cards) {
+            int tempScore = 0;
             ArrayList<Card> tempArr = new ArrayList<>(playerCards);
             tempArr.addAll(card);
             checkCards(tempArr);
             if (checkStraight(tempArr) && checkFlush(tempArr) && getStraightValue(tempArr) == 73) {
-                score = 1000;
+                tempScore = 1000;
             }
             if (checkStraight(tempArr) && checkFlush(tempArr)) {
                 int temp = getStraightValue(tempArr);
-                if (temp + 62 > score) {
-                    score = temp + 62;
+                if (temp + 62 > tempScore) {
+                    tempScore = temp + 62;
                 }
             }
             if (checkStraight(tempArr)) {
                 int temp = getStraightValue(tempArr);
-                if (getStraightValue(temp) > score) {
-                    score = getStraightValue(temp);
+                if (getStraightValue(temp) > tempScore) {
+                    tempScore = getStraightValue(temp);
                 }
             }
             if (checkFlush(tempArr)) {
-                if (score < 100) {
-                    score = 100;
+                if (tempScore < 100) {
+                    tempScore = 100;
                 }
+            }
+            if (tempScore > score) {
+                score = tempScore;
             }
         }
      }
 
     private void checkOneAndFour(ArrayList<ArrayList<Card>> cards) {
         for (ArrayList<Card> card : cards) {
+            int tempScore = 0;
             ArrayList<Card> tempArr = new ArrayList<>();
             tempArr.add(playerCards.get(0));
             tempArr.addAll(card);
             checkCards(tempArr);
             if (checkStraight(tempArr) && checkFlush(tempArr) && getStraightValue(tempArr) == 73) {
-                score = 1000;
+                tempScore = 1000;
             }
             if (checkStraight(tempArr) && checkFlush(tempArr)) {
                 int temp = getStraightValue(tempArr);
-                if (temp + 62 > score) {
-                    score = temp + 62;
+                if (temp + 62 > tempScore) {
+                    tempScore = temp + 62;
                 }
             }
             if (checkStraight(tempArr)) {
                 int temp = getStraightValue(tempArr);
-                if (getStraightValue(temp) > score) {
-                    score = getStraightValue(temp);
+                if (getStraightValue(temp) > tempScore) {
+                    tempScore = getStraightValue(temp);
                 }
             }
             if (checkFlush(tempArr)) {
-                if (score < 100) {
-                    score = 100;
+                if (tempScore < 100) {
+                    tempScore = 100;
                 }
+            }
+            if (score < tempScore) {
+                score = tempScore;
             }
         }
         for (ArrayList<Card> card : cards) {
+            int tempScore = 0;
             ArrayList<Card> tempArr = new ArrayList<>();
             tempArr.add(playerCards.get(1));
             tempArr.addAll(card);
             checkCards(tempArr);
             if (checkStraight(tempArr) && checkFlush(tempArr) && getStraightValue(tempArr) == 73) {
-                score = 1000;
+                tempScore = 1000;
             }
             if (checkStraight(tempArr) && checkFlush(tempArr)) {
                 int temp = getStraightValue(tempArr);
-                if (temp + 62 > score) {
-                    score = temp + 62;
+                if (temp + 62 > tempScore) {
+                    tempScore = temp + 62;
                 }
             }
             if (checkStraight(tempArr)) {
                 int temp = getStraightValue(tempArr);
-                if (getStraightValue(temp) > score) {
-                    score = getStraightValue(temp);
+                if (getStraightValue(temp) > tempScore) {
+                    tempScore = getStraightValue(temp);
                 }
             }
             if (checkFlush(tempArr)) {
-                if (score < 100) {
-                    score = 100;
+                if (tempScore < 100) {
+                    tempScore = 100;
                 }
+            }
+            if (tempScore > score) {
+                score = tempScore;
             }
         }
     }
