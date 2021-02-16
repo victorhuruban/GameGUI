@@ -12,26 +12,22 @@ public class ClientTest {
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket(SERVER_IP, SERVER_PORT);
 
-        String command;
-        BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        ServerConnection serverConnection = new ServerConnection(socket);
+
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
+        new Thread(serverConnection).start();
         while (true) {
             System.out.println("> ");
 
-            command = keyboard.readLine();
+            String command = keyboard.readLine();
 
             if (command.equals("quit")) {
                 break;
             }
 
             out.println(command);
-
-            String serverResponse = input.readLine();
-            System.out.println("Server says " + serverResponse);
-
-            //JOptionPane.showMessageDialog(null, serverResponse);
         }
 
 
