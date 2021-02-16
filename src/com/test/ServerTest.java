@@ -24,7 +24,7 @@ public class ServerTest {
             System.out.println("[SERVER] Waiting for client connection...");
             Socket client = listener.accept();
             System.out.println("[SERVER] Accepted client.");
-            ClientHandler clientThread = new ClientHandler(client);
+            ClientHandler clientThread = new ClientHandler(client, clients);
             clients.add(clientThread);
 
             pool.execute(clientThread);
