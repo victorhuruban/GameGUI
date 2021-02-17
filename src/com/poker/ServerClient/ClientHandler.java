@@ -28,7 +28,8 @@ public class ClientHandler implements Runnable {
         try {
             while (true) {
                 String request = in.readLine();
-                if (request.contains("name")) {
+                if (request.contains("1")) {
+                    System.out.println("am primit ceav");
                     out.println(getRandomName());
                 } else if (request.startsWith("say")) {
                     int firstSpace = request.indexOf(" ");

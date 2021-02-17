@@ -1,5 +1,7 @@
 package com.poker.ServerClient;
 
+import com.poker.Lobby.Lobby;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,7 +44,6 @@ public class ServerP implements Runnable {
                 e.printStackTrace();
             }
             clients.add(clientThread);
-
             pool.execute(clientThread);
         }
     }

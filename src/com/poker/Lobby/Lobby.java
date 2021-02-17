@@ -2,12 +2,26 @@ package com.poker.Lobby;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Lobby {
 
     private final Color POKER_COLOR = new Color(14,209,69);
+    private int ready = 0;
 
-    public Lobby() {
+    private JPanel firstPlayerPanel;
+    private JPanel secondPlayerPanel;
+    private JPanel thirdPlayerPanel;
+    private JPanel forthPlayerPanel;
+    private JPanel fifthPlayerPanel;
+    private JPanel sixthPlayerPanel;
+    private JPanel seventhPlayerPanel;
+    private JPanel eightPlayerPanel;
+    private JPanel ninthPlayerPanel;
+    private JPanel tenthPlayerPanel;
+
+    public Lobby(int type, String name) {
         JFrame jframe = new JFrame("Lobby");
         jframe.setSize(728, 455);
         jframe.getContentPane().setBackground(POKER_COLOR);
@@ -23,16 +37,16 @@ public class Lobby {
         JButton startGame = new JButton("Start");
         JButton exitLobby = new JButton("Back");
 
-        JPanel firstPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel secondPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel thirdPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel forthPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel fifthPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel sixthPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel seventhPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel eightPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel ninthPlayerPanel = new JPanel(new GridLayout(0, 2));
-        JPanel tenthPlayerPanel = new JPanel(new GridLayout(0, 2));
+        firstPlayerPanel = new JPanel(new GridLayout(0, 2));
+        secondPlayerPanel = new JPanel(new GridLayout(0, 2));
+        thirdPlayerPanel = new JPanel(new GridLayout(0, 2));
+        forthPlayerPanel = new JPanel(new GridLayout(0, 2));
+        fifthPlayerPanel = new JPanel(new GridLayout(0, 2));
+        sixthPlayerPanel = new JPanel(new GridLayout(0, 2));
+        seventhPlayerPanel = new JPanel(new GridLayout(0, 2));
+        eightPlayerPanel = new JPanel(new GridLayout(0, 2));
+        ninthPlayerPanel = new JPanel(new GridLayout(0, 2));
+        tenthPlayerPanel = new JPanel(new GridLayout(0, 2));
 
         firstPlayerPanel.setBackground(Color.LIGHT_GRAY);
         secondPlayerPanel.setBackground(Color.LIGHT_GRAY);
@@ -69,9 +83,70 @@ public class Lobby {
 
         rightP.add(readyButton);
         rightP.add(exitLobby);
-        rightP.add(startGame);
+
         rightP.setBackground(POKER_COLOR);
         jframe.add(leftP, BorderLayout.CENTER);
         jframe.add(rightP, BorderLayout.EAST);
+        if (type == 0) {
+            rightP.add(startGame);
+            firstPlayerPanel.add(new JLabel("   " + name));
+            firstPlayerPanel.add(new JLabel("Not Ready"));
+        }
+
+        readyButton.addActionListener(e -> {
+            if (ready == 0) {
+                ready = 1;
+            } else {
+                ready = 0;
+            }
+        });
+    }
+
+    public int getReady() {
+        return ready;
+    }
+
+    public void setReadyStat(int num) {
+        if (num == 1) {
+            for (Component c : firstPlayerPanel.getComponents()) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not ready")) {
+                    firstPlayerPanel.remove(c);
+                }
+            }
+            firstPlayerPanel.add(new JLabel("Ready"));
+        } else if (num == 0) {
+            for (Component c : firstPlayerPanel.getComponents()) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Ready")) {
+                    firstPlayerPanel.remove(c);
+                }
+            }
+            firstPlayerPanel.add(new JLabel("Not ready"));
+        }
+    }
+
+    public JPanel getPanel(int num) {
+        switch (num) {
+            case 1:
+                return firstPlayerPanel;
+            case 2:
+                return secondPlayerPanel;
+            case 3:
+                return thirdPlayerPanel;
+            case 4:
+                return forthPlayerPanel;
+            case 5:
+                return fifthPlayerPanel;
+            case 6:
+                return sixthPlayerPanel;
+            case 7:
+                return seventhPlayerPanel;
+            case 8:
+                return eightPlayerPanel;
+            case 9:
+                return ninthPlayerPanel;
+            case 10:
+                return tenthPlayerPanel;
+        }
+        return null;
     }
 }

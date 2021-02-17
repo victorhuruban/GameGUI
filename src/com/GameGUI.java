@@ -178,7 +178,6 @@ public class GameGUI {
                 startServerAndHost();
             } else if (hovered == POKER_MODE) {
                 startServerAndHost();
-                Lobby lobby = new Lobby();
             }
         });
 
@@ -274,8 +273,8 @@ public class GameGUI {
             };
             runnable2 = () -> {
                 try {
-                    ClientP client = new ClientP("127.0.0.1");
-                } catch (IOException ioException) {
+                    ClientP client = new ClientP("127.0.0.1", new Lobby(0, name));
+                } catch (IOException | InterruptedException ioException) {
                     ioException.printStackTrace();
                 }
             };
@@ -313,8 +312,8 @@ public class GameGUI {
             } else {
                 runnable = () -> {
                     try {
-                        ClientP client = new ClientP(input);
-                    } catch (IOException ioException) {
+                        ClientP client = new ClientP(input, new Lobby(1, name));
+                    } catch (IOException | InterruptedException ioException) {
                         ioException.printStackTrace();
                     }
                 };
@@ -322,7 +321,6 @@ public class GameGUI {
                 clientThread.start();
                 getFrame().setVisible(false);
                 clientThread.interrupt();
-                Lobby lobby = new Lobby();
             }
         }
     }
