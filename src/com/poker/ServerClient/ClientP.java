@@ -1,16 +1,15 @@
-package com.test;
+package com.poker.ServerClient;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 
-public class ClientTest {
+public class ClientP {
 
-    private static final int SERVER_PORT = 5789;
-    private static final String SERVER_IP = "192.168.0.155";
+    private static final int SERVER_PORT = 57894;
 
-    public static void main(String[] args) throws IOException {
-        Socket socket = new Socket(SERVER_IP, SERVER_PORT);
+
+    public ClientP(String ip) throws IOException {
+        Socket socket = new Socket(ip, SERVER_PORT);
 
         ServerConnection serverConnection = new ServerConnection(socket);
 

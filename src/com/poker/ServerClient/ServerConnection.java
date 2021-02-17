@@ -1,4 +1,4 @@
-package com.test;
+package com.poker.ServerClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;

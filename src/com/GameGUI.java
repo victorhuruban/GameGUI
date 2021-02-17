@@ -2,6 +2,10 @@ package com;
 
 import com.chessgame.ServerClient.Client;
 import com.chessgame.ServerClient.Server;
+import com.poker.Lobby.Lobby;
+import com.poker.ServerClient.ClientP;
+import com.poker.ServerClient.ServerP;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -25,6 +29,8 @@ public class GameGUI {
     private final JPanel mainCards;
     private final int DEFAULT_PORT = 57894;
     private Runnable runnable;
+    private Runnable runnable1;
+    private Runnable runnable2;
 
     private int hovered = 1;
 
@@ -97,32 +103,12 @@ public class GameGUI {
         joinCard.add(ipField3);
         joinCard.add(ipField4);
 
-        // POKER LOBBY
-        //
-        JPanel lobbyPoker = new JPanel(new BorderLayout());
-        JPanel rightP = new JPanel(new GridLayout(3, 0));
-
-        JButton readyButton = new JButton("Ready");
-        JButton startGame = new JButton("Start");
-        JButton exitLobby = new JButton("Back");
-
-        JScrollPane playersList = new JScrollPane(new JTextArea(15, 15));
-        playersList.setHorizontalScrollBar(null);
-
-        rightP.add(readyButton);
-        rightP.add(exitLobby);
-        rightP.add(startGame);
-        rightP.setBackground(POKER_COLOR);
-        lobbyPoker.add(playersList, BorderLayout.CENTER);
-        lobbyPoker.add(rightP, BorderLayout.EAST);
-
         // ADDING CARDS TO THE MAIN-CARD PANEL
         //
         this.mainCards.add(choiceCard, "1");
         this.mainCards.add(setNameCard, "2");
         this.mainCards.add(chooseHostOrJoin, "3");
         this.mainCards.add(joinCard, "4");
-        this.mainCards.add(lobbyPoker, "5");
 
         //////////////////////////////
         // BUTTONS ACTION LISTENERS //
@@ -189,10 +175,10 @@ public class GameGUI {
         // STRAIGHT HOST A GAME
         hostChoice.addActionListener(e -> {
             if (hovered == CHESS_MODE) {
-                startServerAndHostChess();
+                startServerAndHost();
             } else if (hovered == POKER_MODE) {
-                CardLayout cl = (CardLayout) this.mainCards.getLayout();
-                cl.show(this.mainCards, "5");
+                startServerAndHost();
+                Lobby lobby = new Lobby();
             }
         });
 
@@ -227,8 +213,11 @@ public class GameGUI {
                     System.out.println("Invalid IP");
                 }
             } else if (hovered == POKER_MODE) {
-                CardLayout cl = (CardLayout) this.mainCards.getLayout();
-                cl.show(this.mainCards, "5");
+                if (!getIp(ipField1.getText(),ipField2.getText(),ipField3.getText(),ipField4.getText()).equals("")) {
+                    startClientAndJoin(getIp(ipField1.getText(),ipField2.getText(),ipField3.getText(),ipField4.getText()));
+                } else {
+                    System.out.println("Invalid IP");
+                }
             }
         });
 
@@ -239,6 +228,15 @@ public class GameGUI {
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
             cl.show(this.mainCards, "3");
         });
+
+        // READY BUTTON IN POKER LOBBY
+        // readyButton
+
+        // START GAME IN POKER LOBBY
+        // startGame
+
+        // EXIT LOBBY
+        // exitLobby
     }
 
     // CHECKS IF THE IP IS VALID OR NOT METHOD FOR THE JOIN FUNCTION
@@ -253,7 +251,7 @@ public class GameGUI {
     }
 
     // METHOD WHICH IS CREATING THE SERVER SOCKET
-    public void startServerAndHostChess() {
+    public void startServerAndHost() {
         if (hovered == CHESS_MODE) {
             runnable = () -> {
                 try {
@@ -267,8 +265,27 @@ public class GameGUI {
             getFrame().setVisible(false);
             serverThread.interrupt();
         } else if (hovered == POKER_MODE) {
-            CardLayout cl = (CardLayout) this.mainCards.getLayout();
-            cl.show(this.mainCards, "5");
+            runnable1 = () -> {
+                try {
+                    ServerP server = new ServerP(DEFAULT_PORT);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            };
+            runnable2 = () -> {
+                try {
+                    ClientP client = new ClientP("127.0.0.1");
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            };
+            Thread serverThread = new Thread(runnable1);
+            Thread clientThread = new Thread(runnable2);
+            serverThread.start();
+            clientThread.start();
+            getFrame().setVisible(false);
+            serverThread.interrupt();
+            clientThread.interrupt();
         }
     }
 
@@ -291,8 +308,22 @@ public class GameGUI {
                 clientThread.interrupt();
             }
         } else if (hovered == POKER_MODE) {
-            CardLayout cl = (CardLayout) this.mainCards.getLayout();
-            cl.show(this.mainCards, "5");
+            if (input.equals("")) {
+                System.out.println("Invalid");
+            } else {
+                runnable = () -> {
+                    try {
+                        ClientP client = new ClientP(input);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                };
+                Thread clientThread = new Thread(runnable);
+                clientThread.start();
+                getFrame().setVisible(false);
+                clientThread.interrupt();
+                Lobby lobby = new Lobby();
+            }
         }
     }
 

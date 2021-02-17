@@ -1,6 +1,4 @@
-package com.test;
-
-import com.chessgame.ServerClient.Client;
+package com.poker.ServerClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static com.test.ServerTest.getRandomName;
+import static com.poker.ServerClient.ServerP.getRandomName;
 
 public class ClientHandler implements Runnable {
 

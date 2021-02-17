@@ -21,10 +21,6 @@ public class Game implements Serializable {
     private final Color MOVE_LIGHT_COLOR = new Color(246, 242, 110);
     private final Color CAPTURE_DARK_COLOR = new Color(193, 49, 28);
     private final Color CAPTURE_LIGHT_COLOR = new Color(246, 114, 110);
-    private final Color MY_LOCATION_DARK_COLOR = new Color(65, 49, 155);
-    private final Color MY_LOCATION_LIGHT_COLOR = new Color(119, 114, 238);
-    private final Color CASTLING_DARK = new Color(65, 176, 28);
-    private final Color CASTLING_LIGHT = new Color(119, 242, 101);
     private final Color DARK_COLOR = new Color(130, 97, 55);
     private final Color LIGHT_COLOR = new Color(237,228,202);
     private JLabel myName, opponentName;
