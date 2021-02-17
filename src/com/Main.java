@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) throws NullPointerException {
-        //GameGUI start = new GameGUI();
-        int rolls = 100000;
+        GameGUI start = new GameGUI();
+        /*int rolls = 100000;
 
 
         while (rolls != 0) {
@@ -19,6 +19,6 @@ public class Main {
             player.displayCards();
 
             rolls--;
-        }
+        }*/
     }
 }
