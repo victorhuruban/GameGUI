@@ -1,9 +1,10 @@
 package com.poker.ServerClient;
 
+import com.poker.Lobby.Lobby;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ServerConnection implements Runnable {
@@ -11,9 +12,13 @@ public class ServerConnection implements Runnable {
     private Socket server;
     private BufferedReader in;
 
-    public ServerConnection(Socket s) throws IOException {
+    private Lobby lobby;
+
+    public ServerConnection(Socket s, Lobby lobby) throws IOException {
+        this.lobby = lobby;
         server = s;
         in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+
     }
 
     @Override
@@ -24,7 +29,9 @@ public class ServerConnection implements Runnable {
 
                 if (serverResponse == null) break;
 
-                System.out.println("Server says: " + serverResponse);
+                String[] test = serverResponse.split(" ");
+                System.out.println(test[0] + " " + test[1]);
+                lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
             }
         } catch (IOException e) {
             e.printStackTrace();

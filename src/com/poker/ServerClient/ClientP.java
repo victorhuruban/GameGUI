@@ -15,12 +15,12 @@ public class ClientP {
     private static final int SERVER_PORT = 57894;
     private int ready = 0;
 
-    public ClientP(String ip, Lobby lobby) throws IOException, InterruptedException {
+    public ClientP(String ip, Lobby lobby) throws IOException {
         this.lobby = lobby;
 
         Socket socket = new Socket(ip, SERVER_PORT);
 
-        ServerConnection serverConnection = new ServerConnection(socket);
+        ServerConnection serverConnection = new ServerConnection(socket, lobby);
 
         out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -34,8 +34,13 @@ public class ClientP {
             @Override
             public void run() {
                 System.out.println("here");
-                if (lobby.getReady() == 1) {
+                if (lobby.getReadyPressed()) {
+                    lobby.setReadyStat(lobby.getState());
+                    lobby.changeReadyPressed();
                     out.println("1");
+                    timer.cancel();
+                    runLoop();
+                } else if (lobby.getExit()) {
                     timer.cancel();
                 }
             }

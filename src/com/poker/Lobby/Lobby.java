@@ -8,7 +8,11 @@ import java.awt.event.ActionListener;
 public class Lobby {
 
     private final Color POKER_COLOR = new Color(14,209,69);
-    private int ready = 0;
+    private boolean readyPressed = false;
+    private int state = 0;
+    private boolean exit = false;
+
+    private JPanel leftP;
 
     private JPanel firstPlayerPanel;
     private JPanel secondPlayerPanel;
@@ -29,7 +33,7 @@ public class Lobby {
         jframe.setVisible(true);
 
         JPanel rightP = new JPanel(new GridLayout(3, 0));
-        JPanel leftP = new JPanel(new GridLayout(10, 0));
+        leftP = new JPanel(new GridLayout(10, 0));
         leftP.setBackground(POKER_COLOR);
         leftP.getInsets(new Insets(10,10,10,10));
 
@@ -89,27 +93,54 @@ public class Lobby {
         jframe.add(rightP, BorderLayout.EAST);
         if (type == 0) {
             rightP.add(startGame);
-            firstPlayerPanel.add(new JLabel("   " + name));
-            firstPlayerPanel.add(new JLabel("Not Ready"));
+            /*firstPlayerPanel.add(new JLabel("   " + name));
+            firstPlayerPanel.add(new JLabel("Not Ready"));*/
         }
 
         readyButton.addActionListener(e -> {
-            if (ready == 0) {
-                ready = 1;
-            } else {
-                ready = 0;
-            }
+            readyPressed = true;
+            setState();
+        });
+
+        exitLobby.addActionListener(e -> {
+            exit = true;
+            System.exit(0);
         });
     }
 
-    public int getReady() {
-        return ready;
+    public boolean getExit() {
+        return exit;
+    }
+
+    public boolean getReadyPressed() {
+        return readyPressed;
+    }
+
+    public void changeReadyPressed() {
+        readyPressed = false;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState() {
+        if (state == 1) {
+            state = 0;
+        } else state = 1;
+    }
+
+    public void setJPanel(int con, String name) {
+        JPanel ref = getPanel(con);
+        ref.add(new JLabel("   " + name));
+        ref.add(new JLabel("Not Ready"));
+        leftP.updateUI();
     }
 
     public void setReadyStat(int num) {
         if (num == 1) {
             for (Component c : firstPlayerPanel.getComponents()) {
-                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not ready")) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not Ready")) {
                     firstPlayerPanel.remove(c);
                 }
             }
@@ -120,31 +151,32 @@ public class Lobby {
                     firstPlayerPanel.remove(c);
                 }
             }
-            firstPlayerPanel.add(new JLabel("Not ready"));
+            firstPlayerPanel.add(new JLabel("Not Ready"));
         }
+        leftP.updateUI();
     }
 
     public JPanel getPanel(int num) {
         switch (num) {
-            case 1:
+            case 0:
                 return firstPlayerPanel;
-            case 2:
+            case 1:
                 return secondPlayerPanel;
-            case 3:
+            case 2:
                 return thirdPlayerPanel;
-            case 4:
+            case 3:
                 return forthPlayerPanel;
-            case 5:
+            case 4:
                 return fifthPlayerPanel;
-            case 6:
+            case 5:
                 return sixthPlayerPanel;
-            case 7:
+            case 6:
                 return seventhPlayerPanel;
-            case 8:
+            case 7:
                 return eightPlayerPanel;
-            case 9:
+            case 8:
                 return ninthPlayerPanel;
-            case 10:
+            case 9:
                 return tenthPlayerPanel;
         }
         return null;

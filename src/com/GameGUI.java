@@ -274,7 +274,7 @@ public class GameGUI {
             runnable2 = () -> {
                 try {
                     ClientP client = new ClientP("127.0.0.1", new Lobby(0, name));
-                } catch (IOException | InterruptedException ioException) {
+                } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
             };
@@ -290,10 +290,10 @@ public class GameGUI {
 
     // METHOD WHICH IS CREATING THE CLIENT
     public void startClientAndJoin (String input) { // TODO: FIND WAYS TO IMPROVE; ADD ERROR HANDLING
-        if (hovered == CHESS_MODE) {
-            if (input.equals("")) {
-                System.out.println("Invalid");
-            } else {
+        if (input.equals("")) {
+            System.out.println("Invalid");
+        } else {
+            if (hovered == CHESS_MODE) {
                 runnable = () -> {
                     try {
                         Client client = new Client(input, DEFAULT_PORT, name);
@@ -305,15 +305,11 @@ public class GameGUI {
                 clientThread.start();
                 getFrame().setVisible(false);
                 clientThread.interrupt();
-            }
-        } else if (hovered == POKER_MODE) {
-            if (input.equals("")) {
-                System.out.println("Invalid");
-            } else {
+            } else if (hovered == POKER_MODE) {
                 runnable = () -> {
                     try {
                         ClientP client = new ClientP(input, new Lobby(1, name));
-                    } catch (IOException | InterruptedException ioException) {
+                    } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
                 };

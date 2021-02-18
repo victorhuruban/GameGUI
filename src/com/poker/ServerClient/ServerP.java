@@ -11,8 +11,11 @@ import java.util.concurrent.Executors;
 
 public class ServerP implements Runnable {
 
+
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(2);
+
+    private int conNum = 0;
 
     private ServerSocket listener;
 
@@ -30,11 +33,12 @@ public class ServerP implements Runnable {
             try {
                 client = listener.accept();
                 System.out.println("[SERVER] Accepted client.");
-                clientThread = new ClientHandler(client, clients);
+                clientThread = new ClientHandler(client, clients, conNum);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             clients.add(clientThread);
+            conNum++;
             pool.execute(clientThread);
         }
     }
