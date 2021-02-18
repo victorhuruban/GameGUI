@@ -11,9 +11,6 @@ import java.util.concurrent.Executors;
 
 public class ServerP implements Runnable {
 
-    private static String[] names = {"Wily", "Felix", "Carlsbad", "Hobob"};
-    private static String[] adjs = {"the gentle", "the un-gentle", "the overwrought", "the urbane"};
-
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(2);
 
@@ -22,12 +19,6 @@ public class ServerP implements Runnable {
     public ServerP(int port) throws IOException {
         listener = new ServerSocket(port);
         run();
-    }
-
-    public static String getRandomName() {
-        String name = names[ (int) (Math.random() * names.length)];
-        String adj = adjs[ (int) (Math.random() * adjs.length)];
-        return name + " " + adj;
     }
 
     @Override

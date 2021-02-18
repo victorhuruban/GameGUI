@@ -7,8 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import static com.poker.ServerClient.ServerP.getRandomName;
-
 public class ClientHandler implements Runnable {
 
     private Socket client;
@@ -30,15 +28,7 @@ public class ClientHandler implements Runnable {
                 String request = in.readLine();
                 if (request.contains("1")) {
                     System.out.println("am primit ceav");
-                    out.println(getRandomName());
-                } else if (request.startsWith("say")) {
-                    int firstSpace = request.indexOf(" ");
-                    if (firstSpace != -1) {
-                        outToAll(request.substring(firstSpace + 1));
-                    }
-                }
-                else {
-                    out.println("Type 'tell me a name' to get a random name");
+                    outToAll("sa ma sugi");
                 }
             }
         } catch (IOException e) {

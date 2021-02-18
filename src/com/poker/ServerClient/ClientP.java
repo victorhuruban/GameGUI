@@ -8,19 +8,27 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClientP {
+    private Lobby lobby;
+
+    private PrintWriter out;
 
     private static final int SERVER_PORT = 57894;
     private int ready = 0;
 
     public ClientP(String ip, Lobby lobby) throws IOException, InterruptedException {
+        this.lobby = lobby;
 
         Socket socket = new Socket(ip, SERVER_PORT);
 
         ServerConnection serverConnection = new ServerConnection(socket);
 
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+        out = new PrintWriter(socket.getOutputStream(), true);
 
         new Thread(serverConnection).start();
+        runLoop();
+    }
+
+    public void runLoop() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -31,6 +39,6 @@ public class ClientP {
                     timer.cancel();
                 }
             }
-            }, 50, 1000);
+        }, 50, 1000);
     }
 }
