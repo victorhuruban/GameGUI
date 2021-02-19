@@ -58,10 +58,10 @@ public class ClientP {
                 } else if (lobby.getSendReadyStat()) {
                     if (lobby.getReadyPressed()) {
                         System.out.println("unu");
-                        out.println(1);
+                        out.println(1 + " 2");
                     } else {
-                        out.println(0);
-                        System.out.println("doi");
+                        out.println(0 + " 2");
+
                     }
                     lobby.setSendReadyStat();
                 }
