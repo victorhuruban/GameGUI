@@ -121,7 +121,7 @@ public class Server implements Runnable {
                     }
                 }
             }
-        }, 50, 5000);
+        }, 100, 250);
         boolean tru = true;
         while (tru) {
             if (game.getGameover()) {

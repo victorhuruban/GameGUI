@@ -34,10 +34,8 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         if (conNum != 0) {
-            int count = 0;
             for (String s: clientsNames) {
-                lobby.setJPanel(count, clientsNames.get(count));
-                count++;
+                System.out.println(s);
             }
             for (ClientHandler c: clients) {
                 c.out.println(conNum + " " + lobby.getName());

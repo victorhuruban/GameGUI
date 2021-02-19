@@ -145,7 +145,7 @@ public class Client implements Runnable {
                     }
                 }
             }
-        }, 50, 5000);
+        }, 100, 250);
     }
 
     private void copyLocFromTransfer(Loc[][] transfer, ChessBoard cb) {
