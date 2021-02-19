@@ -16,7 +16,7 @@ public class ClientHandler implements Runnable {
     private PrintWriter out;
     private ArrayList<ClientHandler> clients;
 
-    private int conNum;
+    private final int conNum;
 
     public ClientHandler(Socket client, ArrayList<ClientHandler> clients, int conNum) throws IOException {
         this.client = client;
@@ -28,17 +28,21 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        if (conNum != 0) {
+        /*if (conNum != 0) {
             for (ClientHandler c : clients) {
-                out.println(conNum + " random");
+                c.out.println(conNum + " random");
             }
-        }
+        }*/
         try {
             while (true) {
                 String request = in.readLine();
-                if (request.contains("1")) {
-                    System.out.println("sa ma sugi");
+                String[] req = request.split(" ");
+                if (req[req.length - 1].equals("0")) {
+                    outToAll(conNum + " " + req[0]);
                 }
+                /*if (request.contains("1")) {
+                    outToAll("0 vic");
+                } else if (request.equals())*/
             }
         } catch (IOException e) {
             System.err.println("IO exception in client handler");

@@ -25,6 +25,8 @@ public class ClientP {
         out = new PrintWriter(socket.getOutputStream(), true);
 
         new Thread(serverConnection).start();
+
+        out.println(lobby.getName() + " " + 0);
         runLoop();
     }
 
