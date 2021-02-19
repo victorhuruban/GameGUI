@@ -10,16 +10,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerP implements Runnable {
-
+    private Lobby lobby;
 
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
+    private static ArrayList<String> clientsNames = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(2);
 
     private int conNum = 0;
 
-    private ServerSocket listener;
+    private final ServerSocket listener;
 
-    public ServerP(int port) throws IOException {
+    public ServerP(int port, Lobby lobby) throws IOException {
+        this.lobby = lobby;
         listener = new ServerSocket(port);
         run();
     }
@@ -33,13 +35,15 @@ public class ServerP implements Runnable {
             try {
                 client = listener.accept();
                 System.out.println("[SERVER] Accepted client.");
-                clientThread = new ClientHandler(client, clients, conNum);
+                clientThread = new ClientHandler(client, clients, conNum, lobby, clientsNames);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             clients.add(clientThread);
+            if (clientThread != null) {
+                pool.execute(clientThread);
+            }
             conNum++;
-            pool.execute(clientThread);
         }
     }
 }

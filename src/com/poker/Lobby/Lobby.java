@@ -11,6 +11,7 @@ public class Lobby {
     private boolean readyPressed = false;
     private int state = 0;
     private boolean exit = false;
+    private String name;
 
     private JPanel leftP;
 
@@ -26,6 +27,7 @@ public class Lobby {
     private JPanel tenthPlayerPanel;
 
     public Lobby(int type, String name) {
+        this.name = name;
         JFrame jframe = new JFrame("Lobby");
         jframe.setSize(728, 455);
         jframe.getContentPane().setBackground(POKER_COLOR);
@@ -122,6 +124,10 @@ public class Lobby {
 
     public int getState() {
         return state;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void setState() {

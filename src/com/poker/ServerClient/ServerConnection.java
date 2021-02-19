@@ -29,9 +29,9 @@ public class ServerConnection implements Runnable {
 
                 if (serverResponse == null) break;
 
-                String[] test = serverResponse.split(" ");
+                /*String[] test = serverResponse.split(" ");
                 System.out.println(test[0] + " " + test[1]);
-                lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
+                lobby.setJPanel(Integer.parseInt(test[0]), test[1]);*/
             }
         } catch (IOException e) {
             e.printStackTrace();
