@@ -45,7 +45,7 @@ public class ClientHandler implements Runnable {
                     System.out.println("acilea");
                     outToAll("Im trying to start the game");
                 } else if (req[req.length - 1].equals("2")) {
-                    outToAll(conNum + " " + req[0]);
+                    outToAll(conNum + " " + req[0] + " ce plm coaie bag pula in ma ta");
                 }
             }
         } catch (IOException e) {
