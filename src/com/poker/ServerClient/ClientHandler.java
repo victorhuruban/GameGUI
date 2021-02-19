@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ClientHandler implements Runnable {
 
@@ -15,6 +17,7 @@ public class ClientHandler implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private ArrayList<ClientHandler> clients;
+    private Set<Integer> start = new HashSet<>();
 
     private final int conNum;
 
@@ -40,6 +43,9 @@ public class ClientHandler implements Runnable {
                 } else if (req[req.length - 1].equals("1") && req[0].equals("NotReady")) {
                     System.out.println("acilea");
                     outToAll("NotReady " + req[1] + " " + conNum);
+                } else if (req.length == 1 && (Integer.parseInt(req[0]) == 0 && Integer.parseInt(req[0]) == 1) && conNum == 0) {
+                    start.add(Integer.parseInt(req[0]));
+                    System.out.println(start);
                 } else if (req.length == 1) {
                     System.out.println();
                     outToAll(conNum + " tries to start the game");

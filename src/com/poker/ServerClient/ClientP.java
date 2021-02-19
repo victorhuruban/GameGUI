@@ -54,8 +54,12 @@ public class ClientP {
                     runLoop();
                 } else if (lobby.getTryStart()) {
                     out.println("try2start");
-                    System.out.println("try2start");
                     lobby.setTryStart();
+                } else if (lobby.getSendReadyStat()) {
+                    if (lobby.getReadyPressed()) {
+                        out.println(1);
+                    } else out.println(0);
+                    lobby.setSendReadyStat();
                 }
             }
         }, 250, 100);

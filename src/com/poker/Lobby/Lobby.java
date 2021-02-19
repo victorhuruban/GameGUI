@@ -12,7 +12,9 @@ public class Lobby {
     private boolean exit = false;
     private boolean sendBack = false;
     private boolean tryStart = false;
+    private boolean sendReadyStat = false;
     private int state = 0;
+    private int type;
     private String name;
 
     private JPanel leftP;
@@ -30,6 +32,7 @@ public class Lobby {
 
     public Lobby(int type, String name) {
         this.name = name;
+        this.type = type;
         JFrame jframe = new JFrame("Lobby");
         jframe.setSize(728, 455);
         jframe.getContentPane().setBackground(POKER_COLOR);
@@ -234,5 +237,17 @@ public class Lobby {
                 return tenthPlayerPanel;
         }
         return null;
+    }
+
+    public boolean getSendReadyStat() {
+        return sendReadyStat;
+    }
+
+    public void setSendReadyStat() {
+        sendReadyStat = !sendReadyStat;
+    }
+
+    public int getType() {
+        return type;
     }
 }
