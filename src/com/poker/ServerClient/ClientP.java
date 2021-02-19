@@ -46,6 +46,7 @@ public class ClientP {
                 } else if (lobby.getSendBack()) {
                     out.println(lobby.getName() + " " + 0);
                     lobby.setSendBack();
+                    System.out.println("SENDBACk");
                 }
             }
         }, 250, 100);
