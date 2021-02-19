@@ -43,6 +43,9 @@ public class ClientP {
                     runLoop();
                 } else if (lobby.getExit()) {
                     timer.cancel();
+                } else if (lobby.getSendBack()) {
+                    out.println(lobby.getName() + " " + 0);
+                    lobby.setSendBack();
                 }
             }
         }, 250, 100);

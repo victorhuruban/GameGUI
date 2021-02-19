@@ -9,8 +9,9 @@ public class Lobby {
 
     private final Color POKER_COLOR = new Color(14,209,69);
     private boolean readyPressed = false;
-    private int state = 0;
     private boolean exit = false;
+    private boolean sendBack = false;
+    private int state = 0;
     private String name;
 
     private JPanel leftP;
@@ -128,6 +129,14 @@ public class Lobby {
 
     public String getName() {
         return name;
+    }
+
+    public void setSendBack() {
+        sendBack = !sendBack;
+    }
+
+    public boolean getSendBack() {
+        return sendBack;
     }
 
     public void setState() {

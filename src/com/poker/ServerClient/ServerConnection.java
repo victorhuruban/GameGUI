@@ -29,12 +29,10 @@ public class ServerConnection implements Runnable {
 
                 if (serverResponse == null) break;
 
-
                 String[] test = serverResponse.split(" ");
                 if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
                     lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();

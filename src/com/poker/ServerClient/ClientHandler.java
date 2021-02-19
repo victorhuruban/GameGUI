@@ -28,11 +28,6 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        /*if (conNum != 0) {
-            for (ClientHandler c : clients) {
-                c.out.println(conNum + " random");
-            }
-        }*/
         try {
             while (true) {
                 String request = in.readLine();
@@ -40,9 +35,6 @@ public class ClientHandler implements Runnable {
                 if (req[req.length - 1].equals("0")) {
                     outToAll(conNum + " " + req[0]);
                 }
-                /*if (request.contains("1")) {
-                    outToAll("0 vic");
-                } else if (request.equals())*/
             }
         } catch (IOException e) {
             System.err.println("IO exception in client handler");
