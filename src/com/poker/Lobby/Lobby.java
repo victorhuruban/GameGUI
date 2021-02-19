@@ -196,6 +196,19 @@ public class Lobby {
         temp.updateUI();
     }
 
+    public JPanel findPanelByName(String name) {
+        for (int i = 0; i < 11; i++) {
+            JPanel test = getPanel(i);
+            if (test.getComponents().length > 0) {
+                JLabel testName = (JLabel) test.getComponent(0);
+                if (testName.getText().equals(name)) {
+                    return test;
+                }
+            }
+        }
+        return null;
+    }
+
     public JPanel getPanel(int num) {
         switch (num) {
             case 0:

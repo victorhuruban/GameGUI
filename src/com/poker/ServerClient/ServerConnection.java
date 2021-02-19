@@ -45,7 +45,7 @@ public class ServerConnection implements Runnable {
                     } else tempLabel.setText("Not Ready");
                     lobby.getPanel(Integer.parseInt(test[2])).updateUI();
                 } else if (test.length == 6) {
-                    JPanel temp = lobby.getPanel(Integer.parseInt(test[0]));
+                    JPanel temp = lobby.findPanelByName(lobby.getName());
                     JLabel tempL = (JLabel) temp.getComponent(1);
                     if (tempL.getText().equals("Ready")) {
                         System.out.println("I am ready");
