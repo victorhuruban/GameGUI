@@ -38,15 +38,14 @@ public class ClientHandler implements Runnable {
                 if (req[req.length - 1].equals("0")) {
                     outToAll(conNum + " " + req[0]);
                 } else if (req[req.length - 1].equals("1") && req[0].equals("Ready")) {
-                    System.out.println("acii");
                     outToAll("Ready " + req[1] + " " + conNum);
                 } else if (req[req.length - 1].equals("1") && req[0].equals("NotReady")) {
-                    System.out.println("acilea");
                     outToAll("NotReady " + req[1] + " " + conNum);
                 } else if (req.length == 1 && req[0].equals("try2start")) {
-                    System.out.println();
+                    System.out.println("acilea");
                     outToAll("Im trying to start the game");
                 } else if (req.length == 1) {
+                    System.out.println(req[0]);
                     start.add(Integer.parseInt(req[0]));
                     System.out.println(start);
                 }
