@@ -35,7 +35,6 @@ public class ServerConnection implements Runnable {
                 if (test.length == 2) {
                     if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
                         lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
-                        System.out.println(test[1]);
                         lobby.setSendBack();
                     }
                 } else if (test.length == 3) {
@@ -45,6 +44,12 @@ public class ServerConnection implements Runnable {
                         tempLabel.setText("Ready");
                     } else tempLabel.setText("Not Ready");
                     lobby.getPanel(Integer.parseInt(test[2])).updateUI();
+                } else if (test.length == 6) {
+                    JPanel temp = lobby.getPanel(Integer.parseInt(test[0]));
+                    JLabel tempL = (JLabel) temp.getComponent(1);
+                    if (tempL.getText().equals("Ready")) {
+                        System.out.println("I am ready");
+                    } else System.out.println("I am not ready");
                 }
             }
         } catch (IOException e) {

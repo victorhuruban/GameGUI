@@ -40,6 +40,8 @@ public class ClientHandler implements Runnable {
                 } else if (req[req.length - 1].equals("1") && req[0].equals("NotReady")) {
                     System.out.println("acilea");
                     outToAll("NotReady " + req[1] + " " + conNum);
+                } else if (req.length == 1 && conNum != 0) {
+                    outToAll(conNum + " tries to start the game");
                 }
             }
         } catch (IOException e) {

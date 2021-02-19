@@ -52,6 +52,8 @@ public class ClientP {
                     lobby.setSendBack();
                     timer.cancel();
                     runLoop();
+                } else if (lobby.getTryStart()) {
+                    out.println("try2start");
                 }
             }
         }, 250, 100);

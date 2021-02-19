@@ -11,6 +11,7 @@ public class Lobby {
     private boolean readyPressed = false;
     private boolean exit = false;
     private boolean sendBack = false;
+    private boolean tryStart = false;
     private int state = 0;
     private String name;
 
@@ -99,6 +100,7 @@ public class Lobby {
             firstPlayerPanel.add(new JLabel("   " + name));
             firstPlayerPanel.add(new JLabel("Not Ready"));
         }
+        jframe.repaint();
 
         readyButton.addActionListener(e -> {
             readyPressed = true;
@@ -108,6 +110,10 @@ public class Lobby {
         exitLobby.addActionListener(e -> {
             exit = true;
             System.exit(0);
+        });
+
+        startGame.addActionListener(e -> {
+            tryStart = true;
         });
     }
 
@@ -150,6 +156,14 @@ public class Lobby {
         ref.add(new JLabel("   " + name));
         ref.add(new JLabel("Not Ready"));
         leftP.updateUI();
+    }
+
+    public boolean getTryStart() {
+        return tryStart;
+    }
+
+    public void setTryStart() {
+        tryStart = false;
     }
 
     public void setReadyStat(int num) {
