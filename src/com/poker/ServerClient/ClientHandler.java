@@ -15,7 +15,6 @@ public class ClientHandler implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private ArrayList<ClientHandler> clients;
-    private Lobby lobby;
 
     private int conNum;
 
@@ -29,7 +28,11 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-
+        if (conNum != 0) {
+            for (ClientHandler c : clients) {
+                out.println(conNum + " random");
+            }
+        }
         try {
             while (true) {
                 String request = in.readLine();

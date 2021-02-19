@@ -95,6 +95,8 @@ public class Lobby {
         jframe.add(rightP, BorderLayout.EAST);
         if (type == 0) {
             rightP.add(startGame);
+            firstPlayerPanel.add(new JLabel("   " + name));
+            firstPlayerPanel.add(new JLabel("Not Ready"));
         }
 
         readyButton.addActionListener(e -> {
