@@ -153,22 +153,33 @@ public class Lobby {
     }
 
     public void setReadyStat(int num) {
-        if (num == 1) {
-            for (Component c : firstPlayerPanel.getComponents()) {
-                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not Ready")) {
-                    firstPlayerPanel.remove(c);
-                }
+        JPanel temp = null;
+        boolean b = false;
+        for (int i = 0; i < 11; i++) {
+            temp = getPanel(i);
+            System.out.println(i);
+            JLabel tempL = (JLabel) temp.getComponent(0);
+            if (tempL.getText().strip().equals(name)) {
+                break;
             }
-            firstPlayerPanel.add(new JLabel("Ready"));
-        } else if (num == 0) {
-            for (Component c : firstPlayerPanel.getComponents()) {
-                if (c instanceof JLabel && ((JLabel) c).getText().equals("Ready")) {
-                    firstPlayerPanel.remove(c);
-                }
-            }
-            firstPlayerPanel.add(new JLabel("Not Ready"));
+
         }
-        leftP.updateUI();
+        if (num == 1) {
+            for (Component c : temp.getComponents()) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not Ready")) {
+                    temp.remove(c);
+                }
+            }
+            temp.add(new JLabel("Ready"));
+        } else if (num == 0) {
+            for (Component c : temp.getComponents()) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Ready")) {
+                    temp.remove(c);
+                }
+            }
+            temp.add(new JLabel("Not Ready"));
+        }
+        temp.updateUI();
     }
 
     public JPanel getPanel(int num) {

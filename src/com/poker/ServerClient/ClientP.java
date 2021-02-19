@@ -38,7 +38,11 @@ public class ClientP {
                 if (lobby.getReadyPressed()) {
                     lobby.setReadyStat(lobby.getState());
                     lobby.changeReadyPressed();
-                    out.println("1");
+                    if (lobby.getState() == 1) {
+                        out.println("Ready " + lobby.getName() + " " + 1);
+                    } else {
+                        out.println("NotReady " + lobby.getName() + " " + 1);
+                    }
                     timer.cancel();
                     runLoop();
                 } else if (lobby.getExit()) {
@@ -46,7 +50,8 @@ public class ClientP {
                 } else if (lobby.getSendBack()) {
                     out.println(lobby.getName() + " " + 0);
                     lobby.setSendBack();
-                    System.out.println("SENDBACk");
+                    timer.cancel();
+                    runLoop();
                 }
             }
         }, 250, 100);

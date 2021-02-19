@@ -2,10 +2,12 @@ package com.poker.ServerClient;
 
 import com.poker.Lobby.Lobby;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Arrays;
 
 public class ServerConnection implements Runnable {
 
@@ -30,10 +32,19 @@ public class ServerConnection implements Runnable {
                 if (serverResponse == null) break;
 
                 String[] test = serverResponse.split(" ");
-                if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
-                    lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
-                    System.out.println(test[1]);
-                    lobby.setSendBack();
+                if (test.length == 2) {
+                    if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
+                        lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
+                        System.out.println(test[1]);
+                        lobby.setSendBack();
+                    }
+                } else if (test.length == 3) {
+                    JPanel temp = lobby.getPanel(Integer.parseInt(test[2]));
+                    JLabel tempLabel = (JLabel) temp.getComponent(1);
+                    if (test[0].equals("Ready")) {
+                        tempLabel.setText("Ready");
+                    } else tempLabel.setText("Not Ready");
+                    lobby.getPanel(Integer.parseInt(test[2])).updateUI();
                 }
             }
         } catch (IOException e) {
