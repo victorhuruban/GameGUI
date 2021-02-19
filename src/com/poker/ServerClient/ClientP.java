@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClientP {
-    private Lobby lobby;
+    private static Lobby lobby;
 
     private PrintWriter out;
 
@@ -16,7 +16,7 @@ public class ClientP {
     private int ready = 0;
 
     public ClientP(String ip, Lobby lobby) throws IOException {
-        this.lobby = lobby;
+        ClientP.lobby = lobby;
 
         Socket socket = new Socket(ip, SERVER_PORT);
 
@@ -45,5 +45,9 @@ public class ClientP {
                 }
             }
         }, 250, 100);
+    }
+
+    public static Lobby getLobby() {
+        return lobby;
     }
 }

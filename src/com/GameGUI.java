@@ -264,17 +264,16 @@ public class GameGUI {
             getFrame().setVisible(false);
             serverThread.interrupt();
         } else if (hovered == POKER_MODE) {
-            Lobby lob = new Lobby(0, name);
             runnable1 = () -> {
                 try {
-                    ServerP server = new ServerP(DEFAULT_PORT, lob);
+                    ServerP server = new ServerP(DEFAULT_PORT);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
             };
             runnable2 = () -> {
                 try {
-                    ClientP client = new ClientP("127.0.0.1", lob);
+                    ClientP client = new ClientP("127.0.0.1", new Lobby(0, name));
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
