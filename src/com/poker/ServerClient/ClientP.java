@@ -57,8 +57,12 @@ public class ClientP {
                     lobby.setTryStart();
                 } else if (lobby.getSendReadyStat()) {
                     if (lobby.getReadyPressed()) {
+                        System.out.println("unu");
                         out.println(1);
-                    } else out.println(0);
+                    } else {
+                        out.println(0);
+                        System.out.println("doi");
+                    }
                     lobby.setSendReadyStat();
                 }
             }

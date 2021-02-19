@@ -174,7 +174,6 @@ public class Lobby {
         boolean b = false;
         for (int i = 0; i < 11; i++) {
             temp = getPanel(i);
-            System.out.println(i);
             JLabel tempL = (JLabel) temp.getComponent(0);
             if (tempL.getText().strip().equals(name)) {
                 break;
