@@ -44,6 +44,6 @@ public class ClientP {
                     timer.cancel();
                 }
             }
-        }, 50, 1000);
+        }, 250, 100);
     }
 }

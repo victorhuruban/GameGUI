@@ -49,7 +49,7 @@ public class ClientHandler implements Runnable {
             while (true) {
                 String request = in.readLine();
                 if (request.contains("1")) {
-                    outToAll("sa ma sugi");
+                    outToAll("sa ma");
                 }
             }
         } catch (IOException e) {
