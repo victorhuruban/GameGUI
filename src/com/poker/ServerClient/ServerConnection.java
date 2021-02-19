@@ -33,6 +33,7 @@ public class ServerConnection implements Runnable {
                 if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
                     lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
                     System.out.println(test[1]);
+                    lobby.setSendBack();
                 }
             }
         } catch (IOException e) {
