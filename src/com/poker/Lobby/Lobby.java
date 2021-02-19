@@ -201,7 +201,8 @@ public class Lobby {
             JPanel test = getPanel(i);
             if (test.getComponents().length > 0) {
                 JLabel testName = (JLabel) test.getComponent(0);
-                if (testName.getText().equals(name)) {
+                if (testName.getText().strip().equals(name)) {
+                    System.out.println();
                     return test;
                 }
             }
