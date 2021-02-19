@@ -23,26 +23,18 @@ public class ClientHandler implements Runnable {
         this.client = client;
         this.clients = clients;
         this.conNum = conNum;
-        this.lobby = ClientP.getLobby();
         in = new BufferedReader(new InputStreamReader(client.getInputStream()));
         out = new PrintWriter(client.getOutputStream(), true);
     }
 
     @Override
     public void run() {
-        /*if (conNum != 0) {
-            int count = 0;
-            for (ClientHandler c: clients) {
-                c.out.println(count + " " + lobby.getName());
-                count++;
-            }
-        }*/
-        lobby.setJPanel(conNum, lobby.getName());
+
         try {
             while (true) {
                 String request = in.readLine();
                 if (request.contains("1")) {
-                    outToAll("sa ma");
+                    System.out.println("sa ma sugi");
                 }
             }
         } catch (IOException e) {

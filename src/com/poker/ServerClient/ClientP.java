@@ -8,7 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ClientP {
-    private static Lobby lobby;
+    private Lobby lobby;
 
     private PrintWriter out;
 
@@ -16,7 +16,7 @@ public class ClientP {
     private int ready = 0;
 
     public ClientP(String ip, Lobby lobby) throws IOException {
-        ClientP.lobby = lobby;
+        this.lobby = lobby;
 
         Socket socket = new Socket(ip, SERVER_PORT);
 
@@ -33,7 +33,6 @@ public class ClientP {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("here");
                 if (lobby.getReadyPressed()) {
                     lobby.setReadyStat(lobby.getState());
                     lobby.changeReadyPressed();
@@ -45,9 +44,5 @@ public class ClientP {
                 }
             }
         }, 250, 100);
-    }
-
-    public static Lobby getLobby() {
-        return lobby;
     }
 }
