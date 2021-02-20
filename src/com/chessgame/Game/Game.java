@@ -199,32 +199,43 @@ public class Game implements Serializable {
                                     chessboard.updateUI();
                                 }
                             } else {
-                                testPiece.capture(getChessBoard(), row, column);
-                                if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
-                                    endPawn = true;
+                                clone = cloneBoard();
+                                clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().capture(clone, row, column);
+
+                                temp = getKing(clone, testPiece);
+
+                                if (checkIfChecked(temp, clone)) {
+                                    clearLogArr(); // TODO: TEST THIS!!!
+                                    System.out.println("The move will put you into a check, Try again");
+                                } else {
+                                    testPiece.capture(getChessBoard(), row, column);
+                                    if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
+                                        endPawn = true;
+                                    }
+                                    addLogArr(2, row);
+                                    addLogArr(3, column);
+                                    try {
+                                        updateChessBoardUI(getChessBoard(), chessboard);
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                    if (!castling.isEmpty()) {
+                                        castling.clear();
+                                    }
+                                    StringBuilder tempSB = getSB();
+                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (capture)\n");
+                                    getLogTA().append(String.valueOf(tempSB));
+                                    clearLogArr();
+                                    changeMovedPiece();
+                                    changeTurn();
+                                    System.out.println("good capture, next player");
+                                    piece[0] = null;
+                                    testPiece = null;
+                                    chessboard.updateUI();
                                 }
-                                addLogArr(2, row);
-                                addLogArr(3, column);
-                                try {
-                                    updateChessBoardUI(getChessBoard(), chessboard);
-                                } catch (IOException ioException) {
-                                    ioException.printStackTrace();
-                                }
-                                if (!castling.isEmpty()) {
-                                    castling.clear();
-                                }
-                                StringBuilder tempSB = getSB();
-                                tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
-                                        .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
-                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (capture)\n");
-                                getLogTA().append(String.valueOf(tempSB));
-                                clearLogArr();
-                                changeMovedPiece();
-                                changeTurn();
-                                System.out.println("good capture, next player");
-                                piece[0] = null;
-                                testPiece = null;
-                                chessboard.updateUI();
+                                clone = new ChessBoard();
                             }
                         }
                     }
