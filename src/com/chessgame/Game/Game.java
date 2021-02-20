@@ -266,32 +266,43 @@ public class Game implements Serializable {
                                 }
                                 clone = new ChessBoard();
                             } else {
-                                testPiece.move(getChessBoard(), row, column);
-                                if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
-                                    endPawn = true;
+                                clone = cloneBoard();
+                                clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().move(clone, row, column);
+
+                                temp = getKing(clone, testPiece);
+
+                                if (checkIfChecked(temp, clone)) {
+                                    clearLogArr();
+                                    System.out.println("The move will put you into a check, Try again");
+                                } else {
+                                    testPiece.move(getChessBoard(), row, column);
+                                    if (testPiece.toString().equals("Pawn") && testPiece.getRow() == 0) {
+                                        endPawn = true;
+                                    }
+                                    addLogArr(2, row);
+                                    addLogArr(3, column);
+                                    try {
+                                        updateChessBoardUI(getChessBoard(), chessboard);
+                                    } catch (IOException ioException) {
+                                        ioException.printStackTrace();
+                                    }
+                                    if (!castling.isEmpty()) {
+                                        castling.clear();
+                                    }
+                                    StringBuilder tempSB = getSB();
+                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
+                                            .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (move)\n");
+                                    getLogTA().append(String.valueOf(tempSB));
+                                    clearLogArr();
+                                    changeMovedPiece();
+                                    System.out.println("good, change player");
+                                    changeTurn();
+                                    piece[0] = null;
+                                    testPiece = null;
+                                    chessboard.updateUI();
                                 }
-                                addLogArr(2, row);
-                                addLogArr(3, column);
-                                try {
-                                    updateChessBoardUI(getChessBoard(), chessboard);
-                                } catch (IOException ioException) {
-                                    ioException.printStackTrace();
-                                }
-                                if (!castling.isEmpty()) {
-                                    castling.clear();
-                                }
-                                StringBuilder tempSB = getSB();
-                                tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
-                                        .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
-                                        .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (move)\n");
-                                getLogTA().append(String.valueOf(tempSB));
-                                clearLogArr();
-                                changeMovedPiece();
-                                System.out.println("good, change player");
-                                changeTurn();
-                                piece[0] = null;
-                                testPiece = null;
-                                chessboard.updateUI();
+                                clone = new ChessBoard();
                             }
                         } else if (!castling.isEmpty() && goThroughCastling(row, column)) {
                             for (Rook r: castling) {
