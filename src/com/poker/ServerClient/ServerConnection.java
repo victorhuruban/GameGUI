@@ -38,7 +38,7 @@ public class ServerConnection implements Runnable {
                         lobby.setSendBack();
                     }
                     if (test[1].equals("3")) {
-                        System.out.println("start");
+                        lobby.createGame();
                     }
                 } else if (test.length == 3) {
                     JPanel temp = lobby.getPanel(Integer.parseInt(test[2]));

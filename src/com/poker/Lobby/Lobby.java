@@ -19,6 +19,8 @@ public class Lobby {
     private String name;
 
     private JPanel leftP;
+    private JPanel rightP;
+    private JFrame jframe;
 
     private JPanel firstPlayerPanel;
     private JPanel secondPlayerPanel;
@@ -34,13 +36,13 @@ public class Lobby {
     public Lobby(int type, String name) {
         this.name = name;
         this.type = type;
-        JFrame jframe = new JFrame("Lobby");
+        jframe = new JFrame("Lobby");
         jframe.setSize(728, 455);
         jframe.getContentPane().setBackground(POKER_COLOR);
         jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jframe.setVisible(true);
 
-        JPanel rightP = new JPanel(new GridLayout(3, 0));
+        rightP = new JPanel(new GridLayout(3, 0));
         leftP = new JPanel(new GridLayout(10, 0));
         leftP.setBackground(POKER_COLOR);
         leftP.getInsets(new Insets(10,10,10,10));
@@ -201,18 +203,12 @@ public class Lobby {
         temp.updateUI();
     }
 
-    public JPanel findPanelByName(String name) {
-        for (int i = 0; i < 11; i++) {
-            JPanel test = getPanel(i);
-            if (test.getComponents().length > 0) {
-                JLabel testName = (JLabel) test.getComponent(0);
-                if (testName.getText().strip().equals(name)) {
-                    System.out.println();
-                    return test;
-                }
-            }
+    public void createGame() {
+        for (Component c: jframe.getComponents()) {
+            jframe.remove(c);
         }
-        return null;
+
+        jframe.repaint();
     }
 
     public JPanel getPanel(int num) {
