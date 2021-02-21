@@ -37,7 +37,7 @@ public class Lobby {
         this.name = name;
         this.type = type;
         jframe = new JFrame("Lobby");
-        jframe.setSize(728, 455);
+        jframe.setSize(1000, 600);
         jframe.getContentPane().setBackground(POKER_COLOR);
         jframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         jframe.setVisible(true);
@@ -219,7 +219,7 @@ public class Lobby {
 
         jframe.add(gameBoard, BorderLayout.CENTER);
         jframe.add(playerInfo, BorderLayout.NORTH);
-        jframe.add(actions, BorderLayout.WEST);
+        jframe.add(actions, BorderLayout.EAST);
 
         jframe.repaint();
     }

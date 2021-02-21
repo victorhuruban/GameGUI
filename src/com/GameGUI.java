@@ -44,7 +44,7 @@ public class GameGUI {
         //
         this.frame = new JFrame("Games");
         this.mainCards = new JPanel(new CardLayout());
-        this.frame.setSize(728, 455);
+        this.frame.setSize(1000, 600);
         this.frame.setLayout(new BorderLayout());
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.add(this.mainCards);
@@ -183,10 +183,13 @@ public class GameGUI {
 
         // GO TO THE JOIN FRAME
         joinChoice.addActionListener(e -> {
-            deleteJLabel(joinCard.getComponents(), joinCard);
+            if (hovered == POKER_MODE) {
+                startClientAndJoin("192.168.0.155"); // TODO: UNCOMMENT BELOW CODE AFTER TESTING
+            }
+            /*deleteJLabel(joinCard.getComponents(), joinCard);
             createJLabel(hovered, joinCard);
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
-            cl.show(this.mainCards, "4");
+            cl.show(this.mainCards, "4");*/
         });
 
         // GO BACK AND CHANGE NAME

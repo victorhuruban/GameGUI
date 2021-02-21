@@ -1,6 +1,8 @@
 package com.poker.ServerClient;
 
 import com.poker.Lobby.Lobby;
+import com.poker.Pack.Card;
+import com.poker.Pack.Pack;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,6 +51,12 @@ public class ClientHandler implements Runnable {
                         if (start.contains(0)) {
                             System.out.println("Nu toti sunt gata sa inceapa");
                         } else {
+                            Pack pack = new Pack();
+                            StringBuilder sb = new StringBuilder();
+                            for (int i = 0; i < 5 + (clients.size() * 2); i++) {
+                                Card c = pack.popCard();
+                                System.out.println(c.getValue() + " " + c.getType());
+                            }
                             outToAll("start 3");
                         }
                         start.clear();
