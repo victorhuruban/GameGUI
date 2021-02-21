@@ -33,12 +33,11 @@ public class ServerConnection implements Runnable {
 
                 String[] test = serverResponse.split(" ");
                 if (test.length == 2) {
-                    if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
-                        lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
-                        lobby.setSendBack();
-                    }
                     if (test[1].equals("3")) {
                         lobby.createGame();
+                    } else if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
+                        lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
+                        lobby.setSendBack();
                     }
                 } else if (test.length == 3) {
                     JPanel temp = lobby.getPanel(Integer.parseInt(test[2]));
