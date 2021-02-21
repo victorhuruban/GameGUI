@@ -9,6 +9,7 @@ public class Lobby {
 
     private final Color POKER_COLOR = new Color(14,209,69);
     private boolean readyPressed = false;
+    private boolean readyPressedForTransfer = false;
     private boolean exit = false;
     private boolean sendBack = false;
     private boolean tryStart = false;
@@ -187,6 +188,7 @@ public class Lobby {
                 }
             }
             temp.add(new JLabel("Ready"));
+            readyPressedForTransfer = true;
         } else if (num == 0) {
             for (Component c : temp.getComponents()) {
                 if (c instanceof JLabel && ((JLabel) c).getText().equals("Ready")) {
@@ -194,6 +196,7 @@ public class Lobby {
                 }
             }
             temp.add(new JLabel("Not Ready"));
+            readyPressedForTransfer = false;
         }
         temp.updateUI();
     }
@@ -236,6 +239,10 @@ public class Lobby {
                 return tenthPlayerPanel;
         }
         return null;
+    }
+
+    public boolean getReadyPressedForTransfer() {
+        return readyPressedForTransfer;
     }
 
     public boolean getSendReadyStat() {

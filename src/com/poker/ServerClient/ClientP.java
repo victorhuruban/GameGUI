@@ -56,8 +56,7 @@ public class ClientP {
                     out.println("try2start");
                     lobby.setTryStart();
                 } else if (lobby.getSendReadyStat()) {
-                    if (lobby.getReadyPressed()) {
-                        System.out.println("unu");
+                    if (lobby.getReadyPressedForTransfer()) {
                         out.println(1 + " 2");
                     } else {
                         out.println(0 + " 2");
