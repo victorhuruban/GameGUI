@@ -49,7 +49,7 @@ public class ClientHandler implements Runnable {
                         if (start.contains(0)) {
                             System.out.println("Nu toti sunt gata sa inceapa");
                         } else {
-                            System.out.println("Gata sa incepem jocul");
+                            outToAll("start 3");
                         }
                         start.clear();
                     }
