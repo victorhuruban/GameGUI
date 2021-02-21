@@ -204,10 +204,7 @@ public class Lobby {
     }
 
     public void createGame() {
-        for (Component c: jframe.getComponents()) {
-            jframe.remove(c);
-        }
-
+        jframe.getContentPane().removeAll();
         jframe.repaint();
     }
 
