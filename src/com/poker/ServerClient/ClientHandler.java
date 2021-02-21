@@ -17,7 +17,7 @@ public class ClientHandler implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private ArrayList<ClientHandler> clients;
-    private ArrayList<Integer> start = new ArrayList<>();
+    private static ArrayList<Integer> start = new ArrayList<>();
 
     private final int conNum;
 
@@ -52,6 +52,8 @@ public class ClientHandler implements Runnable {
                             System.out.println("Gata sa incepem jocul");
                         }
                         start.clear();
+                    } else {
+                        System.out.println(start.size());
                     }
                 }
             }
