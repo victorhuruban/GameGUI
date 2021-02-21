@@ -42,10 +42,8 @@ public class ClientHandler implements Runnable {
                 } else if (req[req.length - 1].equals("1") && req[0].equals("NotReady")) {
                     outToAll("NotReady " + req[1] + " " + conNum);
                 } else if (req.length == 1 && req[0].equals("try2start")) {
-                    System.out.println("acilea");
                     outToAll("Im trying to start the game");
                 } else if (req[req.length - 1].equals("2")) {
-                    System.out.println(req[0] + " " + conNum);
                     start.add(Integer.parseInt(req[0]));
                     if (start.size() == clients.size()) {
                         if (start.contains(0)) {
