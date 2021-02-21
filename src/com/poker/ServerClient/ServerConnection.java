@@ -33,9 +33,7 @@ public class ServerConnection implements Runnable {
 
                 String[] test = serverResponse.split(" ");
                 if (test.length == 2) {
-                    if (test[1].equals("3")) {
-                        lobby.createGame();
-                    } else if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
+                     if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
                         lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
                         lobby.setSendBack();
                     }
@@ -48,6 +46,11 @@ public class ServerConnection implements Runnable {
                     lobby.getPanel(Integer.parseInt(test[2])).updateUI();
                 } else if (test.length == 6) {
                     lobby.setSendReadyStat();
+                } else if (test.length >= 12) {
+                    if (test[1].equals("3")) {
+                        System.out.println(Arrays.toString(test));
+                        lobby.createGame(serverResponse);
+                    }
                 }
             }
         } catch (IOException e) {

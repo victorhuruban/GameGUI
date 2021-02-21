@@ -1,9 +1,11 @@
 package com.poker.Lobby;
 
+import com.Main;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Lobby {
 
@@ -16,26 +18,34 @@ public class Lobby {
     private boolean sendReadyStat = false;
     private int state = 0;
     private int type;
+    private int conNumL;
     private String name;
 
     private JPanel leftP;
     private JPanel rightP;
     private JFrame jframe;
 
-    private JPanel firstPlayerPanel;
-    private JPanel secondPlayerPanel;
-    private JPanel thirdPlayerPanel;
-    private JPanel forthPlayerPanel;
-    private JPanel fifthPlayerPanel;
-    private JPanel sixthPlayerPanel;
-    private JPanel seventhPlayerPanel;
-    private JPanel eightPlayerPanel;
-    private JPanel ninthPlayerPanel;
-    private JPanel tenthPlayerPanel;
+    private final JPanel firstPlayerPanel;
+    private final JPanel secondPlayerPanel;
+    private final JPanel thirdPlayerPanel;
+    private final JPanel forthPlayerPanel;
+    private final JPanel fifthPlayerPanel;
+    private final JPanel sixthPlayerPanel;
+    private final JPanel seventhPlayerPanel;
+    private final JPanel eightPlayerPanel;
+    private final JPanel ninthPlayerPanel;
+    private final JPanel tenthPlayerPanel;
+
+    private JLabel card1;
+    private JLabel card2;
+    private JLabel card3;
+    private JLabel card4;
+    private JLabel card5;
 
     public Lobby(int type, String name) {
         this.name = name;
         this.type = type;
+        this.conNumL = -1;
         jframe = new JFrame("Lobby");
         jframe.setSize(1000, 600);
         jframe.getContentPane().setBackground(POKER_COLOR);
@@ -179,9 +189,11 @@ public class Lobby {
             temp = getPanel(i);
             JLabel tempL = (JLabel) temp.getComponent(0);
             if (tempL.getText().strip().equals(name)) {
+                if (conNumL == -1) {
+                    conNumL = i;
+                }
                 break;
             }
-
         }
         if (num == 1) {
             for (Component c : temp.getComponents()) {
@@ -203,19 +215,77 @@ public class Lobby {
         temp.updateUI();
     }
 
-    public void createGame() {
+    public void createGame(String values) throws IOException {
+        String[] vals = values.split(" ");
+        int index = getIndexForCardStr(conNumL);
+
         jframe.getContentPane().removeAll();
-        jframe.repaint();
         jframe.setLayout(new BorderLayout());
 
-        JPanel gameBoard = new JPanel();
+        JPanel gameBoard = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 0;
+        c.insets = new Insets(0,0,0,10);
+        gameBoard.add(card1, c);
+        card2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 1;
+        c.insets = new Insets(0,10,0,10);
+        gameBoard.add(card2, c);
+        card3 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 2;
+        gameBoard.add(card3, c);
+        card4 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 3;
+        gameBoard.add(card4, c);
+        card5 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 4;
+        c.insets = new Insets(0,10,0,0);
+        gameBoard.add(card5, c);
         gameBoard.setBackground(POKER_COLOR);
 
-        JPanel playerInfo = new JPanel();
-        playerInfo.setBackground(Color.RED);
+        JPanel playerInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        playerInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        playerInfo.setBackground(POKER_COLOR);
+        JLabel name = new JLabel(getName());
+        JLabel myCard1 = new JLabel();
+        setCardImage(vals[index], vals[index + 1], myCard1);
+        JLabel myCard2 = new JLabel();
+        setCardImage(vals[index + 2], vals[index + 3], myCard2);
 
-        JPanel actions = new JPanel();
-        actions.setBackground(Color.DARK_GRAY);
+        playerInfo.add(name);
+        playerInfo.add(myCard1);
+        playerInfo.add(myCard2);
+
+        JPanel actions = new JPanel(new GridBagLayout());
+        actions.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        actions.setBackground(POKER_COLOR);
+
+        JButton fold = new JButton("Fold");
+        JButton raise = new JButton("Raise");
+        JButton check = new JButton("Check");
+        JTextField tfield = new JTextField(10);
+
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.insets = new Insets(0,0,10,0);
+        c.anchor = GridBagConstraints.SOUTH;
+        actions.add(fold, c);
+
+        c.gridy = 1;
+        c.anchor = GridBagConstraints.NORTH;
+        actions.add(check, c);
+
+        c.insets = new Insets(0,0,5,0);
+        c.anchor = GridBagConstraints.SOUTH;
+        actions.add(raise, c);
+
+        c.gridy = 2;
+        c.anchor = GridBagConstraints.NORTH;
+        actions.add(tfield, c);
 
         jframe.add(gameBoard, BorderLayout.CENTER);
         jframe.add(playerInfo, BorderLayout.NORTH);
@@ -248,6 +318,31 @@ public class Lobby {
                 return tenthPlayerPanel;
         }
         return null;
+    }
+
+    public int getIndexForCardStr(int num) {
+        switch (num) {
+            case 0:
+                return 2;
+            case 1:
+                return 4;
+            case 2:
+                return 6;
+            case 3:
+                return 8;
+            case 4:
+                return 10;
+            case 5:
+                return 12;
+            case 6:
+                return 14;
+                // TODO: ADD MORE NUMBERS FOR MORE THAN 6 PLAYERS MATCHES
+        }
+        return -1;
+    }
+
+    public void setCardImage(String value, String type, JLabel cardLabel) throws IOException {
+        cardLabel.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png"))));
     }
 
     public boolean getReadyPressedForTransfer() {
