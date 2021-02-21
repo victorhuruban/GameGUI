@@ -206,6 +206,22 @@ public class Lobby {
     public void createGame() {
         jframe.getContentPane().removeAll();
         jframe.repaint();
+        jframe.setLayout(new BorderLayout());
+
+        JPanel gameBoard = new JPanel();
+        gameBoard.setBackground(POKER_COLOR);
+
+        JPanel playerInfo = new JPanel();
+        playerInfo.setBackground(Color.RED);
+
+        JPanel actions = new JPanel();
+        actions.setBackground(Color.DARK_GRAY);
+
+        jframe.add(gameBoard, BorderLayout.CENTER);
+        jframe.add(playerInfo, BorderLayout.NORTH);
+        jframe.add(actions, BorderLayout.WEST);
+
+        jframe.repaint();
     }
 
     public JPanel getPanel(int num) {
