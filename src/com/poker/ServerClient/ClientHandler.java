@@ -52,8 +52,6 @@ public class ClientHandler implements Runnable {
                             System.out.println("Gata sa incepem jocul");
                         }
                         start.clear();
-                    } else {
-                        System.out.println(start.size());
                     }
                 }
             }
