@@ -17,7 +17,7 @@ public class ClientHandler implements Runnable {
     private BufferedReader in;
     private PrintWriter out;
     private ArrayList<ClientHandler> clients;
-    private Set<Integer> start = new HashSet<>();
+    private ArrayList<Integer> start = new ArrayList<>();
 
     private final int conNum;
 
@@ -45,7 +45,16 @@ public class ClientHandler implements Runnable {
                     System.out.println("acilea");
                     outToAll("Im trying to start the game");
                 } else if (req[req.length - 1].equals("2")) {
-                    System.out.println(req[0] + " " + conNum + " aici coi");
+                    System.out.println(req[0] + " " + conNum);
+                    start.add(Integer.parseInt(req[0]));
+                    if (start.size() == clients.size()) {
+                        if (start.contains(0)) {
+                            System.out.println("Nu toti sunt gata sa inceapa");
+                        } else {
+                            System.out.println("Gata sa incepem jocul");
+                        }
+                        start.clear();
+                    }
                 }
             }
         } catch (IOException e) {

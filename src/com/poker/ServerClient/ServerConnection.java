@@ -46,8 +46,6 @@ public class ServerConnection implements Runnable {
                     lobby.getPanel(Integer.parseInt(test[2])).updateUI();
                 } else if (test.length == 6) {
                     lobby.setSendReadyStat();
-                } else if (test.length == 10) {
-                    System.out.println(Arrays.toString(test));
                 }
             }
         } catch (IOException e) {
