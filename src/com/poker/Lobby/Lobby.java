@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Lobby {
 
@@ -41,6 +42,12 @@ public class Lobby {
     private JLabel card3;
     private JLabel card4;
     private JLabel card5;
+
+    private final JLabel BIG_BLIND_LABEL = new JLabel("B");
+    private final JLabel SMALL_BLIND_LABEL = new JLabel("b");
+
+    private final ArrayList<String> playersNames = new ArrayList<>();
+    private final ArrayList<Integer> cons = new ArrayList<>();
 
     public Lobby(int type, String name) {
         this.name = name;
@@ -283,9 +290,12 @@ public class Lobby {
         c = new GridBagConstraints();
         JLabel name = new JLabel(getName());
         myInfo.add(name, c);
-        JLabel bigBlind = new JLabel("B");
         c.gridy = 1;
-        myInfo.add(bigBlind, c);
+        if (conNumL == 0) {
+            myInfo.add(BIG_BLIND_LABEL, c);
+        } else if (conNumL == 1) {
+            myInfo.add(SMALL_BLIND_LABEL, c);
+        }
         c.gridy = 0;
         c.gridx = 1;
         c.gridheight = 2;
@@ -337,17 +347,17 @@ public class Lobby {
             case 0:
                 return 2;
             case 1:
-                return 4;
-            case 2:
                 return 6;
-            case 3:
-                return 8;
-            case 4:
+            case 2:
                 return 10;
-            case 5:
-                return 12;
-            case 6:
+            case 3:
                 return 14;
+            case 4:
+                return 18;
+            case 5:
+                return 22;
+            case 6:
+                return 26;
                 // TODO: ADD MORE NUMBERS FOR MORE THAN 6 PLAYERS MATCHES
         }
         return -1;
@@ -371,5 +381,33 @@ public class Lobby {
 
     public int getType() {
         return type;
+    }
+
+    public void printConsAndNames() {
+        System.out.println(cons);
+        System.out.println(playersNames);
+    }
+
+    public void addNameAndCon(String name, int con) {
+        if (!cons.contains(con)) {
+            playersNames.add(name);
+            cons.add(con);
+
+            boolean sorted = false;
+            while (!sorted) {
+                sorted = true;
+                for (int i = 0; i < cons.size() - 1; i++) {
+                    if (cons.get(i) > cons.get(i + 1)) {
+                        int tempI = cons.get(i);
+                        String tempS = playersNames.get(i);
+                        cons.set(i, cons.get(i + 1));
+                        cons.set(i + 1, tempI);
+                        playersNames.set(i, playersNames.get(i + 1));
+                        playersNames.set(i + 1, tempS);
+                        sorted = false;
+                    }
+                }
+            }
+        }
     }
 }
