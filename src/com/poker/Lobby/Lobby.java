@@ -245,19 +245,6 @@ public class Lobby {
         gameBoard.add(card5, c);
         gameBoard.setBackground(POKER_COLOR);
 
-        JPanel playerInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        playerInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        playerInfo.setBackground(POKER_COLOR);
-        JLabel name = new JLabel(getName());
-        JLabel myCard1 = new JLabel();
-        setCardImage(vals[index], vals[index + 1], myCard1);
-        JLabel myCard2 = new JLabel();
-        setCardImage(vals[index + 2], vals[index + 3], myCard2);
-
-        playerInfo.add(name);
-        playerInfo.add(myCard1);
-        playerInfo.add(myCard2);
-
         JPanel actions = new JPanel(new GridBagLayout());
         actions.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         actions.setBackground(POKER_COLOR);
@@ -286,6 +273,31 @@ public class Lobby {
         c.gridy = 2;
         c.anchor = GridBagConstraints.NORTH;
         actions.add(tfield, c);
+
+        JPanel playerInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        playerInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        playerInfo.setBackground(POKER_COLOR);
+        JPanel myInfo = new JPanel(new GridBagLayout());
+        myInfo.setBackground(POKER_COLOR);
+        myInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        c = new GridBagConstraints();
+        JLabel name = new JLabel(getName());
+        myInfo.add(name, c);
+        JLabel bigBlind = new JLabel("B");
+        c.gridy = 1;
+        myInfo.add(bigBlind, c);
+        c.gridy = 0;
+        c.gridx = 1;
+        c.gridheight = 2;
+        JLabel myCard1 = new JLabel();
+        setCardImage(vals[index], vals[index + 1], myCard1);
+        myInfo.add(myCard1, c);
+        JLabel myCard2 = new JLabel();
+        setCardImage(vals[index + 2], vals[index + 3], myCard2);
+        c.gridx = 2;
+        myInfo.add(myCard2, c);
+
+        playerInfo.add(myInfo);
 
         jframe.add(gameBoard, BorderLayout.CENTER);
         jframe.add(playerInfo, BorderLayout.NORTH);
@@ -342,7 +354,7 @@ public class Lobby {
     }
 
     public void setCardImage(String value, String type, JLabel cardLabel) throws IOException {
-        cardLabel.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png"))));
+        cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png")).getImage().getScaledInstance(45, 75, Image.SCALE_DEFAULT)));
     }
 
     public boolean getReadyPressedForTransfer() {
