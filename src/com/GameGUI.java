@@ -183,13 +183,13 @@ public class GameGUI {
 
         // GO TO THE JOIN FRAME
         joinChoice.addActionListener(e -> {
-            if (hovered == POKER_MODE) {
+            /*if (hovered == POKER_MODE) {
                 startClientAndJoin("192.168.0.155"); // TODO: UNCOMMENT BELOW CODE AFTER TESTING
-            }
-            /*deleteJLabel(joinCard.getComponents(), joinCard);
+            }*/
+            deleteJLabel(joinCard.getComponents(), joinCard);
             createJLabel(hovered, joinCard);
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
-            cl.show(this.mainCards, "4");*/
+            cl.show(this.mainCards, "4");
         });
 
         // GO BACK AND CHANGE NAME
