@@ -49,6 +49,7 @@ public class ServerConnection implements Runnable {
                     lobby.setSendReadyStat();
                 } else if (test.length == 7) {
                     System.out.println(test[0] + " did something");
+                    lobby.nextTurn();
                 } else if (test.length >= 12) {
                     if (test[1].equals("3")) {
                         System.out.println(Arrays.toString(test));

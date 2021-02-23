@@ -153,24 +153,6 @@ public class Lobby {
         });
 
         startGame.addActionListener(e -> tryStart = true);
-
-        fold.addActionListener(e -> {
-            if (turn == cons.get(0)) {
-                interacted = true;
-            }
-        });
-
-        check.addActionListener(e -> {
-            if (turn == cons.get(0)) {
-                interacted = true;
-            }
-        });
-
-        raise.addActionListener(e -> {
-            if (turn == cons.get(0)) {
-                interacted = true;
-            }
-        });
     }
 
     public boolean getExit() {
@@ -501,5 +483,22 @@ public class Lobby {
             myInfo.add(myCard2, c);
             playerInfo.add(myInfo);
         }
+        fold.addActionListener(e -> {
+            if (turn == cons.get(0)) {
+                interacted = true;
+            }
+        });
+
+        check.addActionListener(e -> {
+            if (turn == cons.get(0)) {
+                interacted = true;
+            }
+        });
+
+        raise.addActionListener(e -> {
+            if (turn == cons.get(0)) {
+                interacted = true;
+            }
+        });
     }
 }
