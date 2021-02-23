@@ -67,7 +67,6 @@ public class ClientP {
                 if (lobby.getPlayer() != null) {
                     if (lobby.getPlayer().getFolded() && lobby.getInTurn()) {
                         lobby.outOfTurn();
-                        lobby.setInteracted();
                         System.out.println("folded");
                     }
                     if (lobby.getInteracted()) {
