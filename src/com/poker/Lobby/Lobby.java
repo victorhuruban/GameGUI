@@ -1,6 +1,8 @@
 package com.poker.Lobby;
 
 import com.Main;
+import com.poker.Pack.Card;
+import com.poker.Player.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -9,8 +11,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Lobby {
-
+    // SELF DESCRIBED VARIABLES
     private final Color POKER_COLOR = new Color(14,209,69);
+    private final String name;
+
+    private final JPanel leftP;
+    private final JPanel rightP;
+    private final JFrame jframe;
+
+    // BOOLEAN VALUES TO CONTROL FLOW OF DATA TRANSFER BETWEEN CLIENTS IN LOBBY
     private boolean readyPressed = false;
     private boolean readyPressedForTransfer = false;
     private boolean exit = false;
@@ -18,14 +27,10 @@ public class Lobby {
     private boolean tryStart = false;
     private boolean sendReadyStat = false;
     private int state = 0;
-    private int type;
+    private final int type;
     private int conNumL;
-    private String name;
 
-    private JPanel leftP;
-    private JPanel rightP;
-    private JFrame jframe;
-
+    // JPANELS TO DISPLAY CLIENTS IN LOBBY
     private final JPanel firstPlayerPanel;
     private final JPanel secondPlayerPanel;
     private final JPanel thirdPlayerPanel;
@@ -37,17 +42,29 @@ public class Lobby {
     private final JPanel ninthPlayerPanel;
     private final JPanel tenthPlayerPanel;
 
+    // TABLE CARDS
     private JLabel card1;
     private JLabel card2;
     private JLabel card3;
     private JLabel card4;
     private JLabel card5;
 
+    // LABELS TO DISPLAY IF CLIENT IS BIG OR SMALL BLIND
     private final JLabel BIG_BLIND_LABEL = new JLabel("B");
     private final JLabel SMALL_BLIND_LABEL = new JLabel("b");
 
+    // ARRAYS THAT HOLDS INFORMATION ABOUT PLAYERS NAMES AND CONNECTION NUMBER
     private final ArrayList<String> playersNames = new ArrayList<>();
     private final ArrayList<Integer> cons = new ArrayList<>();
+
+    // GAME VARIABLES
+    Player player;
+    JButton fold;
+    JButton check;
+    JButton raise;
+    JTextField tfield;
+    private boolean interacted = false;
+    private int turn;
 
     public Lobby(int type, String name) {
         this.name = name;
@@ -135,8 +152,24 @@ public class Lobby {
             System.exit(0);
         });
 
-        startGame.addActionListener(e -> {
-            tryStart = true;
+        startGame.addActionListener(e -> tryStart = true);
+
+        fold.addActionListener(e -> {
+            if (turn == cons.get(0)) {
+                interacted = true;
+            }
+        });
+
+        check.addActionListener(e -> {
+            if (turn == cons.get(0)) {
+                interacted = true;
+            }
+        });
+
+        raise.addActionListener(e -> {
+            if (turn == cons.get(0)) {
+                interacted = true;
+            }
         });
     }
 
@@ -148,10 +181,6 @@ public class Lobby {
         return readyPressed;
     }
 
-    public void changeReadyPressed() {
-        readyPressed = false;
-    }
-
     public int getState() {
         return state;
     }
@@ -160,137 +189,28 @@ public class Lobby {
         return name;
     }
 
-    public void setSendBack() {
-        sendBack = !sendBack;
-    }
-
     public boolean getSendBack() {
         return sendBack;
-    }
-
-    public void setState() {
-        if (state == 1) {
-            state = 0;
-        } else state = 1;
-    }
-
-    public void setJPanel(int con, String name) {
-        JPanel ref = getPanel(con);
-        ref.add(new JLabel("   " + name));
-        ref.add(new JLabel("Not Ready"));
-        leftP.updateUI();
     }
 
     public boolean getTryStart() {
         return tryStart;
     }
 
-    public void setTryStart() {
-        tryStart = false;
+    public boolean getReadyPressedForTransfer() {
+        return readyPressedForTransfer;
     }
 
-    public void setReadyStat(int num) {
-        JPanel temp = null;
-        boolean b = false;
-        for (int i = 0; i < 11; i++) {
-            temp = getPanel(i);
-            JLabel tempL = (JLabel) temp.getComponent(0);
-            if (tempL.getText().strip().equals(name)) {
-                if (conNumL == -1) {
-                    conNumL = i;
-                }
-                break;
-            }
-        }
-        if (num == 1) {
-            for (Component c : temp.getComponents()) {
-                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not Ready")) {
-                    temp.remove(c);
-                }
-            }
-            temp.add(new JLabel("Ready"));
-            readyPressedForTransfer = true;
-        } else if (num == 0) {
-            for (Component c : temp.getComponents()) {
-                if (c instanceof JLabel && ((JLabel) c).getText().equals("Ready")) {
-                    temp.remove(c);
-                }
-            }
-            temp.add(new JLabel("Not Ready"));
-            readyPressedForTransfer = false;
-        }
-        temp.updateUI();
+    public boolean getSendReadyStat() {
+        return sendReadyStat;
     }
 
-    public void createGame(String values) throws IOException {
-        String[] vals = values.split(" ");
-        shiftNameAndCon(conNumL);
+    public int getType() {
+        return type;
+    }
 
-        jframe.getContentPane().removeAll();
-        jframe.setLayout(new BorderLayout());
-
-        JPanel gameBoard = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-
-        card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
-        c.gridx = 0;
-        c.insets = new Insets(0,0,0,10);
-        gameBoard.add(card1, c);
-        card2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
-        c.gridx = 1;
-        c.insets = new Insets(0,10,0,10);
-        gameBoard.add(card2, c);
-        card3 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
-        c.gridx = 2;
-        gameBoard.add(card3, c);
-        card4 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
-        c.gridx = 3;
-        gameBoard.add(card4, c);
-        card5 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
-        c.gridx = 4;
-        c.insets = new Insets(0,10,0,0);
-        gameBoard.add(card5, c);
-        gameBoard.setBackground(POKER_COLOR);
-
-        JPanel actions = new JPanel(new GridBagLayout());
-        actions.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        actions.setBackground(POKER_COLOR);
-
-        JButton fold = new JButton("Fold");
-        JButton raise = new JButton("Raise");
-        JButton check = new JButton("Check");
-        JTextField tfield = new JTextField(10);
-
-        c.gridy = 0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.insets = new Insets(0,0,10,0);
-        c.anchor = GridBagConstraints.SOUTH;
-        actions.add(fold, c);
-
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.NORTH;
-        actions.add(check, c);
-
-        c.insets = new Insets(0,0,5,0);
-        c.anchor = GridBagConstraints.SOUTH;
-        actions.add(raise, c);
-
-        c.gridy = 2;
-        c.anchor = GridBagConstraints.NORTH;
-        actions.add(tfield, c);
-
-        JPanel playerInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        playerInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        playerInfo.setBackground(POKER_COLOR);
-        createPlayerInfo(playerInfo, vals);
-
-        jframe.add(gameBoard, BorderLayout.CENTER);
-        jframe.add(playerInfo, BorderLayout.NORTH);
-        jframe.add(actions, BorderLayout.EAST);
-
-        jframe.repaint();
+    public boolean getInteracted() {
+        return interacted;
     }
 
     public JPanel getPanel(int num) {
@@ -335,29 +255,160 @@ public class Lobby {
                 return 22;
             case 6:
                 return 26;
-                // TODO: ADD MORE NUMBERS FOR MORE THAN 6 PLAYERS MATCHES
+            // TODO: ADD MORE NUMBERS FOR MORE THAN 6 PLAYERS MATCHES
         }
         return -1;
-    }
-
-    public void setCardImage(String value, String type, JLabel cardLabel) throws IOException {
-        cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png")).getImage().getScaledInstance(45, 75, Image.SCALE_DEFAULT)));
-    }
-
-    public boolean getReadyPressedForTransfer() {
-        return readyPressedForTransfer;
-    }
-
-    public boolean getSendReadyStat() {
-        return sendReadyStat;
     }
 
     public void setSendReadyStat() {
         sendReadyStat = !sendReadyStat;
     }
 
-    public int getType() {
-        return type;
+    public void setSendBack() {
+        sendBack = !sendBack;
+    }
+
+    public void setState() {
+        if (state == 1) {
+            state = 0;
+        } else state = 1;
+    }
+
+    public void setJPanel(int con, String name) {
+        JPanel ref = getPanel(con);
+        ref.add(new JLabel("   " + name));
+        ref.add(new JLabel("Not Ready"));
+        leftP.updateUI();
+    }
+
+    public void setTryStart() {
+        tryStart = false;
+    }
+
+    public void setCardImage(String value, String type, JLabel cardLabel) {
+        cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png")).getImage().getScaledInstance(45, 75, Image.SCALE_DEFAULT)));
+    }
+
+    public void setInteracted() {
+        interacted = false;
+    }
+
+    public void nextTurn() {
+        if (turn + 1 == cons.size()) {
+            turn = 0;
+        } else turn++;
+    }
+
+    public void setReadyStat(int num) {
+        JPanel temp = null;
+        for (int i = 0; i < 11; i++) {
+            temp = getPanel(i);
+            JLabel tempL = (JLabel) temp.getComponent(0);
+            if (tempL.getText().strip().equals(name)) {
+                if (conNumL == -1) {
+                    conNumL = i;
+                }
+                break;
+            }
+        }
+        if (num == 1) {
+            for (Component c : temp.getComponents()) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Not Ready")) {
+                    temp.remove(c);
+                }
+            }
+            temp.add(new JLabel("Ready"));
+            readyPressedForTransfer = true;
+        } else if (num == 0) {
+            for (Component c : temp.getComponents()) {
+                if (c instanceof JLabel && ((JLabel) c).getText().equals("Ready")) {
+                    temp.remove(c);
+                }
+            }
+            temp.add(new JLabel("Not Ready"));
+            readyPressedForTransfer = false;
+        }
+        temp.updateUI();
+    }
+
+    public void changeReadyPressed() {
+        readyPressed = false;
+    }
+
+    public void createGame(String values) throws IOException {
+        String[] vals = values.split(" ");
+        int index = getIndexForCardStr(conNumL);
+        turn = 0;
+        player = new Player(10000);
+        player.addCards(new Card(vals[index], vals[index + 1]));
+        player.addCards(new Card(vals[index + 2], vals[index + 3]));
+        shiftNameAndCon(conNumL);
+
+        jframe.getContentPane().removeAll();
+        jframe.setLayout(new BorderLayout());
+
+        JPanel gameBoard = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 0;
+        c.insets = new Insets(0,0,0,10);
+        gameBoard.add(card1, c);
+        card2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 1;
+        c.insets = new Insets(0,10,0,10);
+        gameBoard.add(card2, c);
+        card3 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 2;
+        gameBoard.add(card3, c);
+        card4 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 3;
+        gameBoard.add(card4, c);
+        card5 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        c.gridx = 4;
+        c.insets = new Insets(0,10,0,0);
+        gameBoard.add(card5, c);
+        gameBoard.setBackground(POKER_COLOR);
+
+        JPanel actions = new JPanel(new GridBagLayout());
+        actions.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        actions.setBackground(POKER_COLOR);
+
+        fold = new JButton("Fold");
+        raise = new JButton("Raise");
+        check = new JButton("Check");
+        tfield = new JTextField(10);
+
+        c.gridy = 0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        c.weighty = 1;
+        c.insets = new Insets(0,0,10,0);
+        c.anchor = GridBagConstraints.SOUTH;
+        actions.add(fold, c);
+
+        c.gridy = 1;
+        c.anchor = GridBagConstraints.NORTH;
+        actions.add(check, c);
+
+        c.insets = new Insets(0,0,5,0);
+        c.anchor = GridBagConstraints.SOUTH;
+        actions.add(raise, c);
+
+        c.gridy = 2;
+        c.anchor = GridBagConstraints.NORTH;
+        actions.add(tfield, c);
+
+        JPanel playerInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        playerInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        playerInfo.setBackground(POKER_COLOR);
+        createPlayerInfo(playerInfo, vals);
+
+        jframe.add(gameBoard, BorderLayout.CENTER);
+        jframe.add(playerInfo, BorderLayout.NORTH);
+        jframe.add(actions, BorderLayout.EAST);
+
+        jframe.repaint();
     }
 
     public void addNameAndCon(String name, int con) {
@@ -399,7 +450,7 @@ public class Lobby {
         System.out.println(cons);
     }
 
-    public void createPlayerInfo(JPanel playerInfo, String[] vals) throws IOException {
+    public void createPlayerInfo(JPanel playerInfo, String[] vals) {
         int index = getIndexForCardStr(conNumL);
         JPanel myInfo = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();

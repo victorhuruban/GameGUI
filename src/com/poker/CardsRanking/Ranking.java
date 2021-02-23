@@ -11,8 +11,8 @@ public class Ranking {
     private String hand;
 
     public Ranking() {
-        playerCards = new ArrayList<>();
-        sharedCards = new ArrayList<>();
+        this.playerCards = new ArrayList<>();
+        this.sharedCards = new ArrayList<>();
         score = 0;
         hand = "";
     }

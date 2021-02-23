@@ -64,6 +64,10 @@ public class ClientP {
                     }
                     lobby.setSendReadyStat();
                 }
+                if (lobby.getInteracted()) {
+                    lobby.setInteracted();
+                    out.println(lobby.getName() + " interacted 0 0 0 0 4");
+                }
             }
         }, 250, 100);
     }

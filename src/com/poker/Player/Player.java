@@ -12,29 +12,16 @@ public class Player {
     private Ranking rank;
     private String name;
     private boolean folded;
+    private boolean check;
     private int money;
-    private Pack pack;
 
-    public Player(String name, int money, Pack pack) {
-        this.name = name;
+    public Player(int money) {
         this.money = money;
-        this.pack = pack;
         rank = new Ranking();
         ownCards = new ArrayList<>();
         sharedCards = new ArrayList<>();
         folded = false;
-
-        this.addCards(pack.popCard());
-        this.addCards(pack.popCard());
-
-        this.addSharedCards(pack.popCard());
-        this.addSharedCards(pack.popCard());
-        this.addSharedCards(pack.popCard());
-        this.addSharedCards(pack.popCard());
-        this.addSharedCards(pack.popCard());
-
-        rank.addPlayerCard(ownCards);
-        rank.addSharedCard(sharedCards);
+        check = false;
     }
 
     public void fold() {
@@ -60,10 +47,6 @@ public class Player {
 
     public Ranking getRank() {
         return rank;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public ArrayList<Card> getCards() {
