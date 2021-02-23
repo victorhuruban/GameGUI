@@ -394,6 +394,11 @@ public class Lobby {
         }
     }
 
+    public void printCandP() {
+        System.out.println(playersNames);
+        System.out.println(cons);
+    }
+
     public void createPlayerInfo(JPanel playerInfo, String[] vals) throws IOException {
         int index = getIndexForCardStr(conNumL);
         JPanel myInfo = new JPanel(new GridBagLayout());

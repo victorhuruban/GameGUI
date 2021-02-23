@@ -51,6 +51,7 @@ public class ServerConnection implements Runnable {
                     if (test[1].equals("3")) {
                         System.out.println(Arrays.toString(test));
                         lobby.createGame(serverResponse);
+                        lobby.printCandP();
                     }
                 }
             }
