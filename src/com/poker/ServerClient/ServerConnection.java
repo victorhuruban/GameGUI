@@ -57,7 +57,7 @@ public class ServerConnection implements Runnable {
                             System.out.println(test[0] + " folded already");
                             lobby.nextTurn();
                             break;
-                        case "7":
+                        case "4":
                             System.out.println(test[0] + " did something");
                             lobby.nextTurn();
                             break;
