@@ -224,7 +224,7 @@ public class Lobby {
 
     public void createGame(String values) throws IOException {
         String[] vals = values.split(" ");
-        int index = getIndexForCardStr(conNumL);
+        shiftNameAndCon(conNumL);
 
         jframe.getContentPane().removeAll();
         jframe.setLayout(new BorderLayout());
@@ -284,30 +284,7 @@ public class Lobby {
         JPanel playerInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         playerInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         playerInfo.setBackground(POKER_COLOR);
-        JPanel myInfo = new JPanel(new GridBagLayout());
-        myInfo.setBackground(POKER_COLOR);
-        myInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        c = new GridBagConstraints();
-        JLabel name = new JLabel(getName());
-        myInfo.add(name, c);
-        c.gridy = 1;
-        if (conNumL == 0) {
-            myInfo.add(BIG_BLIND_LABEL, c);
-        } else if (conNumL == 1) {
-            myInfo.add(SMALL_BLIND_LABEL, c);
-        }
-        c.gridy = 0;
-        c.gridx = 1;
-        c.gridheight = 2;
-        JLabel myCard1 = new JLabel();
-        setCardImage(vals[index], vals[index + 1], myCard1);
-        myInfo.add(myCard1, c);
-        JLabel myCard2 = new JLabel();
-        setCardImage(vals[index + 2], vals[index + 3], myCard2);
-        c.gridx = 2;
-        myInfo.add(myCard2, c);
-
-        playerInfo.add(myInfo);
+        createPlayerInfo(playerInfo, vals);
 
         jframe.add(gameBoard, BorderLayout.CENTER);
         jframe.add(playerInfo, BorderLayout.NORTH);
@@ -383,11 +360,6 @@ public class Lobby {
         return type;
     }
 
-    public void printConsAndNames() {
-        System.out.println(cons);
-        System.out.println(playersNames);
-    }
-
     public void addNameAndCon(String name, int con) {
         if (!cons.contains(con)) {
             playersNames.add(name);
@@ -409,5 +381,49 @@ public class Lobby {
                 }
             }
         }
+    }
+
+    public void shiftNameAndCon(int con) {
+        for (int i = 0; i < con; i++) {
+            int tempI = cons.get(0);
+            String tempS = playersNames.get(0);
+            cons.remove(0);
+            playersNames.remove(0);
+            cons.add(tempI);
+            playersNames.add(tempS);
+        }
+    }
+
+    public void createPlayerInfo(JPanel playerInfo, String[] vals) throws IOException {
+        int index = getIndexForCardStr(conNumL);
+        JPanel myInfo = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        myInfo.setBackground(POKER_COLOR);
+        myInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JLabel name = new JLabel(getName());
+        myInfo.add(name, c);
+        c.gridy = 1;
+        if (conNumL == 0) {
+            myInfo.add(BIG_BLIND_LABEL, c);
+        } else if (conNumL == 1) {
+            myInfo.add(SMALL_BLIND_LABEL, c);
+        }
+        c.gridy = 0;
+        c.gridx = 1;
+        c.gridheight = 2;
+        JLabel myCard1 = new JLabel();
+        setCardImage(vals[index], vals[index + 1], myCard1);
+        myInfo.add(myCard1, c);
+        JLabel myCard2 = new JLabel();
+        setCardImage(vals[index + 2], vals[index + 3], myCard2);
+        c.gridx = 2;
+        myInfo.add(myCard2, c);
+
+        index = cons.indexOf(conNumL);
+        for (int i = 0; i < cons.size() - 1; i++) {
+
+        }
+
+        playerInfo.add(myInfo);
     }
 }
