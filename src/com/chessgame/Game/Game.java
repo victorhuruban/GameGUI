@@ -14,9 +14,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
+    private final Image bg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_white.png"));
     private final Color MOVE_DARK_COLOR = new Color(193, 176, 28);
     private final Color MOVE_LIGHT_COLOR = new Color(246, 242, 110);
     private final Color CAPTURE_DARK_COLOR = new Color(193, 49, 28);
@@ -50,7 +52,13 @@ public class Game implements Serializable {
         white = new Player("white", getChessBoard());
         black = new Player("black", getChessBoard());
         clone = new ChessBoard();
-        chessboard = new JPanel();
+        chessboard = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(bg, 0, 0, null);
+            }
+        };
         movedPiece = false;
         canMove = true;
         endPawn = false;
