@@ -500,7 +500,6 @@ public class Lobby {
         fold.addActionListener(e -> {
             if (turn == cons.get(0)) {
                 player.setFold();
-                inTurn = false;
             }
         });
 
