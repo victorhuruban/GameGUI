@@ -58,7 +58,7 @@ public class Lobby {
     private final ArrayList<Integer> cons = new ArrayList<>();
 
     // GAME VARIABLES
-    Player player;
+    Player player = null;
     JButton fold;
     JButton check;
     JButton raise;
