@@ -424,11 +424,31 @@ public class Lobby {
         c.gridx = 2;
         myInfo.add(myCard2, c);
 
-        index = cons.indexOf(conNumL);
-        for (int i = 0; i < cons.size() - 1; i++) {
-
-        }
-
         playerInfo.add(myInfo);
+        for (int i = 1; i < cons.size(); i++) {
+            myInfo = new JPanel(new GridBagLayout());
+            c = new GridBagConstraints();
+            myInfo.setBackground(POKER_COLOR);
+            myInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            name = new JLabel(playersNames.get(i));
+            myInfo.add(name, c);
+            c.gridy = 1;
+            if (cons.get(i) == 0) {
+                myInfo.add(BIG_BLIND_LABEL, c);
+            } else if (cons.get(i) == 1) {
+                myInfo.add(SMALL_BLIND_LABEL, c);
+            }
+            c.gridy = 0;
+            c.gridx = 1;
+            c.gridheight = 2;
+            myCard1 = new JLabel();
+            setCardImage(vals[index], vals[index + 1], myCard1);
+            myInfo.add(myCard1, c);
+            myCard2 = new JLabel();
+            setCardImage(vals[index + 2], vals[index + 3], myCard2);
+            c.gridx = 2;
+            myInfo.add(myCard2, c);
+            playerInfo.add(myInfo);
+        }
     }
 }
