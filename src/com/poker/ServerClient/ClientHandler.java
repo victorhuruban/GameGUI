@@ -64,6 +64,8 @@ public class ClientHandler implements Runnable {
                     }
                 } else if (req[req.length - 1].equals("4")) {
                     outToAll(req[0] + " did something 0 0 0 4");
+                } else if (req[req.length - 1].equals("5")) {
+                    outToAll(req[0] + " is folded 0 0 0 5");
                 }
             }
         } catch (IOException e) {
