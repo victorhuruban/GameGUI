@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 public class ServerP implements Runnable {
 
     private static ArrayList<ClientHandler> clients = new ArrayList<>();
-    private static ExecutorService pool = Executors.newFixedThreadPool(2);
+    private static ExecutorService pool = Executors.newFixedThreadPool(6);
 
     private int conNum = 0;
 

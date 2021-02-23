@@ -34,9 +34,7 @@ public class ServerConnection implements Runnable {
                 String[] test = serverResponse.split(" ");
                 if (test.length == 2) {
                     lobby.addNameAndCon(test[1], Integer.parseInt(test[0]));
-                    System.out.println("addNameAndCon in exteriorul if ului");
                      if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
-                         System.out.println("addNameAndCon in interiorul if ului");
                         lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
                         lobby.setSendBack();
                     }
