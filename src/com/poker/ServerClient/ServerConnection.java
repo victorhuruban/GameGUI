@@ -48,9 +48,20 @@ public class ServerConnection implements Runnable {
                 } else if (test.length == 6) {
                     lobby.setSendReadyStat();
                 } else if (test.length == 7) {
-                    System.out.println(test[1]);
-                    System.out.println(test[0] + " did something");
-                    lobby.nextTurn();
+                    switch (test[6]) {
+                        case "5":
+                            System.out.println(test[0] + " folded this round");
+                            lobby.nextTurn();
+                            break;
+                        case "6":
+                            System.out.println(test[0] + " folded already");
+                            lobby.nextTurn();
+                            break;
+                        case "7":
+                            System.out.println(test[0] + " did something");
+                            lobby.nextTurn();
+                            break;
+                    }
                 } else if (test.length >= 12) {
                     if (test[1].equals("3")) {
                         System.out.println(Arrays.toString(test));
