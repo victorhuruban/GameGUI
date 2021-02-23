@@ -195,6 +195,10 @@ public class Lobby {
         return interacted;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public JPanel getPanel(int num) {
         switch (num) {
             case 0:
@@ -485,6 +489,7 @@ public class Lobby {
         }
         fold.addActionListener(e -> {
             if (turn == cons.get(0)) {
+                player.setFold();
                 interacted = true;
             }
         });

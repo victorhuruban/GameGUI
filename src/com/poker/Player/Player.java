@@ -24,8 +24,8 @@ public class Player {
         check = false;
     }
 
-    public void fold() {
-        folded = true;
+    public void setFold() {
+        folded = !folded;
     }
 
     public int raise(int sum) {
@@ -77,5 +77,9 @@ public class Player {
                 sharedCards.get(2).getValue() + ":" + sharedCards.get(2).getType() + " , " +
                 sharedCards.get(3).getValue() + ":" + sharedCards.get(3).getType() + " , " +
                 sharedCards.get(4).getValue() + ":" + sharedCards.get(4).getType() + "\n");
+    }
+
+    public boolean getFolded() {
+        return folded;
     }
 }

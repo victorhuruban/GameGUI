@@ -65,8 +65,12 @@ public class ClientP {
                     lobby.setSendReadyStat();
                 }
                 if (lobby.getInteracted()) {
-                    lobby.setInteracted();
-                    out.println(lobby.getName() + " interacted 0 0 0 0 4");
+                    if (lobby.getPlayer().getFolded()) {
+                        System.out.println("i've folded");
+                    } else {
+                        lobby.setInteracted();
+                        out.println(lobby.getName() + " interacted 0 0 0 0 4");
+                    }
                 }
             }
         }, 250, 100);
