@@ -441,9 +441,11 @@ public class Lobby {
             c.gridy = 0;
             c.gridx = 1;
             c.gridheight = 2;
-            myCard1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+            myCard1 = new JLabel();
+            myCard1.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back.png")).getImage().getScaledInstance(45,75, Image.SCALE_DEFAULT)));
             myInfo.add(myCard1, c);
-            myCard2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+            myCard2 = new JLabel();
+            myCard2.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back.png")).getImage().getScaledInstance(45,75, Image.SCALE_DEFAULT)));
             c.gridx = 2;
             myInfo.add(myCard2, c);
             playerInfo.add(myInfo);
