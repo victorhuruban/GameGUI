@@ -64,6 +64,7 @@ public class Lobby {
     JButton raise;
     JTextField tfield;
     private boolean interacted = false;
+    private boolean inTurn;
     private int turn;
 
     public Lobby(int type, String name) {
@@ -199,6 +200,10 @@ public class Lobby {
         return player;
     }
 
+    public boolean getInTurn() {
+        return inTurn;
+    }
+
     public JPanel getPanel(int num) {
         switch (num) {
             case 0:
@@ -279,6 +284,10 @@ public class Lobby {
         interacted = false;
     }
 
+    public void outOfTurn() {
+        inTurn = false;
+    }
+
     public void nextTurn() {
         if (turn + 1 == cons.size()) {
             turn = 0;
@@ -325,6 +334,7 @@ public class Lobby {
         String[] vals = values.split(" ");
         int index = getIndexForCardStr(conNumL);
         turn = 0;
+        inTurn = true;
         player = new Player(10000);
         player.addCards(new Card(vals[index], vals[index + 1]));
         player.addCards(new Card(vals[index + 2], vals[index + 3]));
@@ -490,6 +500,7 @@ public class Lobby {
         fold.addActionListener(e -> {
             if (turn == cons.get(0)) {
                 player.setFold();
+                inTurn = false;
             }
         });
 
