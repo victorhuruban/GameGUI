@@ -18,14 +18,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Game implements Serializable {
-    private final Image wbg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_white.png"));
-    private final Image bbg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_black.png"));
-    private final Color MOVE_DARK_COLOR = new Color(193, 176, 28);
-    private final Color MOVE_LIGHT_COLOR = new Color(246, 242, 110);
+    public static final Color MOVE_DARK_COLOR = new Color(193, 176, 28);
+    public static final Color MOVE_LIGHT_COLOR = new Color(246, 242, 110);
     private final Color CAPTURE_DARK_COLOR = new Color(193, 49, 28);
     private final Color CAPTURE_LIGHT_COLOR = new Color(246, 114, 110);
     private final Color DARK_COLOR = new Color(130, 97, 55);
     private final Color LIGHT_COLOR = new Color(237,228,202);
+
+    private final Image wbg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_white.png"));
+    private final Image bbg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_black.png"));
     private JLabel myName, opponentName;
     private Piece testPiece;
     public JTextArea logTA;
@@ -649,7 +650,7 @@ public class Game implements Serializable {
         setChessBoard(cb);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Cell square = new Cell();
+                Cell square = new Cell(getPosition(i, j));
                 square.setLayout(new BorderLayout());
                 //int row = (getPosition(i, j) / 8) % 2;
                 /*if (row == 0) {
@@ -744,8 +745,6 @@ public class Game implements Serializable {
                     cloneKing.capture(clone, i, j);
                     cloneKing.setRow(i);
                     cloneKing.setColumn(j);
-                    /*clone.getLocation(i, j).removePiece();
-                    clone.getLocation(i, j).setPiece(cloneKing);*/
 
                     if (checkIfChecked(cloneKing, clone)) {
                         cloneKing = new King(row, column, color);
@@ -848,18 +847,33 @@ public class Game implements Serializable {
 
 class Cell extends JPanel {
     private boolean mark;
+    private int pos;
 
-    public Cell() {
-        mark = false;
+    public Cell(int pos) {
         super.setPreferredSize(new Dimension(100, 100));
+        this.pos = pos;
+        mark = false;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (mark) {
-            g.setColor(Color.GRAY);
-            g.fillOval(30,30,40,40);
+            int chk = (pos / 8) % 2;
+            if (chk == 0) {
+                if (pos % 2 == 0) {
+                    g.setColor(Game.MOVE_DARK_COLOR);
+                } else {
+                    g.setColor(Game.MOVE_LIGHT_COLOR);
+                }
+            } else {
+                if (pos % 2 == 0) {
+                    g.setColor(Game.MOVE_LIGHT_COLOR);
+                } else {
+                    g.setColor(Game.MOVE_DARK_COLOR);
+                }
+            }
+            g.fillOval(30, 30, 40, 40);
         }
     }
 
