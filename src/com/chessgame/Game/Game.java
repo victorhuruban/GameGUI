@@ -21,8 +21,8 @@ import java.util.ArrayList;
 public class Game implements Serializable {
     public static final Color MOVE_DARK_COLOR = new Color(193, 176, 28);
     public static final Color MOVE_LIGHT_COLOR = new Color(246, 242, 110);
-    private final Color CAPTURE_DARK_COLOR = new Color(193, 49, 28);
-    private final Color CAPTURE_LIGHT_COLOR = new Color(246, 114, 110);
+    public static final Color CAPTURE_DARK_COLOR = new Color(193, 49, 28);
+    public static final Color CAPTURE_LIGHT_COLOR = new Color(246, 114, 110);
     private final Color DARK_COLOR = new Color(130, 97, 55);
     private final Color LIGHT_COLOR = new Color(237,228,202);
 
@@ -862,8 +862,8 @@ class Cell extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        int chk = (pos / 8) % 2;
         if (mark && !occupied) {
-            int chk = (pos / 8) % 2;
             if (chk == 0) {
                 if (pos % 2 == 0) {
                     g.setColor(Game.MOVE_DARK_COLOR);
@@ -880,8 +880,22 @@ class Cell extends JPanel {
             g.fillOval(30, 30, 40, 40);
         } else if (mark) {
             Graphics2D g2 = (Graphics2D) g;
-            RoundRectangle2D rRect = new RoundRectangle2D.Float(50,50,40,40,10,10);
-            g2.setColor(Color.RED);
+            RoundRectangle2D rRect = new RoundRectangle2D.Float(15,15,70,70,10,10);
+            g2.setStroke(new BasicStroke(5));
+            if (chk == 0) {
+                if (pos % 2 == 0) {
+                    g2.setColor(Game.CAPTURE_DARK_COLOR);
+                } else {
+                    g2.setColor(Game.CAPTURE_LIGHT_COLOR);
+                }
+            } else {
+                if (pos % 2 == 0) {
+                    g2.setColor(Game.CAPTURE_LIGHT_COLOR);
+                } else {
+                    g2.setColor(Game.CAPTURE_DARK_COLOR);
+                }
+            }
+            g2.draw(rRect);
         }
     }
 
