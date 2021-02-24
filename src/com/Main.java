@@ -3,6 +3,7 @@ package com;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
 public class Main {
@@ -30,7 +31,9 @@ public class Main {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawOval(50,50, 40,40);
+                Graphics2D g2 = (Graphics2D) g;
+                RoundRectangle2D rRect = new RoundRectangle2D.Float(50,50,40,40,10,10);
+                g2.draw(rRect);
                 this.updateUI();
             }
         };

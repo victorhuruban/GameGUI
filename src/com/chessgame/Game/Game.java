@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
@@ -506,6 +507,7 @@ public class Game implements Serializable {
                 Cell square = (Cell) chessboard.getComponent(getPosition(i, j));
                 if (array[i][j]) {
                     square.setMark();
+                    square.checkOccupied();
                     square.repaint();
                 }
                 // OLD CODE
@@ -847,18 +849,20 @@ public class Game implements Serializable {
 
 class Cell extends JPanel {
     private boolean mark;
+    private boolean occupied;
     private int pos;
 
     public Cell(int pos) {
         super.setPreferredSize(new Dimension(100, 100));
         this.pos = pos;
         mark = false;
+        occupied = false;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (mark) {
+        if (mark && !occupied) {
             int chk = (pos / 8) % 2;
             if (chk == 0) {
                 if (pos % 2 == 0) {
@@ -874,10 +878,20 @@ class Cell extends JPanel {
                 }
             }
             g.fillOval(30, 30, 40, 40);
+        } else if (mark) {
+            Graphics2D g2 = (Graphics2D) g;
+            RoundRectangle2D rRect = new RoundRectangle2D.Float(50,50,40,40,10,10);
+            g2.setColor(Color.RED);
         }
     }
 
     public void setMark() {
         mark = !mark;
+    }
+
+    public void checkOccupied() {
+        if (this.getComponents().length != 0) {
+            occupied = true;
+        }
     }
 }
