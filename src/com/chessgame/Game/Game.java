@@ -174,9 +174,19 @@ public class Game implements Serializable {
                         } else {
                             System.out.println("Not your piece");
                         }
-                    }
-                    if (c instanceof JLabel && piece[0] != null) {
-                        if (testPiece.isValidCapture(getChessBoard(), row, column)) {
+                    } else if (c instanceof JLabel) {
+                        if (getChessBoard().getLocation(row, column).getPiece().getColor().equals(testPiece.getColor())) {
+                            System.out.println("deselect and empty piece[] arr");
+                            clearLogArr();
+                            try {
+                                updateChessBoardUI(getChessBoard(), chessboard);
+                            } catch (IOException ioException) {
+                                ioException.printStackTrace();
+                            }
+                            chessboard.updateUI();
+                            piece[0] = null;
+                            testPiece = null;
+                        } else if (testPiece.isValidCapture(getChessBoard(), row, column)) {
                             if (checkIfChecked(getPlayer(testPiece.getColor()).getKing(), getChessBoard())) {
                                 clone = cloneBoard();
                                 clone.getLocation(testPiece.getRow(), testPiece.getColumn()).getPiece().capture(clone, row, column);
