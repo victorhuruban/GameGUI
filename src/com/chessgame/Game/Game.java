@@ -742,8 +742,10 @@ public class Game implements Serializable {
                 }
                 if (cloneKing.isValidCapture(clone, i, j)) {
                     cloneKing.capture(clone, i, j);
-                    clone.getLocation(i, j).removePiece();
-                    clone.getLocation(i, j).setPiece(cloneKing);
+                    cloneKing.setRow(i);
+                    cloneKing.setColumn(j);
+                    /*clone.getLocation(i, j).removePiece();
+                    clone.getLocation(i, j).setPiece(cloneKing);*/
 
                     if (checkIfChecked(cloneKing, clone)) {
                         cloneKing = new King(row, column, color);
