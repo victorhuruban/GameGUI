@@ -87,6 +87,7 @@ public class Server implements Runnable {
             @Override
             public void run() {
                 if (game.getMovedPiece()) {
+                    game.playSound();
                     try {
                         if (game.getEndPawn()) {
                             System.out.println("92");

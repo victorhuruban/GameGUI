@@ -7,6 +7,7 @@ import com.chessgame.Pieces.*;
 import com.chessgame.Player.Player;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game implements Serializable {
     public static final Color MOVE_DARK_COLOR = new Color(193, 176, 28);
@@ -854,6 +856,27 @@ public class Game implements Serializable {
 
     public JLabel getOpponentsNameL() {
         return opponentName;
+    }
+
+    private int getRandomNum() {
+        Random r = new Random();
+        int low = 1;
+        int high = 16;
+        return r.nextInt(high - low) + low;
+    }
+
+    public void playSound() {
+        try {
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    Main.class.getResourceAsStream("/com/chessgame/Game/res/move_sound_" + getRandomNum() + ".aiff"));
+            System.out.println(inputStream.getFormat());
+            Clip clip = AudioSystem.getClip();
+            clip.open(inputStream);
+            clip.start();
+            Thread.sleep(1);
+        } catch (UnsupportedAudioFileException | LineUnavailableException | InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 

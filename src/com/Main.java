@@ -1,14 +1,14 @@
 package com;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
+import javax.sound.sampled.*;
+import java.applet.AudioClip;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Random;
 
 public class Main {
 
-    public static void main(String[] args) throws NullPointerException, IOException {
+    public static void main(String[] args) throws NullPointerException, IOException, InterruptedException {
         GameGUI start = new GameGUI();
         /*int rolls = 100000;
 
