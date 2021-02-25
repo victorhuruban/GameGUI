@@ -24,7 +24,7 @@ public class GameGUI {
 
     private JLabel backgroundPic = new JLabel(new ImageIcon(CHESS_BACKGROUND));
 
-    private String name;
+    private String name = "";
     private final JFrame frame;
     private final JPanel mainCards;
     private final int DEFAULT_PORT = 57894;
@@ -116,18 +116,32 @@ public class GameGUI {
 
         // START CHESS GAME FRAME
         startChessGame.addActionListener(e -> {
-            deleteJLabel(setNameCard.getComponents(), setNameCard);
-            createJLabel(hovered, setNameCard);
-            CardLayout cl = (CardLayout) this.mainCards.getLayout();
-            cl.show(this.mainCards, "2");
+            if (name.equals("")) {
+                deleteJLabel(setNameCard.getComponents(), setNameCard);
+                createJLabel(hovered, setNameCard);
+                CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                cl.show(this.mainCards, "2");
+            } else {
+                deleteJLabel(chooseHostOrJoin.getComponents(), chooseHostOrJoin);
+                createJLabel(hovered, chooseHostOrJoin);
+                CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                cl.show(this.mainCards, "3");
+            }
         });
 
         // START POKER GAME FRAME
         startPokerGame.addActionListener(e -> {
-            deleteJLabel(setNameCard.getComponents(), setNameCard);
-            createJLabel(hovered, setNameCard);
-            CardLayout cl = (CardLayout) this.mainCards.getLayout();
-            cl.show(this.mainCards, "2");
+            if (name.equals("")) {
+                deleteJLabel(setNameCard.getComponents(), setNameCard);
+                createJLabel(hovered, setNameCard);
+                CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                cl.show(this.mainCards, "2");
+            } else {
+                deleteJLabel(chooseHostOrJoin.getComponents(), chooseHostOrJoin);
+                createJLabel(hovered, chooseHostOrJoin);
+                CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                cl.show(this.mainCards, "3");
+            }
         });
 
         // CODE WHICH CHANGES THE BACKGROUND WHEN YOU HOVER MOUSE OVER BUTTONS AT THE FIRST PANEL
@@ -166,7 +180,7 @@ public class GameGUI {
             }
         });
 
-        // BACK BUTTON TO CHOOSE A DIFFERENT GAME (SOON TO COME!)
+        // BACK BUTTON TO CHOOSE A DIFFERENT GAME
         backButton1.addActionListener(e -> {
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
             cl.show(this.mainCards, "1");
@@ -230,15 +244,6 @@ public class GameGUI {
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
             cl.show(this.mainCards, "3");
         });
-
-        // READY BUTTON IN POKER LOBBY
-        // readyButton
-
-        // START GAME IN POKER LOBBY
-        // startGame
-
-        // EXIT LOBBY
-        // exitLobby
     }
 
     // CHECKS IF THE IP IS VALID OR NOT METHOD FOR THE JOIN FUNCTION
@@ -351,5 +356,9 @@ public class GameGUI {
             jpanel.setBackground(POKER_COLOR);
         }
         jpanel.repaint();
+    }
+
+    public void afterEnd(String name) {
+        this.name = name;
     }
 }

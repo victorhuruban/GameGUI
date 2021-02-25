@@ -1,5 +1,6 @@
 package com.chessgame.ServerClient;
 
+import com.GameGUI;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
@@ -51,6 +52,7 @@ public class Server implements Runnable {
                 out.writeObject(trans);
                 trans = (Object[]) in.readObject();
                 game.getOpponentsNameL().setText(" Opponent's name:   " + trans[0]);
+                myTurn();
             } catch (IOException e) {
                 System.out.println("CE PLM");
             } catch (ClassNotFoundException e) {
@@ -60,10 +62,9 @@ public class Server implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        myTurn();
     }
 
-    public void myTurn() {
+    public void myTurn() throws IOException {
         if (game.getGameover()) {
             return;
         }
@@ -161,6 +162,12 @@ public class Server implements Runnable {
                 tru = false;
                 System.out.println("AICI BAGA CAND IASA UN JUCATOR");
                 e.printStackTrace();
+                in.close();
+                out.close();
+                socket.close();
+                game.frame.dispose();
+                GameGUI restart = new GameGUI();
+                restart.afterEnd(game.getMyNameL().getName());
             } catch (ClassCastException e) {
                 e.printStackTrace();
             }
