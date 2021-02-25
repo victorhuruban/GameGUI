@@ -89,6 +89,7 @@ public class Client implements Runnable {
                 in.close();
                 out.close();
                 socket.close();
+                System.out.println("AICI DACA IEse serveru");
                 return;
             }
         }

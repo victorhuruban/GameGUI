@@ -159,7 +159,7 @@ public class Server implements Runnable {
 
             } catch (IOException | ClassNotFoundException e) {
                 tru = false;
-                System.out.println(timer.toString());
+                System.out.println("AICI BAGA CAND IASA UN JUCATOR");
                 e.printStackTrace();
             } catch (ClassCastException e) {
                 e.printStackTrace();
