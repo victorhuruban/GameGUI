@@ -1,5 +1,6 @@
 package com.chessgame.ServerClient;
 
+import com.GameGUI;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
@@ -18,6 +19,7 @@ public class Client implements Runnable {
     private final int port;
     private Socket socket = null;
     public Game game;
+    public JFrame gFrame;
     public JFrame frame;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -37,7 +39,8 @@ public class Client implements Runnable {
     public void run() {
         try {
             game.changeTurn();
-            game.createJFrameCB().setVisible(true);
+            gFrame = game.createJFrameCB();
+            gFrame.setVisible(true);
             game.getMyNameL().setText(" My name:                  " + name + " ");
             game.setCanMove();
             socket = new Socket(address, port);
@@ -90,7 +93,10 @@ public class Client implements Runnable {
                 out.close();
                 socket.close();
                 System.out.println("AICI DACA IEse serveru");
-                return;
+                gFrame.dispose();
+                GameGUI restart = new GameGUI();
+                restart.afterEnd(game.getMyNameL().getName());
+                break;
             }
         }
         if (game.isCheckMate(game.getKing("black"))) {

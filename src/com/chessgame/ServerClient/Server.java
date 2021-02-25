@@ -20,6 +20,7 @@ public class Server implements Runnable {
     private Socket socket = null;
     private ServerSocket server = null;
     public JFrame frame;
+    public JFrame gFrame;
     public Game game;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -38,7 +39,8 @@ public class Server implements Runnable {
     public void run() {
         try {
             System.out.println();
-            game.createJFrameCB().setVisible(true);
+            gFrame = game.createJFrameCB();
+            gFrame.setVisible(true);
             game.getMyNameL().setText(" My name:                  " + name + " ");
             server = new ServerSocket(port);
             System.out.println("Server started");
@@ -161,14 +163,15 @@ public class Server implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 tru = false;
                 System.out.println("AICI BAGA CAND IASA UN JUCATOR");
-                e.printStackTrace();
+                //e.printStackTrace();
                 in.close();
                 out.close();
                 socket.close();
-                game.frame.dispose();
+                gFrame.dispose();
                 GameGUI restart = new GameGUI();
                 restart.afterEnd(game.getMyNameL().getName());
             } catch (ClassCastException e) {
+                System.out.println("Erroare");
                 e.printStackTrace();
             }
         }
