@@ -221,6 +221,7 @@ public class Game implements Serializable {
                                     piece[0] = null;
                                     testPiece = null;
                                     chessboard.updateUI();
+                                    playSound();
                                 }
                             } else {
                                 clone = cloneBoard();
@@ -258,6 +259,7 @@ public class Game implements Serializable {
                                     piece[0] = null;
                                     testPiece = null;
                                     chessboard.updateUI();
+                                    playSound();
                                 }
                                 clone = new ChessBoard();
                             }
@@ -298,6 +300,7 @@ public class Game implements Serializable {
                                     piece[0] = null;
                                     testPiece = null;
                                     chessboard.updateUI();
+                                    playSound();
                                 }
                                 clone = new ChessBoard();
                             } else {
@@ -336,6 +339,7 @@ public class Game implements Serializable {
                                     piece[0] = null;
                                     testPiece = null;
                                     chessboard.updateUI();
+                                    playSound();
                                 }
                                 clone = new ChessBoard();
                             }
@@ -355,6 +359,7 @@ public class Game implements Serializable {
                             System.out.println("good, change player");
                             changeTurn();
                             chessboard.updateUI();
+                            playSound();
                             piece[0] = null;
                             testPiece = null;
                         } else {

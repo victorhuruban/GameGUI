@@ -83,6 +83,7 @@ public class Client implements Runnable {
                 newCB.reverseBoard();
                 game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
+                game.playSound();
                 tru = false;
             } catch (IOException | ClassNotFoundException e) {
                 in.close();

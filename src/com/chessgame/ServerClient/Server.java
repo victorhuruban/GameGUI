@@ -87,7 +87,6 @@ public class Server implements Runnable {
             @Override
             public void run() {
                 if (game.getMovedPiece()) {
-                    game.playSound();
                     try {
                         if (game.getEndPawn()) {
                             System.out.println("92");
@@ -146,6 +145,7 @@ public class Server implements Runnable {
                 newCB.reverseBoard();
                 game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
+                game.playSound();
                 if (game.isCheckMate(game.getKing("white"))) {
                     game.youLost();
                     System.out.println(game.getGameover());
