@@ -888,7 +888,7 @@ public class Game implements Serializable {
 class Cell extends JPanel {
     private boolean mark;
     private boolean occupied;
-    private int pos;
+    private final int pos;
 
     public Cell(int pos) {
         super.setPreferredSize(new Dimension(100, 100));

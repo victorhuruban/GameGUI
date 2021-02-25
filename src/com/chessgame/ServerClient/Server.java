@@ -218,6 +218,7 @@ public class Server implements Runnable {
         JFrame frame = new JFrame("Change pawn");
         frame.setLayout(new FlowLayout());
         frame.setSize(250, 125);
+        frame.setLocationRelativeTo(game.frame);
         frame.setVisible(true);
 
         JButton queenC = new JButton("Queen");
