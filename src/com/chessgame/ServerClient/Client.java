@@ -95,7 +95,6 @@ public class Client implements Runnable {
             try {
                 ChessBoard newCB = game.getChessBoard();
                 System.out.println("acu aci");
-                changeTurnCircles();
                 Object[] trans = (Object[]) in.readObject();
                 game.getLogTA().append(trans[1].toString());
                 game.setCanMove();
@@ -104,6 +103,7 @@ public class Client implements Runnable {
                 game.updateChessBoardUI(newCB, game.chessboard);
                 game.chessboard.updateUI();
                 game.playSound();
+                changeTurnCircles();
                 tru = false;
             } catch (IOException | ClassNotFoundException e) {
                 closeEverything();
