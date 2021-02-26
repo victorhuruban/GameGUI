@@ -862,6 +862,10 @@ public class Game implements Serializable {
         turn = !turn;
     }
 
+    public boolean getCanMove() {
+        return canMove;
+    }
+
     public void youLost() {
         this.gameover = true;
     }

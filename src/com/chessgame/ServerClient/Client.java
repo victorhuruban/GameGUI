@@ -260,8 +260,8 @@ public class Client implements Runnable {
     }
 
     public void changeTurnCircles() {
-        myCircle.setTurn(!game.getTurn());
-        oppCircle.setTurn(!game.getTurn());
+        myCircle.setTurn(!game.getCanMove());
+        oppCircle.setTurn(!game.getCanMove());
         myCircle.repaint();
         oppCircle.repaint();
     }
