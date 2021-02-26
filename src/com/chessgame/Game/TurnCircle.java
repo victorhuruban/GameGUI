@@ -13,35 +13,26 @@ public class TurnCircle extends JLabel {
         if (color.equals("white")) {
             if (turn) {
                 g.setColor(Color.GREEN);
-                g.fillOval(125, 6, 15, 15);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.BLACK);
-                g2.setStroke(new BasicStroke(2));
-                g2.drawOval(125, 6, 15, 15);
             } else {
                 g.setColor(Color.RED);
-                g.fillOval(125, 6, 15, 15);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.BLACK);
-                g2.setStroke(new BasicStroke(2));
-                g2.drawOval(125, 6, 15, 15);
+
             }
+            g.fillOval(125, 6, 15, 15);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(Color.BLACK);
+            g2.setStroke(new BasicStroke(2));
+            g2.drawOval(125, 6, 15, 15);
         } else if (color.equals("black")) {
             if (turn) {
                 g.setColor(Color.RED);
-                g.fillOval(125, 6, 15, 15);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.BLACK);
-                g2.setStroke(new BasicStroke(2));
-                g2.drawOval(125, 6, 15, 15);
             } else {
                 g.setColor(Color.GREEN);
-                g.fillOval(125, 6, 15, 15);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setColor(Color.BLACK);
-                g2.setStroke(new BasicStroke(2));
-                g2.drawOval(125, 6, 15, 15);
             }
+            g.fillOval(125, 6, 15, 15);
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(Color.BLACK);
+            g2.setStroke(new BasicStroke(2));
+            g2.drawOval(125, 6, 15, 15);
         }
     }
 

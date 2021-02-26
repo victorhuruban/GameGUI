@@ -51,7 +51,6 @@ public class Client implements Runnable {
             myName = (JLabel) game.getMyNameL().getComponent(0);
             myName.setText(" My name: " + name);
             myCircle.initialSetCircle("black", game.getTurn());
-            myCircle.repaint();
             game.getMyNameL().add(myCircle);
             game.setCanMove();
             socket = new Socket(address, port);
