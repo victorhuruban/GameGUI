@@ -50,7 +50,7 @@ public class Client implements Runnable {
             game.getMyNameL().add(new JLabel());
             myName = (JLabel) game.getMyNameL().getComponent(0);
             myName.setText(" My name: " + name);
-            myCircle.initialSetCircle("white", game.getTurn());
+            myCircle.initialSetCircle("black", !game.getTurn());
             game.getMyNameL().add(myCircle);
             game.setCanMove();
             socket = new Socket(address, port);
@@ -62,7 +62,7 @@ public class Client implements Runnable {
                 game.getOpponentsNameL().add(new JLabel());
                 oppName = (JLabel) game.getOpponentsNameL().getComponent(0);
                 oppName.setText(" Opponent's name: " + trans[0]);
-                oppCircle.initialSetCircle("black", game.getTurn());
+                oppCircle.initialSetCircle("white", !game.getTurn());
                 game.getOpponentsNameL().add(oppCircle);
                 trans[0] = name ;
                 out.writeObject(trans);
@@ -260,8 +260,8 @@ public class Client implements Runnable {
     }
 
     public void changeTurnCircles() {
-        myCircle.setTurn(game.getTurn());
-        oppCircle.setTurn(game.getTurn());
+        myCircle.setTurn(!game.getTurn());
+        oppCircle.setTurn(!game.getTurn());
         myCircle.repaint();
         oppCircle.repaint();
     }

@@ -15,7 +15,6 @@ public class TurnCircle extends JLabel {
                 g.setColor(Color.GREEN);
             } else {
                 g.setColor(Color.RED);
-
             }
             g.fillOval(125, 6, 15, 15);
             Graphics2D g2 = (Graphics2D) g;
