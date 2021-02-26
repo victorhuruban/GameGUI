@@ -80,7 +80,8 @@ public class Game implements Serializable {
         JLabel[] piece = new JLabel[1];
 
         JFrame jFrame = new JFrame("Chess");
-        jFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/frame_background.jpg")))));
+        jFrame.getContentPane().setBackground(new Color(208,219,221));
+        //jFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/frame_background.jpg")))));
         jFrame.setSize(1250, 847);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLayout(new GridBagLayout());
@@ -105,7 +106,8 @@ public class Game implements Serializable {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(5,5,5,4);
 
-        JPanel chatPane = new JPanel(new GridBagLayout());
+        InfoPanel chatPane = new InfoPanel();
+        chatPane.setLayout(new GridBagLayout());
         chatPane.setOpaque(false);
         GridBagConstraints c2 = new GridBagConstraints();
         JScrollPane scroll = new JScrollPane(logTA);
@@ -120,7 +122,7 @@ public class Game implements Serializable {
         chatPane.setPreferredSize(new Dimension(300, 800));
 
         JPanel namesPanel = new JPanel(new GridLayout(2,0));
-        namesPanel.setBackground(Color.LIGHT_GRAY);
+        namesPanel.setBackground(Color.DARK_GRAY);
         namesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         namesPanel.setPreferredSize(new Dimension(60,60));
         myName = new JLabel();
@@ -900,6 +902,21 @@ public class Game implements Serializable {
         } catch (UnsupportedAudioFileException | LineUnavailableException | InterruptedException | IOException e) {
             e.printStackTrace();
         }
+    }
+}
+
+class InfoPanel extends JPanel {
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        RoundRectangle2D rRect = new RoundRectangle2D.Float(10,7,320,786,10,10);
+        g2.setStroke(new BasicStroke(5));
+        g2.setColor(Color.LIGHT_GRAY);
+        g2.fill(rRect);
+        g2.setColor(Color.DARK_GRAY);
+        g2.draw(rRect);
     }
 }
 
