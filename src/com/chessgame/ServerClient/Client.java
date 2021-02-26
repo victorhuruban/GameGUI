@@ -44,6 +44,7 @@ public class Client implements Runnable {
     public void run() {
         try {
             game.changeTurn();
+            System.out.println(game.getTurn());
             gFrame = game.createJFrameCB();
             gFrame.setVisible(true);
             game.getMyNameL().add(new JLabel());
