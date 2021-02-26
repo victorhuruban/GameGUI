@@ -29,7 +29,7 @@ public class Server implements Runnable {
 
     public Server(int port, String name) throws IOException {
         this.name = name;
-        this.game = new Game( 1);
+        this.game = new Game( 1, name);
         this.port = port;
         changedPiece = "";
         run();
@@ -163,13 +163,13 @@ public class Server implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 tru = false;
                 System.out.println("AICI BAGA CAND IASA UN JUCATOR");
-                //e.printStackTrace();
                 in.close();
                 out.close();
                 socket.close();
+                server.close();
                 gFrame.dispose();
                 GameGUI restart = new GameGUI();
-                restart.afterEnd(game.getMyNameL().getName());
+                restart.afterEnd(name);
             } catch (ClassCastException e) {
                 System.out.println("Erroare");
                 e.printStackTrace();

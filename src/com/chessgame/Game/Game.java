@@ -1,5 +1,6 @@
 package com.chessgame.Game;
 
+import com.GameGUI;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.Main;
@@ -35,7 +36,7 @@ public class Game implements Serializable {
     public JTextArea logTA;
     public JFrame frame;
     public JPanel chessboard;
-    private boolean gameover, canMove, turn, endPawn;
+    private boolean gameover, canMove, turn, endPawn, off;
     volatile boolean movedPiece;
     private ChessBoard clone;
     public Player white, black;
@@ -43,15 +44,17 @@ public class Game implements Serializable {
     private ChessBoard gameChessboard;
     private StringBuilder log;
     private int[] logArr;
+    private String name;
 
-    public Game(int num) throws IOException {
+    public Game(int num, String name) throws IOException {
+        this.name = name;
         log = new StringBuilder();
         logArr = new int[4];
         logTA = new JTextArea(19, 30);
         logTA.setEditable(false);
         castling = new ArrayList<>();
         testPiece = null;
-        turn = true; gameover = false;
+        turn = true; gameover = false; off = false;
         GameInitialization gi = new GameInitialization(num);
         gameChessboard = gi.getCb();
         white = new Player("white", getChessBoard());
@@ -76,7 +79,7 @@ public class Game implements Serializable {
         Dimension dim = new Dimension(800, 800);
         JLabel[] piece = new JLabel[1];
 
-        JFrame jFrame = new JFrame("Test ChessBoard");
+        JFrame jFrame = new JFrame("Chess");
         jFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/frame_background.jpg")))));
         jFrame.setSize(1250, 847);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,7 +89,6 @@ public class Game implements Serializable {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
-        c.gridheight = 4;
         c.weightx = 1;
         c.weighty = 1;
         c.anchor = GridBagConstraints.LINE_START;
@@ -98,41 +100,53 @@ public class Game implements Serializable {
 
         c.gridx = 1;
         c.gridy = 0;
-        c.gridheight = 1;
-        c.anchor = GridBagConstraints.LINE_START;
+        c.weightx = 0.5;
+        c.weighty = 0.5;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.insets = new Insets(5,5,5,4);
 
-        JPanel chatPane = new JPanel();
+        JPanel chatPane = new JPanel(new GridBagLayout());
+        chatPane.setOpaque(false);
+        GridBagConstraints c2 = new GridBagConstraints();
         JScrollPane scroll = new JScrollPane(logTA);
+        scroll.setPreferredSize(new Dimension(300, 500));
         scroll.setHorizontalScrollBar(null);
-        chatPane.add(scroll);
+        c2.insets = new Insets(15,5,0,5);
+        c2.fill = GridBagConstraints.HORIZONTAL;
+        c2.anchor = GridBagConstraints.NORTH;
+        c2.weighty = 0.7;
+        chatPane.add(scroll, c2);
         chatPane.setBackground(Color.DARK_GRAY);
-        chatPane.setPreferredSize(new Dimension(300, 318));
-        jFrame.add(chatPane, c);
-
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        chatPane.setPreferredSize(new Dimension(300, 800));
 
         JPanel namesPanel = new JPanel(new GridLayout(2,0));
         namesPanel.setBackground(Color.LIGHT_GRAY);
-        namesPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+        namesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        namesPanel.setPreferredSize(new Dimension(60,60));
         myName = new JLabel();
-        myName.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
+        myName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         opponentName = new JLabel();
-        opponentName.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 1));
+        opponentName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         namesPanel.add(myName);
         namesPanel.add(opponentName);
-        jFrame.add(namesPanel, c);
-
-        c.gridx = 1;
-        c.gridy = 2;
-        c.anchor = GridBagConstraints.LAST_LINE_END;
+        c2.gridy = 1;
+        c2.anchor = GridBagConstraints.FIRST_LINE_START;
+        c2.insets = new Insets(0,5,5,5);
+        c2.weighty = 3;
+        chatPane.add(namesPanel, c2);
 
         JButton exitButton = new JButton("EXIT");
         exitButton.addActionListener(e -> {
-            System.exit(0); // TODO: IMPROVE STUFF
+            jFrame.dispose();
+            GameGUI restart = new GameGUI();
+            restart.afterEnd(name);
         });
-        jFrame.add(exitButton, c);
+        c2.gridy = 2;
+        c2.anchor = GridBagConstraints.LAST_LINE_END;
+        c2.insets = new Insets(5,5,15,5);
+        c2.fill = GridBagConstraints.REMAINDER;
+        chatPane.add(exitButton, c2);
+        jFrame.add(chatPane, c);
 
         jLayeredPane.add(chessboard, JLayeredPane.DEFAULT_LAYER);
         chessboard.setLayout(new GridLayout(8,8));
@@ -862,6 +876,10 @@ public class Game implements Serializable {
     public JLabel getOpponentsNameL() {
         return opponentName;
     }
+
+    public boolean getOff() { return off; }
+
+    public void setOff() { off = !off; }
 
     private int getRandomNum() {
         Random r = new Random();

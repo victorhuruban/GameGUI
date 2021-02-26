@@ -358,7 +358,7 @@ public class GameGUI {
         jpanel.repaint();
     }
 
-    public void afterEnd(String name) {
-        this.name = name;
+    public void afterEnd(String newName) {
+        name = newName;
     }
 }

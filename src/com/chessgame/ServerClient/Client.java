@@ -28,7 +28,7 @@ public class Client implements Runnable {
 
     public Client(String address, int port, String name) throws IOException {
         this.name = name;
-        this.game = new Game(2);
+        this.game = new Game(2, name);
         this.address = address;
         this.port = port;
         changedPiece = "";
@@ -95,7 +95,7 @@ public class Client implements Runnable {
                 System.out.println("AICI DACA IEse serveru");
                 gFrame.dispose();
                 GameGUI restart = new GameGUI();
-                restart.afterEnd(game.getMyNameL().getName());
+                restart.afterEnd(name);
                 break;
             }
         }
