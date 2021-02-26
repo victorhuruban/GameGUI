@@ -4,6 +4,7 @@ import com.GameGUI;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
+import com.chessgame.Game.TurnCircle;
 import com.chessgame.Pieces.*;
 
 import javax.swing.*;
@@ -21,6 +22,9 @@ public class Client implements Runnable {
     public Game game;
     public JFrame gFrame;
     public JFrame frame;
+    public TurnCircle myCircle; public TurnCircle oppCircle;
+    public JLabel myName;
+    public JLabel oppName;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private Loc[][] transfer;
@@ -41,7 +45,11 @@ public class Client implements Runnable {
             game.changeTurn();
             gFrame = game.createJFrameCB();
             gFrame.setVisible(true);
-            game.getMyNameL().setText(" My name:                  " + name + " ");
+            game.getMyNameL().add(new JLabel());
+            myName = (JLabel) game.getMyNameL().getComponent(0);
+            myName.setText(" My name: " + name);
+            myCircle.initialSetCircle("black", game.getTurn());
+            game.getMyNameL().add(myCircle);
             game.setCanMove();
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
@@ -49,7 +57,11 @@ public class Client implements Runnable {
             try {
                 System.out.println("Aci");
                 Object[] trans = (Object[]) in.readObject();
-                game.getOpponentsNameL().setText(" Opponent's name:   " + trans[0]);
+                game.getOpponentsNameL().add(new JLabel());
+                oppName = (JLabel) game.getOpponentsNameL().getComponent(0);
+                oppName.setText(" Opponent's name: " + trans[0]);
+                oppCircle.initialSetCircle("white", game.getTurn());
+                game.getOpponentsNameL().add(oppCircle);
                 trans[0] = name ;
                 out.writeObject(trans);
             } catch (IOException e) {
@@ -79,6 +91,7 @@ public class Client implements Runnable {
             try {
                 ChessBoard newCB = game.getChessBoard();
                 System.out.println("acu aci");
+                changeTurnCircles();
                 Object[] trans = (Object[]) in.readObject();
                 game.getLogTA().append(trans[1].toString());
                 game.setCanMove();
@@ -140,6 +153,7 @@ public class Client implements Runnable {
                             game.getSB().delete(0, game.getSB().length());
                             game.changeMovedPiece();
                             game.setCanMove();
+                            changeTurnCircles();
                             timer.cancel();
                             try {
                                 game.changeTurn();
@@ -241,5 +255,12 @@ public class Client implements Runnable {
             game.changeMovedPiece();
             frame.dispose();
         });
+    }
+
+    public void changeTurnCircles() {
+        myCircle.setTurn(game.getTurn());
+        oppCircle.setTurn(game.getTurn());
+        myCircle.repaint();
+        oppCircle.repaint();
     }
 }

@@ -31,7 +31,7 @@ public class Game implements Serializable {
 
     private final Image wbg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_white.png"));
     private final Image bbg = ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/chessboard_black.png"));
-    private JLabel myName, opponentName;
+    private JPanel myName, opponentName;
     private Piece testPiece;
     public JTextArea logTA;
     public JFrame frame;
@@ -81,7 +81,6 @@ public class Game implements Serializable {
 
         JFrame jFrame = new JFrame("Chess");
         jFrame.getContentPane().setBackground(new Color(208,219,221));
-        //jFrame.setContentPane(new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/chessgame/Game/res/frame_background.jpg")))));
         jFrame.setSize(1250, 847);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setLayout(new GridBagLayout());
@@ -125,9 +124,9 @@ public class Game implements Serializable {
         namesPanel.setBackground(Color.DARK_GRAY);
         namesPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         namesPanel.setPreferredSize(new Dimension(60,60));
-        myName = new JLabel();
+        myName = new JPanel(new GridLayout(0, 2));
         myName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        opponentName = new JLabel();
+        opponentName = new JPanel(new GridLayout(0, 2));
         opponentName.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         namesPanel.add(myName);
         namesPanel.add(opponentName);
@@ -226,7 +225,7 @@ public class Game implements Serializable {
                                         ioException.printStackTrace();
                                     }
                                     StringBuilder tempSB = getSB();
-                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                    tempSB.append(" ").append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (capture)\n");
                                     getLogTA().append(String.valueOf(tempSB));
@@ -264,7 +263,7 @@ public class Game implements Serializable {
                                         castling.clear();
                                     }
                                     StringBuilder tempSB = getSB();
-                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                    tempSB.append(" ").append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (capture)\n");
                                     getLogTA().append(String.valueOf(tempSB));
@@ -305,7 +304,7 @@ public class Game implements Serializable {
                                         ioException.printStackTrace();
                                     }
                                     StringBuilder tempSB = getSB();
-                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                    tempSB.append(" ").append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (move)\n");
                                     getLogTA().append(String.valueOf(tempSB));
@@ -344,7 +343,7 @@ public class Game implements Serializable {
                                         castling.clear();
                                     }
                                     StringBuilder tempSB = getSB();
-                                    tempSB.append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
+                                    tempSB.append(" ").append(testPiece.getColor()).append(" : ").append(testPiece.toString()).append(" from ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[0], getLogArr()[1])).append(" to ")
                                             .append(getPos(testPiece.getColor(), getLogArr()[2], getLogArr()[3])).append(". (move)\n");
                                     getLogTA().append(String.valueOf(tempSB));
@@ -871,12 +870,16 @@ public class Game implements Serializable {
         return gameover;
     }
 
-    public JLabel getMyNameL() {
+    public JPanel getMyNameL() {
         return myName;
     }
 
-    public JLabel getOpponentsNameL() {
+    public JPanel getOpponentsNameL() {
         return opponentName;
+    }
+
+    public boolean getTurn() {
+        return turn;
     }
 
     public boolean getOff() { return off; }

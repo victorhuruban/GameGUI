@@ -4,6 +4,7 @@ import com.GameGUI;
 import com.chessgame.Board.ChessBoard;
 import com.chessgame.Board.Loc;
 import com.chessgame.Game.Game;
+import com.chessgame.Game.TurnCircle;
 import com.chessgame.Pieces.*;
 
 import javax.swing.*;
@@ -15,10 +16,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Server implements Runnable {
+    private TurnCircle oppCircle;
+    private TurnCircle myCircle;
     private final String name;
     private final int port;
     private Socket socket = null;
     private ServerSocket server = null;
+    public JLabel myName;
+    public JLabel oppName;
     public JFrame frame;
     public JFrame gFrame;
     public Game game;
@@ -31,6 +36,7 @@ public class Server implements Runnable {
         this.name = name;
         this.game = new Game( 1, name);
         this.port = port;
+        oppCircle = new TurnCircle(); myCircle = new TurnCircle();
         changedPiece = "";
         run();
     }
@@ -41,7 +47,11 @@ public class Server implements Runnable {
             System.out.println();
             gFrame = game.createJFrameCB();
             gFrame.setVisible(true);
-            game.getMyNameL().setText(" My name:                  " + name + " ");
+            game.getMyNameL().add(new JLabel());
+            myName = (JLabel) game.getMyNameL().getComponent(0);
+            myName.setText(" My name: " + name);
+            myCircle.initialSetCircle("white", game.getTurn());
+            game.getMyNameL().add(myCircle);
             server = new ServerSocket(port);
             System.out.println("Server started");
             System.out.println("Waiting for client...");
@@ -53,7 +63,11 @@ public class Server implements Runnable {
                 Object[] trans = { name };
                 out.writeObject(trans);
                 trans = (Object[]) in.readObject();
-                game.getOpponentsNameL().setText(" Opponent's name:   " + trans[0]);
+                game.getOpponentsNameL().add(new JLabel());
+                oppName = (JLabel) game.getOpponentsNameL().getComponent(0);
+                oppName.setText(" Opponent's name: " + trans[0]);
+                oppCircle.initialSetCircle("black", game.getTurn());
+                game.getOpponentsNameL().add(oppCircle);
                 myTurn();
             } catch (IOException e) {
                 System.out.println("CE PLM");
@@ -115,6 +129,7 @@ public class Server implements Runnable {
                             out.flush();
                             game.getSB().delete(0, game.getSB().length());
                             game.changeMovedPiece();
+                            changeTurnCircles();
                             game.setCanMove();
                             timer.cancel();
                         }
@@ -141,6 +156,7 @@ public class Server implements Runnable {
             try {
                 System.out.println("astept ceva");
                 ChessBoard newCB = game.getChessBoard();
+                changeTurnCircles();
                 Object[] trans = (Object[]) in.readObject();
                 game.getLogTA().append(trans[1].toString());
                 game.setCanMove();
@@ -263,5 +279,12 @@ public class Server implements Runnable {
             game.changeMovedPiece();
             frame.dispose();
         });
+    }
+
+    public void changeTurnCircles() {
+         myCircle.setTurn(game.getTurn());
+         oppCircle.setTurn(game.getTurn());
+         myCircle.repaint();
+         oppCircle.repaint();
     }
 }
