@@ -35,6 +35,7 @@ public class Client implements Runnable {
         this.game = new Game(2, name);
         this.address = address;
         this.port = port;
+        oppCircle = new TurnCircle(); myCircle = new TurnCircle();
         changedPiece = "";
         run();
     }
