@@ -69,10 +69,9 @@ public class Server implements Runnable {
                 oppCircle.initialSetCircle("black", game.getTurn());
                 game.getOpponentsNameL().add(oppCircle);
                 myTurn();
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 System.out.println("CE PLM");
-            } catch (ClassNotFoundException e) {
-                System.out.println("CE PLM 2");
+                closeEverything();
             }
 
         } catch (IOException e) {
@@ -87,13 +86,11 @@ public class Server implements Runnable {
 
         if (game.isCheckMate(game.getKing("white"))) {
             game.youLost();
-            JOptionPane.showMessageDialog(frame, "White lost outside");
+            JOptionPane.showMessageDialog(frame, "White lost");
             try {
-                out.close();
-                in.close();
-                socket.close();
-                server.close();
-                System.out.println("s-a inchis tot");
+                closeEverything();
+                GameGUI restart = new GameGUI();
+                restart.afterEnd(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -106,13 +103,11 @@ public class Server implements Runnable {
                 if (game.getMovedPiece()) {
                     try {
                         if (game.getEndPawn()) {
-                            System.out.println("92");
                             changeEndPawn();
                             game.changeEndPawn();
                             game.changeMovedPiece();
                         } else {
                             if (!changedPiece.equals("")) {
-                                System.out.println("98");
                                 String[] elems = changedPiece.split(" ");
                                 game.getChessBoard().getLocation(Integer.parseInt(elems[1]), Integer.parseInt(elems[2]))
                                         .setPiece(transformPawn(elems[0], Integer.parseInt(elems[1]), Integer.parseInt(elems[2])));
@@ -120,7 +115,6 @@ public class Server implements Runnable {
                                 game.chessboard.updateUI();
                                 changedPiece = "";
                             }
-                            System.out.println("106");
                             transfer = new Loc[8][8];
                             copyLocForTransfer(transfer, game.getChessBoard());
                             Object[] trans = {transfer, game.getSB()};
@@ -144,11 +138,11 @@ public class Server implements Runnable {
         while (tru) {
             if (game.getGameover()) {
                 try {
-                    in.close();
-                    out.close();
-                    socket.close();
+                    closeEverything();
+                    gFrame.dispose();
+                    GameGUI restart = new GameGUI();
+                    restart.afterEnd(name);
                 } catch (IOException e) {
-                    System.out.println("Linia 100");
                     e.printStackTrace();
                 }
                 break;
@@ -167,8 +161,11 @@ public class Server implements Runnable {
                 game.playSound();
                 if (game.isCheckMate(game.getKing("white"))) {
                     game.youLost();
-                    System.out.println(game.getGameover());
-                    JOptionPane.showMessageDialog(frame, "White lost inside");
+                    JOptionPane.showMessageDialog(frame, "White lost");
+                    closeEverything();
+                    gFrame.dispose();
+                    GameGUI restart = new GameGUI();
+                    restart.afterEnd(name);
                 } else {
                     game.changeTurn();
                     myTurn();
@@ -179,10 +176,7 @@ public class Server implements Runnable {
             } catch (IOException | ClassNotFoundException e) {
                 tru = false;
                 System.out.println("AICI BAGA CAND IASA UN JUCATOR");
-                in.close();
-                out.close();
-                socket.close();
-                server.close();
+                closeEverything();
                 gFrame.dispose();
                 GameGUI restart = new GameGUI();
                 restart.afterEnd(name);
@@ -286,5 +280,12 @@ public class Server implements Runnable {
          oppCircle.setTurn(game.getTurn());
          myCircle.repaint();
          oppCircle.repaint();
+    }
+
+    public void closeEverything() throws IOException {
+        in.close();
+        out.close();
+        socket.close();
+        server.close();
     }
 }

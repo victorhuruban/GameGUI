@@ -66,10 +66,9 @@ public class Client implements Runnable {
                 game.getOpponentsNameL().add(oppCircle);
                 trans[0] = name ;
                 out.writeObject(trans);
-            } catch (IOException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 System.out.println("CE PLM");
-            } catch (ClassNotFoundException e) {
-                System.out.println("CE PLM 2");
+                closeEverything();
             }
             myTurn();
         } catch (IOException e) {
@@ -84,7 +83,10 @@ public class Client implements Runnable {
 
         if (game.isCheckMate(game.getKing("black"))) {
             game.youLost();
-            JOptionPane.showMessageDialog(frame, "Black lost outside");
+            JOptionPane.showMessageDialog(frame, "Black lost");
+            closeEverything();
+            GameGUI restart = new GameGUI();
+            restart.afterEnd(name);
             return;
         }
 
@@ -104,10 +106,7 @@ public class Client implements Runnable {
                 game.playSound();
                 tru = false;
             } catch (IOException | ClassNotFoundException e) {
-                in.close();
-                out.close();
-                socket.close();
-                System.out.println("AICI DACA IEse serveru");
+                closeEverything();
                 gFrame.dispose();
                 GameGUI restart = new GameGUI();
                 restart.afterEnd(name);
@@ -117,9 +116,10 @@ public class Client implements Runnable {
         if (game.isCheckMate(game.getKing("black"))) {
             game.youLost();
             JOptionPane.showMessageDialog(frame, "Black lost outside.");
-            in.close();
-            out.close();
-            socket.close();
+            closeEverything();
+            gFrame.dispose();
+            GameGUI restart = new GameGUI();
+            restart.afterEnd(name);
             return;
         }
         Timer timer = new Timer();
@@ -264,5 +264,11 @@ public class Client implements Runnable {
         oppCircle.setTurn(game.getTurn());
         myCircle.repaint();
         oppCircle.repaint();
+    }
+
+    public void closeEverything() throws IOException {
+        in.close();
+        out.close();
+        socket.close();
     }
 }
