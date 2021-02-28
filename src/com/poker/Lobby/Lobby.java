@@ -254,23 +254,23 @@ public class Lobby {
         switch (vals.length) {
             case 12:
                 return 1;
-            case 14:
-                return 2;
             case 16:
-                return 3;
-            case 18:
-                return 4;
+                return 2;
             case 20:
-                return 5;
-            case 22:
-                return 6;
+                return 3;
             case 24:
-                return 7;
-            case 26:
-                return 8;
+                return 4;
             case 28:
+                return 5;
+            case 32:
+                return 6;
+            case 36:
+                return 7;
+            case 40:
+                return 8;
+            case 44:
                 return 9;
-            case 30:
+            case 48:
                 return 10;
         }
         return -1;
