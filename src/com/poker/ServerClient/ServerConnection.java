@@ -59,6 +59,8 @@ public class ServerConnection implements Runnable {
                                     lobby.playersState[index] = true;
                                 } else index++;
                             }
+                            lobby.printPlayersandPlayersState();
+                            lobby.nextTurn();
                         case "5":
                             System.out.println(test[0] + " folded this round");
                             lobby.nextTurn();
