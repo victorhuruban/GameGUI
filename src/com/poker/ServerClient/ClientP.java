@@ -75,7 +75,7 @@ public class ClientP {
                     }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
                         lobby.setInteracted();
-                        out.println(lobby.getName() + " interacted 0 0 0 " + lobby.players[lobby.rValue] + " 7");
+                        out.println(lobby.getName() + " interacted 0 0 0 " + lobby.rValue + " 7");
                         lobby.setRaised();
                         lobby.rValue = -1;
                     } else if (lobby.getInteracted() && lobby.getInTurn()) {
