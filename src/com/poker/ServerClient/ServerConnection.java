@@ -60,6 +60,10 @@ public class ServerConnection implements Runnable {
                         case "4":
                             System.out.println(test[0] + " checked");
                             System.out.println(test[test.length - 2]);
+                            if (lobby.players[Integer.parseInt(test[test.length - 2])] == -1) {
+                                lobby.players[Integer.parseInt(test[test.length - 2])] = 0;
+                                lobby.playersState[Integer.parseInt(test[test.length - 2])] = true;
+                            }
                             lobby.printPlayersandPlayersState();
                             lobby.nextTurn();
                             break;

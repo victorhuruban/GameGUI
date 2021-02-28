@@ -67,8 +67,8 @@ public class Lobby {
     private boolean interacted = false;
     private boolean inTurn;
     private int turn;
-    private int[] players;
-    private boolean[] playersState;
+    public int[] players;
+    public boolean[] playersState;
 
     public Lobby(int type, String name) {
         this.name = name;
