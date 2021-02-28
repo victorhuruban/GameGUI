@@ -602,9 +602,19 @@ public class Lobby {
 
         check.addActionListener(e -> {
             if (turn == cons.get(0)) {
-                players[turn] = 0;
-                playersState[turn] = true;
-                interacted = true;
+                boolean check = true;
+                for (int i: players) {
+                    if (i > 0) {
+                        System.out.println("Cannot check, need to raise");
+                        check = false;
+                        break;
+                    }
+                }
+                if (check) {
+                    players[turn] = 0;
+                    playersState[turn] = true;
+                    interacted = true;
+                }
             }
         });
 
