@@ -48,7 +48,17 @@ public class ServerConnection implements Runnable {
                 } else if (test.length == 6) {
                     lobby.setSendReadyStat();
                 } else if (test.length == 7) {
+                    int index;
                     switch (test[6]) {
+                        case "7":
+                            System.out.println(test[0] + " raised this round");
+                            index = 0;
+                            for (String s: lobby.playersNames) {
+                                if (s.equals(test[0])) {
+                                    lobby.players[index] = Integer.parseInt(test[test.length - 2]);
+                                    lobby.playersState[index] = true;
+                                } else index++;
+                            }
                         case "5":
                             System.out.println(test[0] + " folded this round");
                             lobby.nextTurn();
@@ -59,8 +69,7 @@ public class ServerConnection implements Runnable {
                             break;
                         case "4":
                             System.out.println(test[0] + " checked");
-                            System.out.println(test[test.length - 2]);
-                            int index = 0;
+                            index = 0;
                             for (String s: lobby.playersNames) {
                                 if (s.equals(test[0])) {
                                     lobby.players[index] = 0;

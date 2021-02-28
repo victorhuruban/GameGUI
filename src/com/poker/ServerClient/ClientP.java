@@ -73,10 +73,14 @@ public class ClientP {
                         lobby.setInteracted();
                         out.println(lobby.getName() + " folded 0 0 0 0 5");
                     }
-                    if (lobby.getInteracted() && lobby.getInTurn()) {
+                    if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
+                        lobby.setInteracted();
+                        out.println(lobby.getName() + " interacted 0 0 0 " + lobby.players[lobby.rValue] + " 7");
+                        lobby.setRaised();
+                        lobby.rValue = -1;
+                    } else if (lobby.getInteracted() && lobby.getInTurn()) {
                         lobby.setInteracted();
                         out.println(lobby.getName() + " interacted 0 0 0 0 4");
-
                     }
                 }
             }

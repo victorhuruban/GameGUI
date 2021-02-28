@@ -69,11 +69,13 @@ public class Lobby {
     JPanel gameBoard;
     private boolean interacted = false;
     private boolean inTurn;
+    private boolean raised;
     private int turn;
     public int[] players;
     public boolean[] playersState;
     private int turningCards = 0;
     private Card[] cards;
+    public int rValue = -1;
 
     public Lobby(int type, String name) {
         this.name = name;
@@ -363,6 +365,7 @@ public class Lobby {
     public void createGame(String values) throws IOException {
         String[] vals = values.split(" ");
         cards = new Card[5];
+        raised = false;
         grabCards(vals, cards);
         int index = getIndexForCardStr(conNumL);
         players = new int[getNumOfPlayers(vals)];
@@ -482,7 +485,7 @@ public class Lobby {
         System.out.println(cons);
     }
 
-    public int getConByName() {
+    /*public int getConByName() {
         int count = 0;
         for (String s: playersNames) {
             if (s.equals(getName())) {
@@ -490,6 +493,14 @@ public class Lobby {
             } else count++;
         }
         return -1;
+    }*/
+
+    public void setRaised() {
+        raised = !raised;
+    }
+
+    public boolean getRaised() {
+        return raised;
     }
 
     public void ifAllMovedAndEqual() throws IOException {
@@ -598,10 +609,24 @@ public class Lobby {
         });
 
         raise.addActionListener(e -> {
-            if (turn == cons.get(0)) {
+            if (turn == cons.get(0) && !tfield.getText().equals("") && onlyDigits(tfield.getText())) {
+                rValue = Integer.parseInt(tfield.getText());
+                players[turn] = rValue;
+                tfield.setText("");
+                playersState[turn] = true;
+                setRaised();
                 interacted = true;
             }
         });
+    }
+
+    private boolean onlyDigits(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            if (!Character.isDigit(text.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // DEBUG CODE!
