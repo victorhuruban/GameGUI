@@ -56,7 +56,6 @@ public class ClientHandler implements Runnable {
                             for (int i = 0; i < 5 + (clients.size() * 2); i++) {
                                 Card c = pack.popCard();
                                 sb.append(" ").append(c.getValue()).append(" ").append(c.getType());
-                                System.out.println(c.getValue() + " " + c.getType());
                             }
                             outToAll("start 3" + sb.toString());
                         }

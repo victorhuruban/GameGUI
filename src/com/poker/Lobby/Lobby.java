@@ -10,6 +10,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Lobby {
     // SELF DESCRIBED VARIABLES
@@ -64,6 +66,7 @@ public class Lobby {
     JButton check;
     JButton raise;
     JTextField tfield;
+    JPanel gameBoard;
     private boolean interacted = false;
     private boolean inTurn;
     private int turn;
@@ -376,7 +379,7 @@ public class Lobby {
         jframe.getContentPane().removeAll();
         jframe.setLayout(new BorderLayout());
 
-        JPanel gameBoard = new JPanel(new GridBagLayout());
+        gameBoard = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
@@ -490,14 +493,28 @@ public class Lobby {
     }
 
     public void ifAllMovedAndEqual() throws IOException {
-        if (turningCards == 0) {
-            card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))));
-            card2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))));
-            card3 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))));
-        } else if (turningCards == 1) {
-            System.out.println("nu inca");
-        } else {
-            System.out.println("nu inca");
+        Set<Integer> temp1 = new HashSet<>();
+        Set<Boolean> temp2 = new HashSet<>();
+        for (int i: players) {
+            temp1.add(i);
+        }
+        for (boolean b: playersState) {
+            temp2.add(b);
+        }
+        if (temp1.size() == 1 && temp2.size() == 1) {
+            if (turningCards == 0) {
+                card1.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))));
+                card2.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))));
+                card3.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))));
+                turningCards++;
+                resetArrays();
+            } else if (turningCards == 1) {
+                card4.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))));
+                turningCards++;
+                resetArrays();
+            } else {
+                card5.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))));
+            }
         }
     }
 
@@ -508,6 +525,11 @@ public class Lobby {
             cards[index] = temp;
             index--;
         }
+    }
+
+    private void resetArrays() {
+        Arrays.fill(players, -1);
+        Arrays.fill(playersState, false);
     }
 
     public void createPlayerInfo(JPanel playerInfo, String[] vals) {
