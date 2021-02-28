@@ -49,6 +49,7 @@ public class ServerConnection implements Runnable {
                     lobby.setSendReadyStat();
                 } else if (test.length == 7) {
                     int index;
+                    System.out.println(test[6]);
                     switch (test[6]) {
                         case "7":
                             System.out.println(test[0] + " raised this round");
