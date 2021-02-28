@@ -252,25 +252,25 @@ public class Lobby {
 
     public int getNumOfPlayers(String[] vals) {
         switch (vals.length) {
-            case 12:
-                return 1;
             case 16:
-                return 2;
+                return 1;
             case 20:
-                return 3;
+                return 2;
             case 24:
-                return 4;
+                return 3;
             case 28:
-                return 5;
+                return 4;
             case 32:
-                return 6;
+                return 5;
             case 36:
-                return 7;
+                return 6;
             case 40:
-                return 8;
+                return 7;
             case 44:
-                return 9;
+                return 8;
             case 48:
+                return 9;
+            case 52:
                 return 10;
         }
         return -1;
