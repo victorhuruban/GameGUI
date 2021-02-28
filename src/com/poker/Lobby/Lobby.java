@@ -55,7 +55,7 @@ public class Lobby {
     private final JLabel SMALL_BLIND_LABEL = new JLabel("b");
 
     // ARRAYS THAT HOLDS INFORMATION ABOUT PLAYERS NAMES AND CONNECTION NUMBER
-    private final ArrayList<String> playersNames = new ArrayList<>();
+    public final ArrayList<String> playersNames = new ArrayList<>();
     private final ArrayList<Integer> cons = new ArrayList<>();
 
     // GAME VARIABLES

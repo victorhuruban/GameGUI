@@ -64,6 +64,7 @@ public class ServerConnection implements Runnable {
                                 lobby.players[Integer.parseInt(test[test.length - 2])] = 0;
                                 lobby.playersState[Integer.parseInt(test[test.length - 2])] = true;
                             }
+                            System.out.println(lobby.playersNames);
                             lobby.printPlayersandPlayersState();
                             lobby.nextTurn();
                             break;
