@@ -75,7 +75,7 @@ public class ClientP {
                     }
                     if (lobby.getInteracted() && lobby.getInTurn()) {
                         lobby.setInteracted();
-                        out.println(lobby.getName() + " interacted 0 0 0 " + lobby.getConByName() + " 4");
+                        out.println(lobby.getName() + " interacted 0 0 0 0 4");
 
                     }
                 }
