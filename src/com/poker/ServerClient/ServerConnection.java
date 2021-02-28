@@ -61,6 +61,7 @@ public class ServerConnection implements Runnable {
                                 } else index++;
                             }
                             lobby.printPlayersandPlayersState();
+                            lobby.ifAllMovedAndEqual();
                             lobby.nextTurn();
                             break;
                         case "5":
