@@ -69,6 +69,8 @@ public class Lobby {
     private int turn;
     public int[] players;
     public boolean[] playersState;
+    private int turningCards = 0;
+    private Card[] cards;
 
     public Lobby(int type, String name) {
         this.name = name;
@@ -357,6 +359,8 @@ public class Lobby {
 
     public void createGame(String values) throws IOException {
         String[] vals = values.split(" ");
+        cards = new Card[5];
+        grabCards(vals, cards);
         int index = getIndexForCardStr(conNumL);
         players = new int[getNumOfPlayers(vals)];
         playersState = new boolean[getNumOfPlayers(vals)];
@@ -483,6 +487,27 @@ public class Lobby {
             } else count++;
         }
         return -1;
+    }
+
+    public void ifAllMovedAndEqual() throws IOException {
+        if (turningCards == 0) {
+            card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))));
+            card2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))));
+            card3 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))));
+        } else if (turningCards == 1) {
+            System.out.println("nu inca");
+        } else {
+            System.out.println("nu inca");
+        }
+    }
+
+    public void grabCards(String[] vals, Card[] cards) {
+        int index = 4;
+        for (int i = vals.length - 1; i > vals.length - 1 - 9; i -= 2) {
+            Card temp = new Card(vals[i - 1], vals[i]);
+            cards[index] = temp;
+            index--;
+        }
     }
 
     public void createPlayerInfo(JPanel playerInfo, String[] vals) {

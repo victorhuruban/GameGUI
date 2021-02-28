@@ -69,6 +69,7 @@ public class ServerConnection implements Runnable {
                             }
                             System.out.println(lobby.playersNames);
                             lobby.printPlayersandPlayersState();
+                            lobby.ifAllMovedAndEqual();
                             lobby.nextTurn();
                             break;
                     }
