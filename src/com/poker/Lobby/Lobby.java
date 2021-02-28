@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Lobby {
     // SELF DESCRIBED VARIABLES
@@ -66,6 +67,8 @@ public class Lobby {
     private boolean interacted = false;
     private boolean inTurn;
     private int turn;
+    private int[] players;
+    private boolean[] playersState;
 
     public Lobby(int type, String name) {
         this.name = name;
@@ -188,10 +191,6 @@ public class Lobby {
         return sendReadyStat;
     }
 
-    public int getType() {
-        return type;
-    }
-
     public boolean getInteracted() {
         return interacted;
     }
@@ -247,6 +246,32 @@ public class Lobby {
             case 6:
                 return 26;
             // TODO: ADD MORE NUMBERS FOR MORE THAN 6 PLAYERS MATCHES
+        }
+        return -1;
+    }
+
+    public int getNumOfPlayers(String[] vals) {
+        switch (vals.length) {
+            case 12:
+                return 1;
+            case 14:
+                return 2;
+            case 16:
+                return 3;
+            case 18:
+                return 4;
+            case 20:
+                return 5;
+            case 22:
+                return 6;
+            case 24:
+                return 7;
+            case 26:
+                return 8;
+            case 28:
+                return 9;
+            case 30:
+                return 10;
         }
         return -1;
     }
@@ -333,6 +358,10 @@ public class Lobby {
     public void createGame(String values) throws IOException {
         String[] vals = values.split(" ");
         int index = getIndexForCardStr(conNumL);
+        players = new int[getNumOfPlayers(vals)];
+        playersState = new boolean[getNumOfPlayers(vals)];
+        Arrays.fill(players, -1);
+        Arrays.fill(playersState, false);
         turn = 0;
         inTurn = true;
         player = new Player(10000);
@@ -446,6 +475,16 @@ public class Lobby {
         System.out.println(cons);
     }
 
+    public int getConByName() {
+        int count = 0;
+        for (String s: playersNames) {
+            if (s.equals(getName())) {
+                return count;
+            } else count++;
+        }
+        return -1;
+    }
+
     public void createPlayerInfo(JPanel playerInfo, String[] vals) {
         int index = getIndexForCardStr(conNumL);
         JPanel myInfo = new JPanel(new GridBagLayout());
@@ -505,6 +544,8 @@ public class Lobby {
 
         check.addActionListener(e -> {
             if (turn == cons.get(0)) {
+                players[turn] = 0;
+                playersState[turn] = true;
                 interacted = true;
             }
         });
@@ -514,5 +555,17 @@ public class Lobby {
                 interacted = true;
             }
         });
+    }
+
+    // DEBUG CODE!
+    public void printPlayersandPlayersState() {
+        for (int i: players) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (boolean i: playersState) {
+            System.out.print(i);
+        }
+        System.out.println();
     }
 }

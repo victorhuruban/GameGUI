@@ -70,13 +70,12 @@ public class ClientP {
                     }
                     if (lobby.getPlayer().getFolded() && lobby.getInTurn()) {
                         lobby.outOfTurn();
-                        System.out.println("folded");
                         lobby.setInteracted();
                         out.println(lobby.getName() + " folded 0 0 0 0 5");
                     }
                     if (lobby.getInteracted() && lobby.getInTurn()) {
                         lobby.setInteracted();
-                        out.println(lobby.getName() + " interacted 0 0 0 0 4");
+                        out.println(lobby.getName() + " interacted 0 0 0 " + lobby.getConByName() + " 4");
 
                     }
                 }

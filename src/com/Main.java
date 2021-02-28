@@ -1,17 +1,12 @@
 package com;
 
-import javax.sound.sampled.*;
-import java.applet.AudioClip;
 import java.io.IOException;
-import java.net.URL;
-import java.util.Random;
 
 public class Main {
 
     public static void main(String[] args) throws NullPointerException, IOException, InterruptedException {
         GameGUI start = new GameGUI();
         /*int rolls = 100000;
-
 
         while (rolls != 0) {
             Pack p = new Pack();
@@ -20,9 +15,9 @@ public class Main {
             player.displayCards();
 
             rolls--;
-        }*/
+        }
 
-        /*JFrame test = new JFrame("test");
+        JFrame test = new JFrame("test");
         test.setSize(200, 200);
         test.setVisible(true);
         test.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -39,7 +34,6 @@ public class Main {
         };
         test2.setSize(100, 100);
         test2.setBackground(Color.GREEN);
-
 
         test.add(test2);*/
     }

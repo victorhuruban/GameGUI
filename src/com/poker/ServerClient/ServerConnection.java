@@ -58,7 +58,9 @@ public class ServerConnection implements Runnable {
                             lobby.nextTurn();
                             break;
                         case "4":
-                            System.out.println(test[0] + " did something");
+                            System.out.println(test[0] + " checked");
+                            System.out.println(test[test.length - 2]);
+                            lobby.printPlayersandPlayersState();
                             lobby.nextTurn();
                             break;
                     }
