@@ -75,7 +75,7 @@ public class ClientP {
                     }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
                         lobby.setInteracted();
-                        System.out.println("Sugi pula");
+                        System.out.println(lobby.getName() + " interacted 0 0 0 " + lobby.rValue + " 7");
                         out.println(lobby.getName() + " interacted 0 0 0 " + lobby.rValue + " 7");
                         lobby.setRaised();
                         lobby.rValue = -1;
