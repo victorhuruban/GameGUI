@@ -72,6 +72,7 @@ public class Lobby {
     private boolean raised;
     private int turn;
     public int[] players;
+    public int[] playersScores;
     public boolean[] playersState;
     public boolean[] playersActive;
     private int turningCards = 0;
@@ -372,6 +373,7 @@ public class Lobby {
         players = new int[getNumOfPlayers(vals)];
         playersState = new boolean[getNumOfPlayers(vals)];
         playersActive = new boolean[getNumOfPlayers(vals)];
+        playersScores = new int[getNumOfPlayers(vals)];
         Arrays.fill(players, -1);
         Arrays.fill(playersState, false);
         Arrays.fill(playersActive, true);
@@ -524,14 +526,17 @@ public class Lobby {
                     card1.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     card2.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     card3.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
+                    System.out.println(getScore(turningCards));
                     turningCards++;
                     resetArrays();
                 } else if (turningCards == 1) {
                     card4.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
+                    System.out.println(getScore(turningCards));
                     turningCards++;
                     resetArrays();
                 } else {
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
+                    System.out.println(getScore(turningCards));
                 }
             }
         }
@@ -573,6 +578,8 @@ public class Lobby {
         myInfo.add(myCard1, c);
         JLabel myCard2 = new JLabel();
         setCardImage(vals[index + 2], vals[index + 3], myCard2);
+        player.addCards(new Card(vals[index], vals[index + 1]));
+        player.addCards(new Card(vals[index + 2], vals[index + 3]));
         c.gridx = 2;
         myInfo.add(myCard2, c);
 
@@ -658,5 +665,21 @@ public class Lobby {
             System.out.print(i);
         }
         System.out.println();
+    }
+
+    public int getScore(int t) {
+        if (t == 0) {
+            player.addSharedCards(new Card(cards[0].getValue(), cards[0].getType()));
+            player.addSharedCards(new Card(cards[1].getValue(), cards[1].getType()));
+            player.addSharedCards(new Card(cards[2].getValue(), cards[2].getType()));
+            return player.getRank().getScore();
+        } else if (t == 1) {
+            player.addSharedCards(new Card(cards[3].getValue(), cards[3].getType()));
+            return player.getRank().getScore();
+        } else if (t == 2) {
+            player.addSharedCards(new Card(cards[4].getValue(), cards[4].getType()));
+            return player.getRank().getScore();
+        }
+        return -1;
     }
 }

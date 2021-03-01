@@ -25,10 +25,10 @@ public class Ranking {
         this.sharedCards = sharedCards;
     }
 
-    public void getScore() {
+    public int getScore() {
         checkHighestCard();
         checkPairs();
-        System.out.println(score);
+        return score;
     }
 
     public void checkHighestCard() {
