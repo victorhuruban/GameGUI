@@ -310,8 +310,7 @@ public class Lobby {
 
     public void setCardImage(String value, String type, JLabel cardLabel) {
         System.out.println(value + " " + type);
-        /*cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + "_s.png")).getImage().getScaledInstance(45, 75, Image.SCALE_DEFAULT)));*/
-        cardLabel.setIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png")));
+        cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + "_s.png")).getImage().getScaledInstance(40, 70, Image.SCALE_DEFAULT)));
     }
 
     public void setInteracted() {
