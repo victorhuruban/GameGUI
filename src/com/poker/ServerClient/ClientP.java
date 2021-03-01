@@ -73,6 +73,9 @@ public class ClientP {
                         lobby.setInteracted();
                         out.println(lobby.getName() + " folded 0 0 0 false 5");
                     }
+                    if (lobby.transmitScore()) {
+                        out.println(lobby.getPlayer().getRank().getScoreValue() + " " + lobby.getName() + " 0 0 0 0 8");
+                    }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
                         lobby.setInteracted();
                         System.out.println(lobby.getName() + " interacted 0 0 0 " + lobby.rValue + " 7");

@@ -2,6 +2,7 @@ package com.poker.Lobby;
 
 import com.Main;
 import com.poker.Pack.Card;
+import com.poker.Pack.Pack;
 import com.poker.Player.Player;
 
 import javax.imageio.ImageIO;
@@ -70,6 +71,7 @@ public class Lobby {
     private boolean interacted = false;
     private boolean inTurn;
     private boolean raised;
+    private boolean transmitScore = false;
     private int turn;
     public int[] players;
     public int[] playersScores;
@@ -528,16 +530,20 @@ public class Lobby {
                     card2.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     card3.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
+                    setTransmitScore();
                     turningCards++;
                     resetArrays();
                 } else if (turningCards == 1) {
                     card4.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
+                    setTransmitScore();
                     turningCards++;
                     resetArrays();
-                } else {
+                } else if (turningCards == 2){
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
+                    setTransmitScore();
+                    newCardsNewTurn();
                 }
             }
         }
@@ -686,5 +692,22 @@ public class Lobby {
             return player.getRank().getScore();
         }
         return -1;
+    }
+
+    public void newCardsNewTurn() {
+        Pack pack = new Pack();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 5 + (cons.size() * 2); i++) {
+            Card c = pack.popCard();
+            sb.append(" ").append(c.getValue()).append(" ").append(c.getType());
+        }
+    }
+
+    public boolean transmitScore() {
+        return transmitScore;
+    }
+
+    public void setTransmitScore() {
+        transmitScore = !transmitScore;
     }
 }
