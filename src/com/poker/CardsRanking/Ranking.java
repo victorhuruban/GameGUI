@@ -28,6 +28,7 @@ public class Ranking {
     public int getScore() {
         checkHighestCard();
         checkPairs();
+        System.out.println(score);
         return score;
     }
 
