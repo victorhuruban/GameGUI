@@ -74,6 +74,7 @@ public class ServerConnection implements Runnable {
                                     break;
                                 } else index++;
                             }
+                            lobby.ifAllMovedAndEqual();
                             lobby.nextTurn();
                             break;
                         case "6":
