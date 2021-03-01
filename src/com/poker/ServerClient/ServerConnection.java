@@ -52,7 +52,8 @@ public class ServerConnection implements Runnable {
                     System.out.println(test[6]);
                     switch (test[6]) {
                         case "8":
-                            System.out.println(test[1] + " has a score of " + test[0]);
+                            System.out.println(test[0] + " has a score of " + test[1]);
+                            break;
                         case "7":
                             System.out.println(test[0] + " raised this round");
                             index = 0;
