@@ -60,18 +60,18 @@ public class ClientP {
                         out.println(1 + " 2");
                     } else {
                         out.println(0 + " 2");
-
                     }
                     lobby.setSendReadyStat();
                 }
                 if (lobby.getPlayer() != null) {
                     if (!lobby.getInTurn()) {
+                        lobby.setInteracted();
                         out.println(lobby.getName() + " out 0 0 0 0 6");
                     }
                     if (lobby.getPlayer().getFolded() && lobby.getInTurn()) {
                         lobby.outOfTurn();
                         lobby.setInteracted();
-                        out.println(lobby.getName() + " folded 0 0 0 0 5");
+                        out.println(lobby.getName() + " folded 0 0 0 false 5");
                     }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
                         lobby.setInteracted();

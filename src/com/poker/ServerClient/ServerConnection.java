@@ -66,6 +66,14 @@ public class ServerConnection implements Runnable {
                             break;
                         case "5":
                             System.out.println(test[0] + " folded this round");
+                            index = 0;
+                            for (String s: lobby.playersNames) {
+                                if (s.equals(test[0])) {
+                                    lobby.playersActive[index] = false;
+                                    lobby.playersState[index] = true;
+                                    break;
+                                } else index++;
+                            }
                             lobby.nextTurn();
                             break;
                         case "6":
