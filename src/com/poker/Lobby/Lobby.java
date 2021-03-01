@@ -371,6 +371,7 @@ public class Lobby {
         int index = getIndexForCardStr(conNumL);
         players = new int[getNumOfPlayers(vals)];
         playersState = new boolean[getNumOfPlayers(vals)];
+        playersActive = new boolean[getNumOfPlayers(vals)];
         Arrays.fill(players, -1);
         Arrays.fill(playersState, false);
         Arrays.fill(playersActive, true);
