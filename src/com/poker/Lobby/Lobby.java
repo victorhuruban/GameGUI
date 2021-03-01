@@ -54,8 +54,8 @@ public class Lobby {
     private JLabel card5;
 
     // LABELS TO DISPLAY IF CLIENT IS BIG OR SMALL BLIND
-    private final JLabel BIG_BLIND_LABEL = new JLabel("B");
-    private final JLabel SMALL_BLIND_LABEL = new JLabel("b");
+    private final JLabel BIG_BLIND_LABEL = new JLabel("B", SwingConstants.CENTER);
+    private final JLabel SMALL_BLIND_LABEL = new JLabel("b", SwingConstants.CENTER);
 
     // ARRAYS THAT HOLDS INFORMATION ABOUT PLAYERS NAMES AND CONNECTION NUMBER
     public final ArrayList<String> playersNames = new ArrayList<>();
@@ -567,29 +567,63 @@ public class Lobby {
         int index = getIndexForCardStr(conNumL);
         JPanel myInfo = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5,5,5,5);
         myInfo.setBackground(POKER_COLOR);
         myInfo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        JLabel name = new JLabel(getName());
+        JLabel name = new JLabel(getName(), SwingConstants.CENTER);
+        name.setBackground(Color.LIGHT_GRAY);
+        name.setOpaque(true);
+        name.setPreferredSize(new Dimension(50, 15));
         myInfo.add(name, c);
         c.gridy = 1;
         if (conNumL == 0) {
+            BIG_BLIND_LABEL.setBackground(Color.LIGHT_GRAY);
+            BIG_BLIND_LABEL.setOpaque(true);
+            BIG_BLIND_LABEL.setPreferredSize(new Dimension(50,50));
             myInfo.add(BIG_BLIND_LABEL, c);
         } else if (conNumL == 1) {
+            SMALL_BLIND_LABEL.setBackground(Color.LIGHT_GRAY);
+            SMALL_BLIND_LABEL.setOpaque(true);
             myInfo.add(SMALL_BLIND_LABEL, c);
         }
         c.gridy = 0;
         c.gridx = 1;
         c.gridheight = 2;
+        c.gridwidth = 2;
+        JPanel myCards = new JPanel(new GridBagLayout());
+        myCards.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        myCards.setBackground(POKER_COLOR);
+        GridBagConstraints c2 = new GridBagConstraints();
+        c2.insets = new Insets(2,2,2,5);
         JLabel myCard1 = new JLabel();
         setCardImage(vals[index], vals[index + 1], myCard1);
-        myInfo.add(myCard1, c);
+        myCards.add(myCard1, c2);
+        c2.insets = new Insets(2,0,2,2);
         JLabel myCard2 = new JLabel();
         setCardImage(vals[index + 2], vals[index + 3], myCard2);
         player.addCards(new Card(vals[index], vals[index + 1]));
         player.addCards(new Card(vals[index + 2], vals[index + 3]));
         player.getRank().addPlayerCard(player.getCards());
+        myCards.add(myCard2, c2);
+        c.insets = new Insets(5,0,5,5);
+        myInfo.add(myCards, c);
+
+        c.gridheight = 1;
+        c.gridwidth = 2;
+        c.gridx = 0;
+        c.gridy = 2;
+        c.insets = new Insets(0,5,2,5);
+        JLabel myMoney = new JLabel("$10000 ", SwingConstants.RIGHT);
+        myMoney.setPreferredSize(new Dimension(50, 15));
+        myMoney.setBackground(Color.LIGHT_GRAY);
+        myMoney.setOpaque(true);
+        myInfo.add(myMoney, c);
+        c.gridwidth = 1;
         c.gridx = 2;
-        myInfo.add(myCard2, c);
+        JLabel turnColor = new JLabel("my turn", SwingConstants.CENTER);
+        turnColor.setBackground(Color.LIGHT_GRAY);
+        turnColor.setOpaque(true);
+        myInfo.add(turnColor, c);
 
         playerInfo.add(myInfo);
         for (int i = 1; i < cons.size(); i++) {
