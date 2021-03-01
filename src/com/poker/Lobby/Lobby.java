@@ -309,7 +309,9 @@ public class Lobby {
     }
 
     public void setCardImage(String value, String type, JLabel cardLabel) {
-        cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png")).getImage().getScaledInstance(45, 75, Image.SCALE_DEFAULT)));
+        System.out.println(value + " " + type);
+        /*cardLabel.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + "_s.png")).getImage().getScaledInstance(45, 75, Image.SCALE_DEFAULT)));*/
+        cardLabel.setIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/" + value + "_" + type + ".png")));
     }
 
     public void setInteracted() {
@@ -385,23 +387,28 @@ public class Lobby {
         gameBoard = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        card1 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        card1 = new JLabel();
+        card1.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
         c.gridx = 0;
-        c.insets = new Insets(0,0,0,10);
+        c.insets = new Insets(0,0,0,15);
         gameBoard.add(card1, c);
-        card2 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        card2 = new JLabel();
+        card2.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
         c.gridx = 1;
-        c.insets = new Insets(0,10,0,10);
+        c.insets = new Insets(0,15,0,15);
         gameBoard.add(card2, c);
-        card3 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        card3 = new JLabel();
+        card3.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
         c.gridx = 2;
         gameBoard.add(card3, c);
-        card4 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        card4 = new JLabel();
+        card4.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
         c.gridx = 3;
         gameBoard.add(card4, c);
-        card5 = new JLabel(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))));
+        card5 = new JLabel();
+        card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
         c.gridx = 4;
-        c.insets = new Insets(0,10,0,0);
+        c.insets = new Insets(0,15,0,0);
         gameBoard.add(card5, c);
         gameBoard.setBackground(POKER_COLOR);
 
@@ -514,17 +521,17 @@ public class Lobby {
         }
         if (temp1.size() == 1 && temp2.size() == 1) {
             if (turningCards == 0) {
-                card1.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))));
-                card2.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))));
-                card3.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))));
+                card1.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
+                card2.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
+                card3.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                 turningCards++;
                 resetArrays();
             } else if (turningCards == 1) {
-                card4.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))));
+                card4.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                 turningCards++;
                 resetArrays();
             } else {
-                card5.setIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))));
+                card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
             }
         }
     }
