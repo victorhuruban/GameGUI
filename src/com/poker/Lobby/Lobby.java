@@ -365,6 +365,7 @@ public class Lobby {
     }
 
     public void createGame(String values) throws IOException {
+        player = new Player(10000);
         String[] vals = values.split(" ");
         cards = new Card[5];
         raised = false;
@@ -580,6 +581,7 @@ public class Lobby {
         setCardImage(vals[index + 2], vals[index + 3], myCard2);
         player.addCards(new Card(vals[index], vals[index + 1]));
         player.addCards(new Card(vals[index + 2], vals[index + 3]));
+        player.getRank().addPlayerCard(player.getCards());
         c.gridx = 2;
         myInfo.add(myCard2, c);
 
@@ -672,12 +674,15 @@ public class Lobby {
             player.addSharedCards(new Card(cards[0].getValue(), cards[0].getType()));
             player.addSharedCards(new Card(cards[1].getValue(), cards[1].getType()));
             player.addSharedCards(new Card(cards[2].getValue(), cards[2].getType()));
+            player.getRank().addSharedCard(player.getSharedCards());
             return player.getRank().getScore();
         } else if (t == 1) {
             player.addSharedCards(new Card(cards[3].getValue(), cards[3].getType()));
+            player.getRank().addSharedCard(player.getSharedCards());
             return player.getRank().getScore();
         } else if (t == 2) {
             player.addSharedCards(new Card(cards[4].getValue(), cards[4].getType()));
+            player.getRank().addSharedCard(player.getSharedCards());
             return player.getRank().getScore();
         }
         return -1;

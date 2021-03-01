@@ -53,6 +53,10 @@ public class Player {
         return ownCards;
     }
 
+    public ArrayList<Card> getSharedCards() {
+        return sharedCards;
+    }
+
     public void addCards(Card card) {
         if (ownCards.size() != 2) {
             ownCards.add(card);
