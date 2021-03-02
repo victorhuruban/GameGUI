@@ -151,7 +151,7 @@ public class Ranking {
             int tempVal = 0;
             if (entry.getValue() == 4) {
                 tempVal = fourPair(entry.getKey());
-                if (tempVal > tempScore) { // FOUR PAIR
+                if (tempVal > tempScore) { // FOUR PAIR CHECK
                     tempScore = tempVal;
                 }
                 continue;
@@ -169,7 +169,7 @@ public class Ranking {
                 tempVal = triplePair(entry.getKey());
                 tempVal += 49;
                 if (tempVal > tempScore) {
-                    tempScore = tempVal; // FULL HOUSE
+                    tempScore = tempVal; // FULL HOUSE CHECK
                 }
                 continue;
             }
@@ -184,7 +184,7 @@ public class Ranking {
             }
             if (entry.getValue() == 2 && !dp) {
                 int tempH = holder.get(0) + 49;
-                if (tempH > tempScore) { // FULL HOUSE!!!
+                if (tempH > tempScore) { // FULL HOUSE CHECK
                     tempScore = tempH;
                 }
                 dp = true;
@@ -192,7 +192,7 @@ public class Ranking {
             }
             if (entry.getValue() == 2 && !tp) {
                 tempVal = doublePair(entry.getKey());
-                if (tempVal > tempScore && tempVal > holder.get(0)) { // DOUBLE PAIR
+                if (tempVal > tempScore && tempVal > holder.get(0)) { // DOUBLE PAIR CHECK
                     tempScore = tempVal;
                 }
             }
