@@ -530,7 +530,7 @@ public class Lobby {
                     card1.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[0].getValue() + "_" + cards[0].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     card2.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[1].getValue() + "_" + cards[1].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     card3.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[2].getValue() + "_" + cards[2].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
-                    System.out.println(getScore(turningCards));
+                    System.out.println(getScore(turningCards) + ": SCORE");
                     setTransmitScore();
                     turningCards++;
                     resetArrays();
@@ -565,8 +565,12 @@ public class Lobby {
     }
 
     private void resetArrays() {
+        System.out.println("BEFORE RESET players: " + Arrays.toString(players));
         Arrays.fill(players, -1);
+        System.out.println("AFTER RESET players: " + Arrays.toString(players));
+        System.out.println("BEFORE RESET playersState: " + Arrays.toString(playersState));
         Arrays.fill(playersState, false);
+        System.out.println("AFTER RESET playersState: " + Arrays.toString(playersState));
     }
 
     public void createPlayerInfo(JPanel playerInfo, String[] vals) {
@@ -725,10 +729,6 @@ public class Lobby {
             if (turn == cons.get(0) && !tfield.getText().equals("") && onlyDigits(tfield.getText())) {
                 rValue = Integer.parseInt(tfield.getText());
                 players[0] = rValue;
-                System.out.println("In buton action listener");
-                for (int i: players) {
-                    System.out.print(i + " ");
-                }
                 tfield.setText("");
                 playersState[turn] = true;
                 setRaised();
