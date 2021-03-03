@@ -721,6 +721,10 @@ public class Lobby {
             if (turn == cons.get(0) && !tfield.getText().equals("") && onlyDigits(tfield.getText())) {
                 rValue = Integer.parseInt(tfield.getText());
                 players[turn] = rValue;
+                System.out.println("In buton action listener");
+                for (int i: players) {
+                    System.out.print(i + " ");
+                }
                 tfield.setText("");
                 playersState[turn] = true;
                 setRaised();
