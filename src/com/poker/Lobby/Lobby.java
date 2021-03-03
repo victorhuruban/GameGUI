@@ -545,6 +545,8 @@ public class Lobby {
                     setTransmitScore();
                     newCardsNewTurn();
                 }
+            } else {
+                System.out.println("muie boss");
             }
         }
     }
