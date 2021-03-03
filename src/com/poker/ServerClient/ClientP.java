@@ -64,7 +64,8 @@ public class ClientP {
                     lobby.setSendReadyStat();
                 }
                 if (lobby.getPlayer() != null) {
-                    if (lobby.turn == lobby.cons.get(0) && lobby.playersState[lobby.cons.get(0)]) {
+                    if (lobby.turn == lobby.cons.get(0) && lobby.allMovedOnce() && lobby.getInteracted()) {
+                        lobby.setInteracted();
                         System.out.println("Trebuie sa raise-uiesti");
                     }
                     if (!lobby.getInTurn()) {
