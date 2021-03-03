@@ -674,11 +674,11 @@ public class Lobby {
             c2 = new GridBagConstraints();
             c2.insets = new Insets(2,2,2,5);
             myCard1 = new JLabel();
-            setCardImage(vals[index], vals[index + 1], myCard1);
+            myCard1.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back_s.png")).getImage().getScaledInstance(40,70, Image.SCALE_DEFAULT)));
             myCards.add(myCard1, c2);
             c2.insets = new Insets(2,0,2,2);
             myCard2 = new JLabel();
-            setCardImage(vals[index + 2], vals[index + 3], myCard2);
+            myCard2.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back_s.png")).getImage().getScaledInstance(40,70, Image.SCALE_DEFAULT)));
             player.addCards(new Card(vals[index], vals[index + 1]));
             player.addCards(new Card(vals[index + 2], vals[index + 3]));
             player.getRank().addPlayerCard(player.getCards());
