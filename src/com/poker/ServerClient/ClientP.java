@@ -66,10 +66,8 @@ public class ClientP {
                 if (lobby.getPlayer() != null) {
                     if (lobby.turn == lobby.cons.get(0) && lobby.allMovedOnce() && lobby.getInteracted()) {
                         lobby.setInteracted();
-                        System.out.println("ClientP " + lobby.rValue);
                         lobby.setRaised();
                         lobby.rValue = -1;
-                        System.out.println("Trebuie sa raise-uiesti");
                         out.println(lobby.getName() + " out 0 0 0 " + lobby.rValue + " 9");
                     }
                     if (!lobby.getInTurn()) {
@@ -82,13 +80,11 @@ public class ClientP {
                         out.println(lobby.getName() + " folded 0 0 0 false 5");
                     }
                     if (lobby.transmitScore()) {
-                        System.out.println("aici cu 8");
                         out.println(lobby.getPlayer().getRank().getScoreValue() + " " + lobby.getName() + " 0 0 0 0 8");
                     }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
                         lobby.setInteracted();
                         out.println(lobby.getName() + " interacted 0 0 0 " + lobby.rValue + " 7");
-                        System.out.println("ClientP " + lobby.rValue);
                         lobby.setRaised();
                         lobby.rValue = -1;
                     } else if (lobby.getInteracted() && lobby.getInTurn()) {

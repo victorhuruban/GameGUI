@@ -52,11 +52,11 @@ public class ServerConnection implements Runnable {
                     System.out.println(test[6]);
                     switch (test[6]) {
                         case "8":
-                            System.out.println(test[0] + " has a score of " + test[1]);
+                            System.out.println("8");
                             lobby.ifAllMovedAndEqual();
                             break;
                         case "7":
-                            System.out.println(test[0] + " raised this round");
+                            System.out.println("7");
                             index = 0;
                             for (String s: lobby.playersNames) {
                                 System.out.println(index + " " + s);
@@ -70,7 +70,7 @@ public class ServerConnection implements Runnable {
                             lobby.ifAllMovedAndEqual();
                             break;
                         case "5":
-                            System.out.println(test[0] + " folded this round");
+                            System.out.println("5");
                             index = 0;
                             for (String s: lobby.playersNames) {
                                 if (s.equals(test[0])) {
@@ -82,11 +82,11 @@ public class ServerConnection implements Runnable {
                             lobby.ifAllMovedAndEqual();
                             break;
                         case "6":
-                            System.out.println(test[0] + " folded already");
+                            System.out.println("6");
                             lobby.nextTurn();
                             break;
                         case "4":
-                            System.out.println(test[0] + " checked");
+                            System.out.println("4");
                             index = 0;
                             for (String s: lobby.playersNames) {
                                 if (s.equals(test[0])) {
@@ -99,17 +99,17 @@ public class ServerConnection implements Runnable {
                             lobby.ifAllMovedAndEqual();
                             break;
                         case "9":
-                            System.out.println("Incearca sa continue jocul");
+                            System.out.println("9");
                             index = 0;
                             for (String s: lobby.playersNames) {
                                 if (s.equals(test[0])) {
                                     lobby.players[index] = Integer.parseInt(test[test.length - 2]);
                                     lobby.playersState[index] = true;
-                                    System.out.println(Arrays.toString(lobby.players));
                                     break;
                                 } else index++;
                             }
                             lobby.ifAllMovedAndEqual();
+                            break;
                     }
                 } else if (test.length >= 12) {
                     if (test[1].equals("3")) {

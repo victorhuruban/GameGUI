@@ -550,7 +550,7 @@ public class Lobby {
                 }
             } else {
                 nextTurn();
-                System.out.println("muie boss");
+                System.out.println("Cannot turn cards after this turn");
             }
         }
     }
