@@ -105,6 +105,8 @@ public class ServerConnection implements Runnable {
                                 if (s.equals(test[0])) {
                                     lobby.players[index] = Integer.parseInt(test[test.length - 2]);
                                     lobby.playersState[index] = true;
+                                    System.out.println(Arrays.toString(lobby.players));
+                                    break;
                                 } else index++;
                             }
                             lobby.ifAllMovedAndEqual();
