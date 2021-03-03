@@ -540,6 +540,7 @@ public class Lobby {
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
                     turningCards++;
+                    returnControlToBB();
                     resetArrays();
                 } else if (turningCards == 2){
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
@@ -807,7 +808,10 @@ public class Lobby {
         for (int i = 0; i < cons.size(); i++) {
             JPanel modify = (JPanel) playerInfo.getComponent(i);
             JLabel test = (JLabel) modify.getComponent(1);
-            System.out.println(test.getText());
+            if (test.getText().equals("B")) {
+                turn = i;
+                break;
+            }
         }
     }
 }
