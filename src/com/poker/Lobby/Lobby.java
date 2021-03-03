@@ -59,7 +59,7 @@ public class Lobby {
 
     // ARRAYS THAT HOLDS INFORMATION ABOUT PLAYERS NAMES AND CONNECTION NUMBER
     public final ArrayList<String> playersNames = new ArrayList<>();
-    private final ArrayList<Integer> cons = new ArrayList<>();
+    public final ArrayList<Integer> cons = new ArrayList<>();
 
     // GAME VARIABLES
     Player player = null;
@@ -72,7 +72,7 @@ public class Lobby {
     private boolean inTurn;
     private boolean raised;
     private boolean transmitScore = false;
-    private int turn;
+    public int turn;
     public int[] players;
     public int[] playersScores;
     public boolean[] playersState;
