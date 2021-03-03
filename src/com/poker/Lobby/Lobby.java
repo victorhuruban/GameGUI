@@ -532,6 +532,7 @@ public class Lobby {
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
                     turningCards++;
+                    returnControlToBB();
                     resetArrays();
                 } else if (turningCards == 1) {
                     card4.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
@@ -797,5 +798,15 @@ public class Lobby {
             }
         }
         return true;
+    }
+
+    public void returnControlToBB() {
+        // 0 = JLABEL NAME; 1 = JLABEL BIG OR SMALL BLIND LABEL; 2 = JPANEL WITH CARDS
+        // 3 = JLABEL MONEY; 4 = JLABEL TURNCIRCLE
+        for (int i = 0; i < cons.size(); i++) {
+            JPanel modify = getPanel(cons.get(i));
+            JLabel test = (JLabel) modify.getComponent(1);
+            System.out.println(test.getText());
+        }
     }
 }

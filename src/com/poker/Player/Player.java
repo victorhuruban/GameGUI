@@ -28,23 +28,6 @@ public class Player {
         folded = !folded;
     }
 
-    public int raise(int sum) {
-        if (sum > money) {
-            System.out.println("Not enough money, Try again");
-            return -1;
-        } else {
-            money -= sum;
-            return sum;
-        }
-    }
-
-    public int allIn() {
-        int all = money;
-        money = 0;
-
-        return all;
-    }
-
     public Ranking getRank() {
         return rank;
     }

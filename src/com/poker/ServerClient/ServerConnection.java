@@ -60,7 +60,6 @@ public class ServerConnection implements Runnable {
                             for (String s: lobby.playersNames) {
                                 System.out.println(index + " " + s);
                                 if (s.equals(test[0])) {
-                                    System.out.println("raised ceva doar o tura trebuie sa apara daca nu ceva ii gresit" + " " + index);
                                     lobby.players[index] = Integer.parseInt(test[test.length - 2]);
                                     lobby.playersState[index] = true;
                                     break;
