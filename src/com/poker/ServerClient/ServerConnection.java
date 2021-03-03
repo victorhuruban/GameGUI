@@ -100,6 +100,13 @@ public class ServerConnection implements Runnable {
                             break;
                         case "9":
                             System.out.println("Incearca sa continue jocul");
+                            index = 0;
+                            for (String s: lobby.playersNames) {
+                                if (s.equals(test[0])) {
+                                    lobby.players[index] = Integer.parseInt(test[test.length - 2]);
+                                    lobby.playersState[index] = true;
+                                } else index++;
+                            }
                             lobby.ifAllMovedAndEqual();
                     }
                 } else if (test.length >= 12) {

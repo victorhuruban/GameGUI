@@ -66,7 +66,10 @@ public class ClientP {
                 if (lobby.getPlayer() != null) {
                     if (lobby.turn == lobby.cons.get(0) && lobby.allMovedOnce() && lobby.getInteracted()) {
                         lobby.setInteracted();
-                        out.println(lobby.getName() + " out 0 0 0 0 9");
+                        out.println(lobby.getName() + " out 0 0 0 " + lobby.rValue + " 9");
+                        System.out.println("ClientP " + lobby.rValue);
+                        lobby.setRaised();
+                        lobby.rValue = -1;
                         System.out.println("Trebuie sa raise-uiesti");
                     }
                     if (!lobby.getInTurn()) {
