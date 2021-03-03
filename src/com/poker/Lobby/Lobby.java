@@ -551,6 +551,7 @@ public class Lobby {
             } else {
                 nextTurn();
                 System.out.println("Cannot turn cards after this turn");
+                System.out.println(turn);
             }
         }
     }
