@@ -720,7 +720,7 @@ public class Lobby {
         raise.addActionListener(e -> {
             if (turn == cons.get(0) && !tfield.getText().equals("") && onlyDigits(tfield.getText())) {
                 rValue = Integer.parseInt(tfield.getText());
-                players[turn] = rValue;
+                players[0] = rValue;
                 System.out.println("In buton action listener");
                 for (int i: players) {
                     System.out.print(i + " ");
