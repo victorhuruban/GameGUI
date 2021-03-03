@@ -533,15 +533,15 @@ public class Lobby {
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
                     turningCards++;
-                    returnControlToBB();
                     resetArrays();
+                    returnControlToBB();
                 } else if (turningCards == 1) {
                     card4.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[3].getValue() + "_" + cards[3].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
                     turningCards++;
-                    returnControlToBB();
                     resetArrays();
+                    returnControlToBB();
                 } else if (turningCards == 2){
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
