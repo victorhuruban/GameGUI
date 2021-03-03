@@ -103,7 +103,8 @@ public class ServerConnection implements Runnable {
                             index = 0;
                             for (String s: lobby.playersNames) {
                                 if (s.equals(test[0])) {
-                                    lobby.players[index] = Integer.parseInt(test[test.length - 2]);
+                                    lobby.players[index] = Integer.parseInt(test[1]);
+                                    System.out.println(test[1]);
                                     lobby.playersState[index] = true;
                                     break;
                                 } else index++;
