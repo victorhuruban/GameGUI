@@ -27,7 +27,7 @@ public class GameGUI {
     private String name = "";
     private final JFrame frame;
     private final JPanel mainCards;
-    private final int DEFAULT_PORT = 57894;
+    private final int DEFAULT_PORT = 57894; //
     private Runnable runnable;
     private Runnable runnable1;
     private Runnable runnable2;
