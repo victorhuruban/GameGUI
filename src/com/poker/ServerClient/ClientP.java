@@ -65,30 +65,36 @@ public class ClientP {
                 }
                 if (lobby.getPlayer() != null) {
                     if (lobby.turn == lobby.cons.get(0) && lobby.allMovedOnce() && lobby.getInteracted()) {
+                        System.out.println("CLIENTP 1");
                         lobby.setInteracted();
                         lobby.setRaised();
                         out.println(lobby.getName() + " out 0 0 0 " + lobby.rValue + " 9");
                         lobby.rValue = -1;
                     }
                     if (!lobby.getInTurn()) {
+                        System.out.println("CLIENTP 2");
                         lobby.setInteracted();
                         out.println(lobby.getName() + " out 0 0 0 0 6");
                     }
                     if (lobby.getPlayer().getFolded() && lobby.getInTurn()) {
+                        System.out.println("CLIENTP 3");
                         lobby.outOfTurn();
                         lobby.setInteracted();
                         out.println(lobby.getName() + " folded 0 0 0 false 5");
                     }
                     if (lobby.transmitScore()) {
+                        System.out.println("CLIENTP 4");
                         out.println(lobby.getPlayer().getRank().getScoreValue() + " " + lobby.getName() + " 0 0 0 0 8");
                         lobby.setTransmitScore();
                     }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
+                        System.out.println("CLIENTP 5");
                         lobby.setInteracted();
                         out.println(lobby.getName() + " interacted 0 0 0 " + lobby.rValue + " 7");
                         lobby.setRaised();
                         lobby.rValue = -1;
                     } else if (lobby.getInteracted() && lobby.getInTurn()) {
+                        System.out.println("CLIENTP 6");
                         lobby.setInteracted();
                         out.println(lobby.getName() + " interacted 0 0 0 0 4");
                     }
