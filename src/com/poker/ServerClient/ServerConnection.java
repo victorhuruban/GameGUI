@@ -53,6 +53,7 @@ public class ServerConnection implements Runnable {
                     switch (test[6]) {
                         case "8":
                             System.out.println(test[0] + " has a score of " + test[1]);
+                            lobby.ifAllMovedAndEqual();
                             break;
                         case "7":
                             System.out.println(test[0] + " raised this round");
@@ -67,7 +68,6 @@ public class ServerConnection implements Runnable {
                             }
                             lobby.printPlayersandPlayersState();
                             lobby.ifAllMovedAndEqual();
-                            lobby.nextTurn();
                             break;
                         case "5":
                             System.out.println(test[0] + " folded this round");
@@ -80,7 +80,6 @@ public class ServerConnection implements Runnable {
                                 } else index++;
                             }
                             lobby.ifAllMovedAndEqual();
-                            lobby.nextTurn();
                             break;
                         case "6":
                             System.out.println(test[0] + " folded already");
@@ -98,8 +97,10 @@ public class ServerConnection implements Runnable {
                             System.out.println(lobby.playersNames);
                             lobby.printPlayersandPlayersState();
                             lobby.ifAllMovedAndEqual();
-                            lobby.nextTurn();
                             break;
+                        case "9":
+                            System.out.println("Incearca sa continue jocul");
+                            lobby.ifAllMovedAndEqual();
                     }
                 } else if (test.length >= 12) {
                     if (test[1].equals("3")) {

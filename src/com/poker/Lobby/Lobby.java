@@ -549,6 +549,7 @@ public class Lobby {
                     newCardsNewTurn();
                 }
             } else {
+                nextTurn();
                 System.out.println("muie boss");
             }
         }
