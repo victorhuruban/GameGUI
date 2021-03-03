@@ -81,7 +81,6 @@ public class ClientP {
                     if (lobby.transmitScore()) {
                         System.out.println("aici cu 8");
                         out.println(lobby.getPlayer().getRank().getScoreValue() + " " + lobby.getName() + " 0 0 0 0 8");
-                        lobby.setTransmitScore();
                     }
                     if (lobby.getInteracted() && lobby.getInTurn() && lobby.getRaised()) {
                         lobby.setInteracted();
