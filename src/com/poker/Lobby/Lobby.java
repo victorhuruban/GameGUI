@@ -819,7 +819,7 @@ public class Lobby {
         c.gridwidth = 2;
         c.insets = new Insets(5,0,5,5);
         myPanel.add(myInfo, c);
-
+        GridBagConstraints c2 = new GridBagConstraints();
         for (int i = 1; i < cons.size(); i++) {
 
             myPanel = (JPanel) playerInfo.getComponent(i);
@@ -829,15 +829,11 @@ public class Lobby {
             myInfo.removeAll();
             myCard1.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back_s.png")).getImage().getScaledInstance(40,70, Image.SCALE_DEFAULT)));
             myCard2.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back_s.png")).getImage().getScaledInstance(40,70, Image.SCALE_DEFAULT)));
-            c.insets = new Insets(2,2,2,5);
-            myInfo.add(myCard1, c);
-            c.insets = new Insets(2,0,2,2);
-            myInfo.add(myCard2, c);
-            c.gridy = 0;
-            c.gridx = 1;
-            c.gridheight = 2;
-            c.gridwidth = 2;
-            c.insets = new Insets(5,0,5,5);
+            c2.insets = new Insets(2,2,2,5);
+            myInfo.add(myCard1, c2);
+            c2.insets = new Insets(2,0,2,2);
+            c2.gridx = 1;
+            myInfo.add(myCard2, c2);
             myPanel.add(myInfo, c);
         }
 
