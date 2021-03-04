@@ -131,16 +131,24 @@ public class GameGUI {
 
         // START POKER GAME FRAME
         startPokerGame.addActionListener(e -> {
-            if (name.equals("")) {
-                deleteJLabel(setNameCard.getComponents(), setNameCard);
-                createJLabel(hovered, setNameCard);
-                CardLayout cl = (CardLayout) this.mainCards.getLayout();
-                cl.show(this.mainCards, "2");
-            } else {
-                deleteJLabel(chooseHostOrJoin.getComponents(), chooseHostOrJoin);
-                createJLabel(hovered, chooseHostOrJoin);
-                CardLayout cl = (CardLayout) this.mainCards.getLayout();
-                cl.show(this.mainCards, "3");
+            int selectOption = JOptionPane.showConfirmDialog(null,
+                    " Do you want to go forward?\n"
+                            + " This part is under development\n"
+                            + "and everything might not work as\n"
+                            + "intended to.\n"
+                            + " Still want to continue?", "Dev", JOptionPane.YES_NO_OPTION);
+            if (selectOption == JOptionPane.YES_OPTION) {
+                if (name.equals("")) {
+                    deleteJLabel(setNameCard.getComponents(), setNameCard);
+                    createJLabel(hovered, setNameCard);
+                    CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                    cl.show(this.mainCards, "2");
+                } else {
+                    deleteJLabel(chooseHostOrJoin.getComponents(), chooseHostOrJoin);
+                    createJLabel(hovered, chooseHostOrJoin);
+                    CardLayout cl = (CardLayout) this.mainCards.getLayout();
+                    cl.show(this.mainCards, "3");
+                }
             }
         });
 
