@@ -385,7 +385,6 @@ public class Lobby {
         Arrays.fill(playersActive, true);
         turn = 0;
         inTurn = true;
-        player = new Player(10000);
         player.addCards(new Card(vals[index], vals[index + 1]));
         player.addCards(new Card(vals[index + 2], vals[index + 3]));
         shiftNameAndCon(conNumL);
@@ -549,6 +548,7 @@ public class Lobby {
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
                     resetArrays();
+                    changeLabelsForBb();
                     setTurnOver();
                 }
             } else {
@@ -811,6 +811,14 @@ public class Lobby {
                 break;
             }
         }
+        JLabel B = null;
+        for (Component comp: myPanel.getComponents()) {
+            if (comp instanceof JLabel && (((JLabel) comp).getText().equals("B") || ((JLabel) comp).getText().equals("b")) || ((JLabel) comp).getText().equals("")) {
+                B = (JLabel) comp;
+                break;
+            }
+        }
+
         JLabel myCard1 = new JLabel();
         JLabel myCard2 = new JLabel();
         myInfo.removeAll();
@@ -883,5 +891,42 @@ public class Lobby {
         }
 
         return sb.toString();
+    }
+
+    public void getCardsInfoOfAllPlayers(String[] arr) {
+        ArrayList<Card> cardList = new ArrayList<>();
+        int index = 2;
+        for (int i = 0; i < cons.size(); i++) {
+
+        }
+    }
+
+    // 0 = JLABEL NAME; 1 = JLABEL BIG OR SMALL BLIND LABEL; 2 = JPANEL WITH CARDS
+    // 3 = JLABEL MONEY; 4 = JLABEL TURNCIRCLE
+    public void changeLabelsForBb() {
+        boolean first = true;
+        for (Component c: playerInfo.getComponents()) {
+            JPanel temp = (JPanel) c;
+            JLabel temp2 = (JLabel) temp.getComponent(1);
+            if (cons.size() == 2) {
+                if (temp2.getText().equals("B")) {
+                    temp2.setText("b");
+                } else temp2.setText("B");
+            } else {
+                if (temp2.getText().equals("") && first) {
+                    Component[] tempArr = playerInfo.getComponents();
+                    JPanel temp3 = (JPanel) tempArr[tempArr.length - 1];
+                    JLabel temp4 = (JLabel) temp3.getComponent(1);
+                    if (temp4.getText().equals("b")) {
+                        temp2.setText("b");
+                    }
+                } else if (temp2.getText().equals("B")) {
+                    temp2.setText("");
+                } else if (temp2.getText().equals("b")) {
+                    temp2.setText("B");
+                }
+            }
+            first = false;
+        }
     }
 }
