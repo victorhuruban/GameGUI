@@ -804,7 +804,7 @@ public class Lobby {
     public void updateNewTurn(String[] newCards) throws IOException {
         int index = getIndexForCardStr(conNumL);
         JPanel myPanel = (JPanel) playerInfo.getComponent(0);
-        JPanel myInfo = null; //= (JPanel) myPanel.getComponent(2);
+        JPanel myInfo = null;
         for (Component comp: myPanel.getComponents()) {
             if (comp instanceof JPanel) {
                 myInfo = (JPanel) comp;
