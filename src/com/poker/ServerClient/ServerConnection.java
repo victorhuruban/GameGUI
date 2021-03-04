@@ -125,7 +125,7 @@ public class ServerConnection implements Runnable {
                         lobby.printCandP();
                     } else if (test[1].equals("newgame")) {
                         System.out.println(Arrays.toString(test));
-                        System.out.println("Baga cod sa creezi joc nou");
+                        lobby.updateNewTurn(test);
                     }
                 }
             }

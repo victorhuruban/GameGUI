@@ -799,6 +799,41 @@ public class Lobby {
         returnControl = !returnControl;
     }
 
+    public void updateNewTurn(String[] newCards) {
+        int index = getIndexForCardStr(conNumL);
+        JPanel myPanel = (JPanel) playerInfo.getComponent(0);
+        JPanel myInfo = (JPanel) myPanel.getComponent(2);
+        JLabel myCard1 = new JLabel();
+        JLabel myCard2 = new JLabel();
+        myInfo.removeAll();
+        setCardImage(newCards[index], newCards[index + 1], myCard1);
+        setCardImage(newCards[index + 2], newCards[index + 3], myCard2);
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(2,2,2,5);
+        myInfo.add(myCard1, c);
+        c.insets = new Insets(2,0,2,2);
+        myInfo.add(myCard2, c);
+        myPanel.add(myInfo);
+
+        for (int i = 1; i < cons.size(); i++) {
+
+            myPanel = (JPanel) playerInfo.getComponent(i);
+            myInfo = (JPanel) myPanel.getComponent(2);
+            myCard1 = new JLabel();
+            myCard2 = new JLabel();
+            myInfo.removeAll();
+            myCard1.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back_s.png")).getImage().getScaledInstance(40,70, Image.SCALE_DEFAULT)));
+            myCard1.setIcon(new ImageIcon(new ImageIcon(Main.class.getResource("/com/poker/Lobby/res/back_s.png")).getImage().getScaledInstance(40,70, Image.SCALE_DEFAULT)));
+            c.insets = new Insets(2,2,2,5);
+            myInfo.add(myCard1, c);
+            c.insets = new Insets(2,0,2,2);
+            myInfo.add(myCard2, c);
+            myPanel.add(myInfo);
+        }
+
+        playerInfo.updateUI();
+    }
+
     public boolean getReturnControl() {
         return returnControl;
     }
