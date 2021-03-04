@@ -662,6 +662,7 @@ public class Lobby {
             c.gridx = 1;
             c.gridheight = 2;
             c.gridwidth = 2;
+            c.insets = new Insets(5,0,5,5);
             myCards = new JPanel(new GridBagLayout());
             myCards.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             myCards.setBackground(POKER_COLOR);
@@ -677,7 +678,6 @@ public class Lobby {
             player.addCards(new Card(vals[index + 2], vals[index + 3]));
             player.getRank().addPlayerCard(player.getCards());
             myCards.add(myCard2, c2);
-            c.insets = new Insets(5,0,5,5);
             myInfo.add(myCards, c);
 
             c.gridheight = 1;
@@ -813,7 +813,12 @@ public class Lobby {
         myInfo.add(myCard1, c);
         c.insets = new Insets(2,0,2,2);
         myInfo.add(myCard2, c);
-        myPanel.add(myInfo);
+        c.gridy = 0;
+        c.gridx = 1;
+        c.gridheight = 2;
+        c.gridwidth = 2;
+        c.insets = new Insets(5,0,5,5);
+        myPanel.add(myInfo, c);
 
         for (int i = 1; i < cons.size(); i++) {
 
@@ -828,7 +833,12 @@ public class Lobby {
             myInfo.add(myCard1, c);
             c.insets = new Insets(2,0,2,2);
             myInfo.add(myCard2, c);
-            myPanel.add(myInfo);
+            c.gridy = 0;
+            c.gridx = 1;
+            c.gridheight = 2;
+            c.gridwidth = 2;
+            c.insets = new Insets(5,0,5,5);
+            myPanel.add(myInfo, c);
         }
 
         playerInfo.updateUI();
