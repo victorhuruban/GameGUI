@@ -548,6 +548,7 @@ public class Lobby {
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
+                    resetArrays();
                     setTurnOver();
                 }
             } else {
@@ -593,6 +594,7 @@ public class Lobby {
         } else if (conNumL == 1) {
             SMALL_BLIND_LABEL.setBackground(Color.LIGHT_GRAY);
             SMALL_BLIND_LABEL.setOpaque(true);
+            SMALL_BLIND_LABEL.setPreferredSize(new Dimension(50,50));
             myInfo.add(SMALL_BLIND_LABEL, c);
         }
         c.gridy = 0;
