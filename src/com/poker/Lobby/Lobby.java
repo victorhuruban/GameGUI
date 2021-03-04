@@ -804,7 +804,13 @@ public class Lobby {
     public void updateNewTurn(String[] newCards) throws IOException {
         int index = getIndexForCardStr(conNumL);
         JPanel myPanel = (JPanel) playerInfo.getComponent(0);
-        JPanel myInfo = (JPanel) myPanel.getComponent(2);
+        JPanel myInfo = null; //= (JPanel) myPanel.getComponent(2);
+        for (Component comp: myPanel.getComponents()) {
+            if (comp instanceof JPanel) {
+                myInfo = (JPanel) comp;
+                break;
+            }
+        }
         JLabel myCard1 = new JLabel();
         JLabel myCard2 = new JLabel();
         myInfo.removeAll();
@@ -825,7 +831,12 @@ public class Lobby {
         for (int i = 1; i < cons.size(); i++) {
 
             myPanel = (JPanel) playerInfo.getComponent(i);
-            myInfo = (JPanel) myPanel.getComponent(2);
+            for (Component comp: myPanel.getComponents()) {
+                if (comp instanceof JPanel) {
+                    myInfo = (JPanel) comp;
+                    break;
+                }
+            }
             myCard1 = new JLabel();
             myCard2 = new JLabel();
             myInfo.removeAll();
