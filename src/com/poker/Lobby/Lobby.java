@@ -844,6 +844,7 @@ public class Lobby {
 
         grabCards(newCards, cards);
 
+        turningCards = 0;
         gameBoard.updateUI();
         playerInfo.updateUI();
     }
