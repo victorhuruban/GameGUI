@@ -74,6 +74,7 @@ public class Lobby {
     private boolean raised;
     private boolean transmitScore = false;
     private boolean returnControl = false;
+    private boolean turnOver = false;
     public int turn;
     public int[] players;
     public int[] playersScores;
@@ -547,7 +548,7 @@ public class Lobby {
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
-                    newCardsNewTurn();
+                    setTurnOver();
                 }
             } else {
                 nextTurn();
@@ -567,12 +568,8 @@ public class Lobby {
     }
 
     private void resetArrays() {
-        System.out.println("BEFORE RESET players: " + Arrays.toString(players));
         Arrays.fill(players, -1);
-        System.out.println("AFTER RESET players: " + Arrays.toString(players));
-        System.out.println("BEFORE RESET playersState: " + Arrays.toString(playersState));
         Arrays.fill(playersState, false);
-        System.out.println("AFTER RESET playersState: " + Arrays.toString(playersState));
     }
 
     public void createPlayerInfo(JPanel playerInfo, String[] vals) {
@@ -779,15 +776,6 @@ public class Lobby {
         return -1;
     }
 
-    public void newCardsNewTurn() {
-        Pack pack = new Pack();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 5 + (cons.size() * 2); i++) {
-            Card c = pack.popCard();
-            sb.append(" ").append(c.getValue()).append(" ").append(c.getType());
-        }
-    }
-
     public boolean transmitScore() {
         return transmitScore;
     }
@@ -809,17 +797,28 @@ public class Lobby {
         // 0 = JLABEL NAME; 1 = JLABEL BIG OR SMALL BLIND LABEL; 2 = JPANEL WITH CARDS
         // 3 = JLABEL MONEY; 4 = JLABEL TURNCIRCLE
         returnControl = !returnControl;
-        /*for (int i = 0; i < cons.size(); i++) {
-            JPanel modify = (JPanel) playerInfo.getComponent(i);
-            JLabel test = (JLabel) modify.getComponent(1);
-            if (test.getText().equals("B")) {
-                turn = i;
-                break;
-            }
-        }*/
     }
 
     public boolean getReturnControl() {
         return returnControl;
+    }
+
+    public void setTurnOver() {
+        turnOver = !turnOver;
+    }
+
+    public boolean getTurnOver() {
+        return turnOver;
+    }
+
+    public String getNewPackAndCards() {
+        Pack pack = new Pack();
+        StringBuilder sb = new StringBuilder("start newgame");
+        for (int i = 0; i < 5 + (cons.size() * 2); i++) {
+            Card c = pack.popCard();
+            sb.append(" ").append(c.getValue()).append(" ").append(c.getType());
+        }
+
+        return sb.toString();
     }
 }

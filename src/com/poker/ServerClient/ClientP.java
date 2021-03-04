@@ -115,6 +115,22 @@ public class ClientP {
                             }
                         }
                     }
+                    if (lobby.getTurnOver()) {
+                        System.out.println("CLIENTP 8");
+                        lobby.returnControlToBB();
+                        for (int i = 0; i < lobby.cons.size(); i++) {
+                            JPanel modify = (JPanel) lobby.playerInfo.getComponent(i);
+                            JLabel test = (JLabel) modify.getComponent(0);
+                            if (test.getText().equals(lobby.getName())) {
+                                JLabel test2 = (JLabel) modify.getComponent(1);
+                                if (test2.getText().equals("b")) {
+                                    out.println(lobby.getNewPackAndCards() + " 11");
+                                } else {
+                                    System.out.println("Vin cartile de la b");
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }, 250, 100);
