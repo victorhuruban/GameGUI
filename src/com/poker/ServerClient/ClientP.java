@@ -117,6 +117,7 @@ public class ClientP {
                     }
                     if (lobby.getTurnOver()) {
                         System.out.println("CLIENTP 8");
+                        lobby.setTurnOver();
                         lobby.returnControlToBB();
                         for (int i = 0; i < lobby.cons.size(); i++) {
                             JPanel modify = (JPanel) lobby.playerInfo.getComponent(i);
