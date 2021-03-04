@@ -68,11 +68,12 @@ public class Lobby {
     JButton raise;
     JTextField tfield;
     JPanel gameBoard;
-    JPanel playerInfo;
+    public JPanel playerInfo;
     private boolean interacted = false;
     private boolean inTurn;
     private boolean raised;
     private boolean transmitScore = false;
+    private boolean returnControl = false;
     public int turn;
     public int[] players;
     public int[] playersScores;
@@ -807,13 +808,18 @@ public class Lobby {
     public void returnControlToBB() {
         // 0 = JLABEL NAME; 1 = JLABEL BIG OR SMALL BLIND LABEL; 2 = JPANEL WITH CARDS
         // 3 = JLABEL MONEY; 4 = JLABEL TURNCIRCLE
-        for (int i = 0; i < cons.size(); i++) {
+        returnControl = !returnControl;
+        /*for (int i = 0; i < cons.size(); i++) {
             JPanel modify = (JPanel) playerInfo.getComponent(i);
             JLabel test = (JLabel) modify.getComponent(1);
             if (test.getText().equals("B")) {
                 turn = i;
                 break;
             }
-        }
+        }*/
+    }
+
+    public boolean getReturnControl() {
+        return returnControl;
     }
 }

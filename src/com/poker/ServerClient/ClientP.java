@@ -2,6 +2,7 @@ package com.poker.ServerClient;
 
 import com.poker.Lobby.Lobby;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
@@ -97,6 +98,22 @@ public class ClientP {
                         System.out.println("CLIENTP 6");
                         lobby.setInteracted();
                         out.println(lobby.getName() + " interacted 0 0 0 0 4");
+                    }
+                    if (lobby.getReturnControl()) {
+                        System.out.println("CLIENTP 7");
+                        lobby.returnControlToBB();
+                        for (int i = 0; i < lobby.cons.size(); i++) {
+                            JPanel modify = (JPanel) lobby.playerInfo.getComponent(i);
+                            JLabel test = (JLabel) modify.getComponent(0);
+                            if (test.getText().equals(lobby.getName())) {
+                                JLabel test2 = (JLabel) modify.getComponent(1);
+                                if (test2.getText().equals("B")) {
+                                    out.println("0 0 0 0 0 " + lobby.cons.get(0) + " 10");
+                                } else {
+                                    out.println("0 0 0 0 0 -1 10");
+                                }
+                            }
+                        }
                     }
                 }
             }

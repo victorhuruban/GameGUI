@@ -111,6 +111,12 @@ public class ServerConnection implements Runnable {
                             }
                             lobby.ifAllMovedAndEqual();
                             break;
+                        case "10":
+                            System.out.println("10");
+                            if (!test[0].equals("-1")) {
+                                lobby.turn = Integer.parseInt(test[0]);
+                                System.out.println(lobby.getName() + ": " + lobby.turn);
+                            }
                     }
                 } else if (test.length >= 12) {
                     if (test[1].equals("3")) {

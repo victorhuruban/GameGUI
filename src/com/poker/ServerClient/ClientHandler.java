@@ -71,6 +71,8 @@ public class ClientHandler implements Runnable {
                     outToAll(req[1] + " " + req[0] + " has score 0 0 8");
                 } else if (req[req.length - 1].equals("9")) {
                     outToAll(req[0] + " " + req[req.length - 2] + " has score 0 0 9");
+                } else if (req[req.length - 1].equals("10")) {
+                    outToAll(req[req.length - 2] + " 0 0 0 0 0 10");
                 }
             }
         } catch (IOException e) {
