@@ -799,7 +799,7 @@ public class Lobby {
         returnControl = !returnControl;
     }
 
-    public void updateNewTurn(String[] newCards) {
+    public void updateNewTurn(String[] newCards) throws IOException {
         int index = getIndexForCardStr(conNumL);
         JPanel myPanel = (JPanel) playerInfo.getComponent(0);
         JPanel myInfo = (JPanel) myPanel.getComponent(2);
@@ -837,6 +837,14 @@ public class Lobby {
             myPanel.add(myInfo, c);
         }
 
+        for (Component comps: gameBoard.getComponents()) {
+            JLabel temp = (JLabel) comps;
+            temp.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/back.png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
+        }
+
+        grabCards(newCards, cards);
+
+        gameBoard.updateUI();
         playerInfo.updateUI();
     }
 
