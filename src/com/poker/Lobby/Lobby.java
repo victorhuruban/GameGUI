@@ -710,6 +710,7 @@ public class Lobby {
             if (turn == cons.get(0)) {
                 boolean check = true;
                 for (int i: players) {
+                    System.out.println(i + " in check listener loop");
                     if (i > 0) {
                         System.out.println("Cannot check, need to raise");
                         check = false;
@@ -717,6 +718,7 @@ public class Lobby {
                     }
                 }
                 if (check) {
+                    System.out.println("in check listener if al doilea");
                     players[turn] = 0;
                     playersState[turn] = true;
                     interacted = true;
