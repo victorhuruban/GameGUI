@@ -566,7 +566,7 @@ public class Lobby {
         }
     }
 
-    public void resetArrays() {
+    private void resetArrays() {
         Arrays.fill(players, -1);
         Arrays.fill(playersState, false);
     }
@@ -865,6 +865,7 @@ public class Lobby {
 
         changeLabelsForBb();
         returnControlToBB();
+        resetArrays();
         turningCards = 0;
         gameBoard.updateUI();
         playerInfo.updateUI();
