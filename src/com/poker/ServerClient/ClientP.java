@@ -119,6 +119,7 @@ public class ClientP {
                         System.out.println("CLIENTP 8");
                         lobby.setTurnOver();
                         lobby.returnControlToBB();
+                        lobby.resetArrays();
                         for (int i = 0; i < lobby.cons.size(); i++) {
                             JPanel modify = (JPanel) lobby.playerInfo.getComponent(i);
                             JLabel test = (JLabel) modify.getComponent(0);

@@ -547,7 +547,6 @@ public class Lobby {
                     card5.setIcon(new ImageIcon(new ImageIcon(ImageIO.read(Main.class.getResource("/com/poker/Lobby/res/" + cards[4].getValue() + "_" + cards[4].getType() + ".png"))).getImage().getScaledInstance(105, 140, Image.SCALE_DEFAULT)));
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
-                    resetArrays();
                     setTurnOver();
                 }
             } else {
@@ -567,7 +566,7 @@ public class Lobby {
         }
     }
 
-    private void resetArrays() {
+    public void resetArrays() {
         Arrays.fill(players, -1);
         Arrays.fill(playersState, false);
     }
