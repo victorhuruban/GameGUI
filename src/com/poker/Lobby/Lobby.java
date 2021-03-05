@@ -865,6 +865,8 @@ public class Lobby {
 
         grabCards(newCards, cards);
 
+        changeLabelsForBb();
+        returnControlToBB();
         turningCards = 0;
         gameBoard.updateUI();
         playerInfo.updateUI();
