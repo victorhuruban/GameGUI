@@ -548,7 +548,6 @@ public class Lobby {
                     System.out.println(getScore(turningCards));
                     setTransmitScore();
                     resetArrays();
-                    changeLabelsForBb();
                     setTurnOver();
                 }
             } else {
