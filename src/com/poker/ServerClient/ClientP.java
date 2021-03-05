@@ -127,7 +127,7 @@ public class ClientP {
                                 if (test2.getText().equals("b")) {
                                     out.println(lobby.getNewPackAndCards() + " 11");
                                 } else {
-                                    System.out.println("Vin cartile de la b");
+                                    System.out.println("Vin cartile noi de la b");
                                 }
                             }
                         }
