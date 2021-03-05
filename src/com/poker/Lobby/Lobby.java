@@ -863,9 +863,12 @@ public class Lobby {
 
         grabCards(newCards, cards);
 
+
         changeLabelsForBb();
         returnControlToBB();
         resetArrays();
+        System.out.println(Arrays.toString(players));
+        System.out.println(Arrays.toString(playersState));
         turningCards = 0;
         gameBoard.updateUI();
         playerInfo.updateUI();
@@ -892,14 +895,6 @@ public class Lobby {
         }
 
         return sb.toString();
-    }
-
-    public void getCardsInfoOfAllPlayers(String[] arr) {
-        ArrayList<Card> cardList = new ArrayList<>();
-        int index = 2;
-        for (int i = 0; i < cons.size(); i++) {
-
-        }
     }
 
     // 0 = JLABEL NAME; 1 = JLABEL BIG OR SMALL BLIND LABEL; 2 = JPANEL WITH CARDS
