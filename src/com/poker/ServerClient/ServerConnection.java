@@ -91,7 +91,7 @@ public class ServerConnection implements Runnable {
                             for (String s: lobby.playersNames) {
                                 System.out.println(s + " in case 4 loop");
                                 if (s.equals(test[0])) {
-                                    System.out.println(s + " in if equals test[0]");
+                                    System.out.println(s + " in if  equals test[0]");
                                     lobby.players[index] = 0;
                                     lobby.playersState[index] = true;
                                 } else index++;

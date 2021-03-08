@@ -205,9 +205,6 @@ public class GameGUI {
 
         // GO TO THE JOIN FRAME
         joinChoice.addActionListener(e -> {
-            /*if (hovered == POKER_MODE) {
-                startClientAndJoin("192.168.0.155"); // TODO: UNCOMMENT BELOW CODE AFTER TESTING
-            }*/
             deleteJLabel(joinCard.getComponents(), joinCard);
             createJLabel(hovered, joinCard);
             CardLayout cl = (CardLayout) this.mainCards.getLayout();
@@ -255,7 +252,7 @@ public class GameGUI {
     }
 
     // CHECKS IF THE IP IS VALID OR NOT METHOD FOR THE JOIN FUNCTION
-    // TODO: IMPROVE THE FUNCTION FURTHER
+    // TODO: IMPROVE THE FUNCTION FURTHER FOR THE IP
     public String getIp(String first, String second, String third, String forth) {
         if (first.length() > 0 && first.length() <= 3 && second.length() > 0 && second.length() <= 3 &&
                 third.length() > 0 && third.length() <= 3 && forth.length() > 0 && forth.length() <= 3) {
