@@ -252,7 +252,7 @@ public class GameGUI {
     }
 
     // CHECKS IF THE IP IS VALID OR NOT METHOD FOR THE JOIN FUNCTION
-    // TODO: IMPROVE THE FUNCTION FURTHER FOR THE IP
+    // TODO: IMPROVE THE FUNCTION FURTHER FOR THE IP FUNCTION
     public String getIp(String first, String second, String third, String forth) {
         if (first.length() > 0 && first.length() <= 3 && second.length() > 0 && second.length() <= 3 &&
                 third.length() > 0 && third.length() <= 3 && forth.length() > 0 && forth.length() <= 3) {
