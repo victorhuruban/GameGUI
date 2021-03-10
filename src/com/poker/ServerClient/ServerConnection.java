@@ -41,7 +41,7 @@ public class ServerConnection implements Runnable {
 
                         lobby.setSendBack();
                     }
-                } else if (test.length == 3) {
+                } else if (test.length == 3 && test[0].length() == 1) {
                     JPanel temp = lobby.getPanel(Integer.parseInt(test[2]));
                     JLabel tempLabel = (JLabel) temp.getComponent(1);
                     if (test[0].equals("Ready")) {
