@@ -27,7 +27,7 @@ public class ClientP {
 
         new Thread(serverConnection).start();
 
-        out.println(lobby.getName() + " " + lobby.readyOrNot() + 0);
+        out.println(lobby.getName() + " " + lobby.readyOrNot() + " " + 0);
         runLoop();
     }
 
