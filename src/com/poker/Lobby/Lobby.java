@@ -932,8 +932,14 @@ public class Lobby {
     }
 
     public String readyOrNot() {
-        if (readyPressed) {
+        JPanel temp = getPanel(conNumL);
+        JLabel tempLabel = (JLabel) temp.getComponent(1);
+        if (tempLabel.getText().equals("Ready")) {
+            System.out.println("RRRRRRR");
             return "Ready";
-        } else return "NotReady";
+        } else {
+            System.out.println("NNNNNNNN");
+            return "NotReady";
+        }
     }
 }
