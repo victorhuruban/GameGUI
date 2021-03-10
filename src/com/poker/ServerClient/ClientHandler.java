@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable {
                 String request = in.readLine();
                 String[] req = request.split(" ");
                 if (req[req.length - 1].equals("0")) {
-                    outToAll(conNum + " " + req[0]);
+                    outToAll(conNum + " " + req[1] + " " + req[0]);
                 } else if (req[req.length - 1].equals("1") && req[0].equals("Ready")) {
                     outToAll("Ready " + req[1] + " " + conNum);
                 } else if (req[req.length - 1].equals("1") && req[0].equals("NotReady")) {

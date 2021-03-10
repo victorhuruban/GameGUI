@@ -32,10 +32,13 @@ public class ServerConnection implements Runnable {
                 if (serverResponse == null) break;
 
                 String[] test = serverResponse.split(" ");
-                if (test.length == 2) {
-                    lobby.addNameAndCon(test[1], Integer.parseInt(test[0]));
+                if (test.length == 3 && (test[1].equals("Ready") || test[1].equals("NotReady"))) {
+                    lobby.addNameAndCon(test[2], Integer.parseInt(test[0]));
                      if (lobby.getPanel(Integer.parseInt(test[0])).getComponents().length == 0) {
-                        lobby.setJPanel(Integer.parseInt(test[0]), test[1]);
+                         if (test[1].equals("NotReady")) {
+                             lobby.setJPanel(Integer.parseInt(test[0]), test[2], false);
+                         } else lobby.setJPanel(Integer.parseInt(test[0]), test[2], true);
+
                         lobby.setSendBack();
                     }
                 } else if (test.length == 3) {

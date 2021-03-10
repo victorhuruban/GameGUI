@@ -304,10 +304,13 @@ public class Lobby {
         } else state = 1;
     }
 
-    public void setJPanel(int con, String name) {
+    public void setJPanel(int con, String name, boolean readyStatus) {
         JPanel ref = getPanel(con);
         ref.add(new JLabel("   " + name));
-        ref.add(new JLabel("Not Ready"));
+        if (readyStatus) {
+            ref.add(new JLabel("Ready"));
+        } else ref.add(new JLabel("Not Ready"));
+
         leftP.updateUI();
     }
 
@@ -926,5 +929,11 @@ public class Lobby {
             }
             first = false;
         }
+    }
+
+    public String readyOrNot() {
+        if (readyPressed) {
+            return "Ready";
+        } else return "NotReady";
     }
 }
