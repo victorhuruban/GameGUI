@@ -31,7 +31,7 @@ public class Lobby {
     private boolean tryStart = false;
     private boolean sendReadyStat = false;
     private int state = 0;
-    private final int type;
+    public final int type;
     private int conNumL;
 
     // JPANELS TO DISPLAY CLIENTS IN LOBBY
