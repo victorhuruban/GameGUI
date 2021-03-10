@@ -49,7 +49,7 @@ public class ClientP {
                 } else if (lobby.getExit()) {
                     timer.cancel();
                 } else if (lobby.getSendBack()) {
-                    out.println(lobby.getName() + " " + 0);
+                    out.println(lobby.getName() + " " + lobby.readyOrNot() + " " + 0);
                     lobby.setSendBack();
                     timer.cancel();
                     runLoop();
