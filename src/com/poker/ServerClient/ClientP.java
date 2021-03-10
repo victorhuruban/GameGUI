@@ -26,7 +26,7 @@ public class ClientP {
         out = new PrintWriter(socket.getOutputStream(), true);
 
         new Thread(serverConnection).start();
-        if (lobby.type != 1) {
+        if (lobby.type != 0) {
             out.println(lobby.getName() + " " + lobby.readyOrNot() + " " + 0);
         }
 
