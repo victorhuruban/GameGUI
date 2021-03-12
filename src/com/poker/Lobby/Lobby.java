@@ -872,8 +872,8 @@ public class Lobby {
         changeLabelsForBb();
         returnControlToBB();
         resetArrays();
-        System.out.println(Arrays.toString(players) + " players state dupa joc nou");
-        System.out.println(Arrays.toString(playersState) + " playersState state dupa joc nou");
+        /*System.out.println(Arrays.toString(players) + " players state dupa joc nou");
+        System.out.println(Arrays.toString(playersState) + " playersState state dupa joc nou");*/
         turningCards = 0;
         gameBoard.updateUI();
         playerInfo.updateUI();
